@@ -503,7 +503,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .back-to-top.show { opacity: 1; }
-        /* 精致模态框样式 */
         .modal {
             display: none;
             position: fixed;
@@ -672,11 +671,11 @@
             width: 100%;
             background: linear-gradient(105deg, var(--primary), var(--secondary));
             border: none;
-            padding: 18px 28px;           /* 增大内边距 */
-            font-weight: 700;             /* 加粗 */
-            font-size: 1.1rem;           /* 稍大字号 */
-            letter-spacing: 1px;          /* 字间距 */
-            border-radius: 60px;          /* 更圆润 */
+            padding: 18px 28px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            border-radius: 60px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -684,36 +683,27 @@
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
-
         .submit-btn:hover {
             transform: translateY(-3px);
             background: linear-gradient(105deg, var(--secondary), var(--primary));
             box-shadow: 0 12px 28px rgba(45, 212, 191, 0.4);
         }
-
-        .submit-btn:active {
-            transform: translateY(1px);
-        }
+        .submit-btn:active { transform: translateY(1px); }
         @media (max-width: 550px) {
-        .submit-btn {
-            padding: 14px 20px;
-            font-size: 1rem;
+            .submit-btn { padding: 14px 20px; font-size: 1rem; }
         }
-    }
-    .submit-btn::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 200%;
-    height: 200%;
-    background: rgba(255,255,255,0.1);
-    transform: rotate(30deg);
-    transition: all 0.5s;
-    }
-    .submit-btn:hover::after {
-        left: 100%;
-    }
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            transition: all 0.5s;
+        }
+        .submit-btn:hover::after { left: 100%; }
     </style>
 </head>
 <body>
@@ -830,7 +820,6 @@
     </footer>
 </div>
 
-<!-- 模态框 -->
 <div id="gameModal" class="modal">
     <div class="modal-container">
         <div class="modal-header">
@@ -872,7 +861,6 @@
         { title: "幻境重构", desc: "VR 解谜，改变环境规则，沉浸叙事。", type: "openworld", status: "dev", platform: "Steam VR", link: "#", tech: "Unity XR", release: "2026 Q2", features: "物理交互 · 梦境探索 · 多结局 · VR沉浸" }
     ];
 
-    // 新闻数据
     let newsData = [
         { cat: "公告", date: "2026.04.01", title: "《边境突围》封闭测试即将开启", desc: "首轮技术测试招募，限量资格发放。", imgIcon: "fa-gun" },
         { cat: "开发日志", date: "2026.03.28", title: "Cslivem 获得年度新锐游戏工作室提名", desc: "凭借《机械纪元：觉醒》的出色表现。", imgIcon: "fa-trophy" },
@@ -883,7 +871,6 @@
         { cat: "开发日志", date: "2026.03.10", title: "枪械手感优化迭代", desc: "全新后坐力系统上线测试服。", imgIcon: "fa-crosshairs" }
     ];
 
-    // 团队数据（第一个为 Cslivem）
     const teamData = [
         { name: "Cslivem", role: "首席幻境架构师", intro: "虚拟世界缔造者，负责整体世界观与核心技术蓝图。", tags: ["元宇宙", "分布式系统", "叙事引擎"], icon: "fa-crown" },
         { name: "陈墨", role: "技术总监", intro: "前腾讯引擎工程师", tags: ["Unreal", "网络同步", "图形学"], icon: "fa-code" },
@@ -892,7 +879,6 @@
         { name: "李维安", role: "运营总监", intro: "社区管理", tags: ["电竞合作", "玩家生态"], icon: "fa-globe" }
     ];
 
-    // 渲染作品集
     function renderGames(filter = "all") {
         const container = document.getElementById("portfolioGrid");
         let filtered = gamesData.filter(g => filter === "all" || g.type === filter || (filter === "launched" && g.status === "launched"));
@@ -911,7 +897,6 @@
         attachCardEvents();
     }
 
-    // 卡片点击事件（填充模态框）
     function attachCardEvents() {
         document.querySelectorAll('.portfolio-card').forEach(card => {
             card.addEventListener('click', () => {
@@ -932,7 +917,6 @@
         });
     }
 
-    // 渲染新闻
     function renderNews(data) {
         const container = document.getElementById("newsGrid");
         if (!container) return;
@@ -948,7 +932,6 @@
         `).join('');
     }
 
-    // 渲染团队
     function renderTeam() {
         const container = document.getElementById("teamGrid");
         if (!container) return;
@@ -963,7 +946,6 @@
         `).join('');
     }
 
-    // 筛选事件
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -972,7 +954,6 @@
         });
     });
 
-    // 加载更多新闻
     let newsLoaded = false;
     document.getElementById('loadMoreNews')?.addEventListener('click', () => {
         if (!newsLoaded) {
@@ -983,7 +964,6 @@
         }
     });
 
-    // 动态表单 placeholder
     const subjectSelect = document.getElementById('subjectSelect');
     const msgTextarea = document.getElementById('dynamicMessage');
     if (subjectSelect && msgTextarea) {
@@ -1000,7 +980,6 @@
         });
     }
 
-    // 表单提交模拟
     const form = document.getElementById('businessForm');
     const toast = document.getElementById('toast');
     function showToast(msg, isErr = false) {
@@ -1024,7 +1003,6 @@
         });
     }
 
-    // 返回顶部、平滑滚动、导航高亮
     const backTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) backTop.classList.add('show');
@@ -1050,14 +1028,13 @@
     });
     document.getElementById('exploreBtn')?.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('exploreBtn2')?.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' }); });
-    document.getElementById('modalTrailerBtn')?.addEventListener('click', () => { alert('预告片即将发布，敬请期待！'); });
+    document.getElementById('modalTrailerBtn')?.addEventListener('click', () => { showToast('预告片即将发布，敬请期待！'); });
 
-    // 汉堡菜单
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     menuToggle?.addEventListener('click', () => navLinks.classList.toggle('open'));
 
-    // 粒子系统
+    // 粒子系统（保持原有）
     (function() {
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
@@ -1098,22 +1075,18 @@
         draw();
     })();
 
-    // 鼠标光晕
     const glow = document.getElementById('mouse-glow');
     document.addEventListener('mousemove', (e) => { glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; });
 
-    // 滚动触发动画
     const fades = document.querySelectorAll('.fade-up');
     const obs = new IntersectionObserver((entries) => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
     }, { threshold: 0.1 });
     fades.forEach(el => obs.observe(el));
 
-    // 模态框关闭
     document.getElementById('closeModalBtn')?.addEventListener('click', () => { document.getElementById('gameModal').classList.remove('show'); });
     window.onclick = (e) => { if (e.target === document.getElementById('gameModal')) document.getElementById('gameModal').classList.remove('show'); };
 
-    // 按钮涟漪效果
     document.querySelectorAll('.btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             let ripple = document.createElement('span');
@@ -1128,7 +1101,41 @@
         });
     });
 
-    // 初始化渲染
+    // ========== 关键修复：移除 URL 中的 /# 后缀并防止空链接产生哈希 ==========
+    function removeHashFromUrl() {
+        if (window.location.hash || window.location.href.indexOf('#') !== -1) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    }
+    // 全局阻止所有 href="#" 的链接产生哈希跳转，并给出友好提示
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (link && link.getAttribute('href') === '#') {
+            e.preventDefault();
+            // 避免对模态框中商店链接重复提示（单独处理）
+            if (link.id !== 'modalStoreLink') {
+                showToast('功能开发中，敬请期待~');
+            }
+        }
+    });
+    // 单独处理商店链接演示提示
+    const modalStore = document.getElementById('modalStoreLink');
+    if (modalStore) {
+        modalStore.addEventListener('click', (e) => {
+            if (modalStore.getAttribute('href') === '#') {
+                e.preventDefault();
+                showToast('商店页即将开放，关注我们获得最新消息');
+            }
+        });
+    }
+    // 监听 hash 变化再次清除
+    window.addEventListener('hashchange', removeHashFromUrl);
+    window.addEventListener('load', () => {
+        removeHashFromUrl();
+    });
+    // 因为部分链接是动态生成的，确保初始加载后无 hash；同时解决初始渲染问题
+    removeHashFromUrl();
+
     renderGames('all');
     renderNews(newsData);
     renderTeam();
