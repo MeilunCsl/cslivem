@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Meilun · 星环通行证 | 流体认证中枢</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #05070f;
+            font-family: 'Inter', 'Syne', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 流体动态背景 */
+        .fluid-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .fluid-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(ellipse at 30% 40%, rgba(45, 212, 191, 0.2), rgba(59, 130, 246, 0.08), transparent);
+            animation: slowDrift 28s infinite alternate ease-in-out;
+        }
+        .fluid-bg::after {
+            content: '';
+            position: absolute;
+            width: 180%;
+            height: 180%;
+            bottom: -40%;
+            right: -40%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.12), transparent 70%);
+            animation: slowDriftReverse 24s infinite alternate;
+        }
+        @keyframes slowDrift {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            100% { transform: translate(6%, 4%) rotate(4deg) scale(1.05); }
+        }
+        @keyframes slowDriftReverse {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-5%, -3%) rotate(-3deg); }
+        }
+
+        /* 粒子层 */
+        #particleField {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* 主容器 */
+        .portal {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 520px;
+            margin: 1.5rem;
+        }
+
+        /* 核心卡片 - 毛玻璃 + 光晕边框 */
+        .glass-module {
+            background: rgba(8, 12, 26, 0.6);
+            backdrop-filter: blur(18px);
+            border-radius: 3rem;
+            border: 1px solid rgba(45, 212, 191, 0.3);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(45, 212, 191, 0.15) inset;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            padding: 2rem 1.8rem;
+        }
+
+        /* 品牌区 */
+        .brand-core {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .brand-core .logo-text {
+            font-family: 'Syne', monospace;
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(125deg, #FFFFFF, #2dd4bf, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(45,212,191,0.3);
+        }
+        .brand-core .tagline {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #8e9cb0;
+            margin-top: 0.4rem;
+        }
+
+        /* 双表单滑动容器 (一体化无缝切换) */
+        .sliding-forms {
+            position: relative;
+            min-height: 380px;
+            transition: height 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .form-wrapper {
+            position: absolute;
+            width: 100%;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+        }
+        .form-wrapper.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        /* 现代输入框 */
+        .input-futur {
+            margin-bottom: 1.4rem;
+            position: relative;
+        }
+        .input-futur i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c7a96;
+            font-size: 1rem;
+            transition: 0.2s;
+            z-index: 2;
+        }
+        .input-futur input {
+            width: 100%;
+            background: rgba(2, 5, 15, 0.65);
+            border: 1px solid #2a324e;
+            border-radius: 60px;
+            padding: 14px 20px 14px 46px;
+            color: #f0f3fa;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.25s;
+        }
+        .input-futur input:focus {
+            outline: none;
+            border-color: #2dd4bf;
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+            background: rgba(6, 10, 22, 0.9);
+        }
+        .input-futur input:focus + i {
+            color: #2dd4bf;
+        }
+
+        /* 按钮光效 */
+        .btn-prime {
+            background: linear-gradient(95deg, #2dd4bf, #3b82f6);
+            border: none;
+            width: 100%;
+            padding: 14px 0;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 14px rgba(45,212,191,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+        }
+        .btn-prime:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.02);
+            box-shadow: 0 12px 28px rgba(45,212,191,0.4);
+        }
+
+        .switch-trigger {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.85rem;
+            color: #9aa9c1;
+        }
+        .switch-link {
+            background: none;
+            border: none;
+            color: #2dd4bf;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: 0.2s;
+        }
+        .switch-link:hover {
+            text-shadow: 0 0 6px #2dd4bf;
+        }
+
+        /* ========= 登录后仪表盘（纯粹现代主义） ========= */
+        .dashboard-aura {
+            background: rgba(8, 12, 26, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 2.5rem;
+            padding: 1.8rem;
+            border: 1px solid rgba(45,212,191,0.35);
+        }
+        .profile-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+        .avatar-frame {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2dd4bf, #3b82f6);
+            padding: 3px;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #0a0f1c;
+        }
+        .stats-duo {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .stat-pill {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 1.8rem;
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid rgba(45,212,191,0.2);
+        }
+        .stat-number {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e2e8f0, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .section-head {
+            font-weight: 600;
+            margin: 1.2rem 0 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .achievement-stack {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .achievement-item {
+            background: rgba(45,212,191,0.07);
+            border-radius: 1.2rem;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.7rem;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-left: 3px solid #2dd4bf;
+        }
+        .game-stats-list {
+            margin-top: 0.5rem;
+        }
+        .game-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed rgba(45,212,191,0.2);
+            font-size: 0.9rem;
+        }
+        .btn-outline-accent {
+            background: transparent;
+            border: 1px solid #ff6b35;
+            color: #ff6b35;
+            margin-top: 1.5rem;
+            box-shadow: none;
+        }
+        .btn-outline-accent:hover {
+            background: rgba(255,107,53,0.12);
+            border-color: #ff6b35;
+            box-shadow: 0 0 12px rgba(255,107,53,0.2);
+        }
+        .toast-orb {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10141ed9;
+            backdrop-filter: blur(12px);
+            padding: 10px 24px;
+            border-radius: 60px;
+            border-left: 4px solid #2dd4bf;
+            color: white;
+            font-size: 0.8rem;
+            z-index: 200;
+            transition: transform 0.25s;
+            pointer-events: none;
+            font-weight: 500;
+        }
+        .toast-orb.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        hr {
+            border-color: rgba(45,212,191,0.2);
+            margin: 1rem 0;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.75rem;
+        }
+        .footer-link a {
+            color: #8e9cb0;
+            text-decoration: none;
+        }
+        .footer-link a:hover {
+            color: #2dd4bf;
+        }
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px #0a0e1c inset;
+            -webkit-text-fill-color: #f0f3fa;
+        }
+        .spinner-dot {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+<div class="fluid-bg"></div>
+<canvas id="particleField"></canvas>
+<div class="portal" id="appMount"></div>
+<div id="globalToast" class="toast-orb"></div>
+
+<script>
+    // ================= SUPABASE 配置 =================
+    const SB_URL = 'https://cjlkdynlrfzvqjrrwait.supabase.co';
+    const SB_KEY = 'sb_publishable_mnCPbO60QdtlQ_AijP3OpQ_8OIdfnTt';
+    const supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
+    
+    let currentActiveUser = null;
+
+    const showToast = (msg, isError = false) => {
+        const toast = document.getElementById('globalToast');
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.style.borderLeftColor = isError ? '#ff6b35' : '#2dd4bf';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    };
+
+    const escapeHtml = (str) => str ? str.replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])) : '';
+
+    // ---------- 数据请求 ----------
+    async function fetchAchievements(userId) {
+        const { data } = await supabaseClient.from('user_achievements').select('achievements(*)').eq('user_id', userId);
+        return data?.map(item => item.achievements).filter(v => v) || [];
+    }
+    async function fetchGameStats(userId) {
+        const { data } = await supabaseClient.from('user_game_stats').select('games(title), total_minutes').eq('user_id', userId);
+        return data || [];
+    }
+    async function initNewcomerData(userId) {
+        const { count: achC } = await supabaseClient.from('user_achievements').select('*', { count: 'exact', head: true }).eq('user_id', userId);
+        if (achC === 0) {
+            for (let id of [1,2,3]) await supabaseClient.from('user_achievements').insert({ user_id: userId, achievement_id: id });
+        }
+        const { count: statC } = await supabaseClient.from('user_game_stats').select('*', { count: 'exact', head: true }).eq('user_id', userId);
+        if (statC === 0) {
+            for (let gid of [1,2,3]) {
+                await supabaseClient.from('user_game_stats').insert({ user_id: userId, game_id: gid, total_minutes: Math.floor(Math.random() * 350 + 40) });
+            }
+        }
+    }
+    async function ensureUserProfile(user) {
+        const { data: exist } = await supabaseClient.from('profiles').select('id').eq('id', user.id).maybeSingle();
+        if (!exist) {
+            await supabaseClient.from('profiles').insert({ id: user.id, username: user.email.split('@')[0], avatar_url: null });
+        }
+    }
+
+    // ---------- 渲染登录/注册一体化滑动表单 (现代化双态切换) ----------
+    function renderAuthFlow() {
+        return `
+            <div class="glass-module">
+                <div class="brand-core">
+                    <div class="logo-text">✦ MEILUN ✦</div>
+                    <div class="tagline">星环通行证 · 量子认证</div>
+                </div>
+                <div class="sliding-forms" id="slidingForms">
+                    <!-- 登录表单 -->
+                    <div class="form-wrapper active" id="loginFormWrap">
+                        <div class="input-futur">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="电子邮箱" autocomplete="email">
+                        </div>
+                        <div class="input-futur">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="密码">
+                        </div>
+                        <button id="loginBtnAction" class="btn-prime"><i class="fas fa-arrow-right-to-bracket"></i> 登录中枢</button>
+                        <div class="switch-trigger">没有星环凭证？ <button class="switch-link" id="switchToReg">注册新ID →</button></div>
+                    </div>
+                    <!-- 注册表单 -->
+                    <div class="form-wrapper" id="registerFormWrap">
+                        <div class="input-futur">
+                            <i class="fas fa-user-astronaut"></i>
+                            <input type="text" id="regName" placeholder="玩家代号 / 昵称">
+                        </div>
+                        <div class="input-futur">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="regEmail" placeholder="电子邮箱">
+                        </div>
+                        <div class="input-futur">
+                            <i class="fas fa-key"></i>
+                            <input type="password" id="regPassword" placeholder="密码 (至少6位)">
+                        </div>
+                        <button id="registerBtnAction" class="btn-prime"><i class="fas fa-satellite-dish"></i> 注册深空ID</button>
+                        <div class="switch-trigger">已有账号？ <button class="switch-link" id="switchToLogin">← 返回登录</button></div>
+                    </div>
+                </div>
+                <div class="footer-link"><a href="index.html"><i class="fas fa-globe"></i> 探索首页</a></div>
+            </div>
+        `;
+    }
+
+    // 登录后仪表盘（极简但富有质感）
+    function renderDashboard(user, profile, achievements, gameStats) {
+        const totalMins = gameStats.reduce((s, g) => s + (g.total_minutes || 0), 0);
+        const totalHours = (totalMins / 60).toFixed(1);
+        const avatarUrl = profile?.avatar_url || `https://api.dicebear.com/7.x/identicon/svg?seed=${user.id}`;
+        const displayName = profile?.username || user.email.split('@')[0];
+        return `
+            <div class="dashboard-aura">
+                <div class="brand-core" style="margin-bottom: 0.5rem;">
+                    <div class="logo-text" style="font-size: 1.6rem;">MEILUN</div>
+                    <div class="tagline">✦ 星环档案 ✦</div>
+                </div>
+                <div class="profile-circle">
+                    <div class="avatar-frame" id="avatarClickZone">
+                        <img src="${avatarUrl}" id="userAvatarImg" alt="avatar">
+                    </div>
+                    <h3 style="font-family: 'Syne'; margin-top: 6px;">${escapeHtml(displayName)}</h3>
+                    <div style="font-size:0.7rem; color:#7e8aa2;">${escapeHtml(user.email)}</div>
+                    <div id="avatarUploadHint" style="font-size:0.65rem; margin-top:6px; cursor:pointer; color:#5f6c84;"><i class="fas fa-camera"></i> 更换头像</div>
+                    <input type="file" id="avatarFileUploader" accept="image/*" style="display: none;">
+                </div>
+                <div class="stats-duo">
+                    <div class="stat-pill"><div class="stat-number">${achievements.length}</div><div><i class="fas fa-medal"></i> 成就</div></div>
+                    <div class="stat-pill"><div class="stat-number">${totalHours} h</div><div><i class="fas fa-hourglass-half"></i> 时长</div></div>
+                </div>
+                <div class="section-head"><i class="fas fa-trophy"></i> 荣耀殿堂</div>
+                <div class="achievement-stack">
+                    ${achievements.length ? achievements.map(ach => `
+                        <div class="achievement-item"><i class="fas fa-award" style="color:#2dd4bf; font-size:1.2rem;"></i><div><strong>${escapeHtml(ach.name)}</strong><br><small>${escapeHtml(ach.description || '光辉印记')}</small></div></div>
+                    `).join('') : '<div class="achievement-item"><i class="fas fa-hourglass-start"></i> 暂无成就，开启冒险</div>'}
+                </div>
+                <hr>
+                <div class="section-head"><i class="fas fa-chart-line"></i> 时空轨迹</div>
+                <div class="game-stats-list">
+                    ${gameStats.length ? gameStats.map(gs => {
+                        const mins = gs.total_minutes || 0;
+                        const hh = Math.floor(mins / 60);
+                        const mm = mins % 60;
+                        return `<div class="game-row"><span><i class="fas fa-gamepad"></i> ${escapeHtml(gs.games?.title || '异星领域')}</span><span>${hh}h ${mm}m</span></div>`;
+                    }).join('') : '<div class="game-row">暂无游戏记录</div>'}
+                </div>
+                <button id="logoutActionBtn" class="btn-prime btn-outline-accent"><i class="fas fa-sign-out-alt"></i> 脱离中枢</button>
+                <div class="footer-link" style="margin-top: 1rem;"><a href="index.html"><i class="fas fa-arrow-left"></i> 返回首页</a></div>
+            </div>
+        `;
+    }
+
+    // 主渲染器
+    async function renderRoot() {
+        const container = document.getElementById('appMount');
+        if (!container) return;
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            currentActiveUser = null;
+            container.innerHTML = renderAuthFlow();
+            attachAuthEvents();
+        } else {
+            currentActiveUser = user;
+            await ensureUserProfile(user);
+            const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
+            const achievements = await fetchAchievements(user.id);
+            const gameStats = await fetchGameStats(user.id);
+            container.innerHTML = renderDashboard(user, profile || {}, achievements, gameStats);
+            attachDashboardEvents(user);
+        }
+    }
+
+    // 一体化表单切换事件
+    function attachAuthEvents() {
+        const loginWrap = document.getElementById('loginFormWrap');
+        const regWrap = document.getElementById('registerFormWrap');
+        const switchToReg = document.getElementById('switchToReg');
+        const switchToLogin = document.getElementById('switchToLogin');
+        
+        const showLogin = () => {
+            if (loginWrap && regWrap) {
+                loginWrap.classList.add('active');
+                regWrap.classList.remove('active');
+            }
+        };
+        const showReg = () => {
+            if (loginWrap && regWrap) {
+                loginWrap.classList.remove('active');
+                regWrap.classList.add('active');
+            }
+        };
+        if (switchToReg) switchToReg.onclick = showReg;
+        if (switchToLogin) switchToLogin.onclick = showLogin;
+        
+        // 登录逻辑
+        const loginBtn = document.getElementById('loginBtnAction');
+        if (loginBtn) {
+            loginBtn.onclick = async () => {
+                const email = document.getElementById('loginEmail')?.value.trim();
+                const password = document.getElementById('loginPassword')?.value;
+                if (!email || !password) { showToast("请输入邮箱和密码", true); return; }
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = `认证中 <span class="spinner-dot"></span>`;
+                const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) { showToast(error.message, true); loginBtn.disabled = false; loginBtn.innerHTML = `<i class="fas fa-arrow-right-to-bracket"></i> 登录中枢`; return; }
+                showToast("跃迁成功，欢迎归来");
+                renderRoot();
+            };
+        }
+        
+        // 注册逻辑
+        const regBtn = document.getElementById('registerBtnAction');
+        if (regBtn) {
+            regBtn.onclick = async () => {
+                const username = document.getElementById('regName')?.value.trim();
+                const email = document.getElementById('regEmail')?.value.trim();
+                const pwd = document.getElementById('regPassword')?.value;
+                if (!username || !email || !pwd) { showToast("请完整填写信息", true); return; }
+                if (pwd.length < 6) { showToast("密码至少6位", true); return; }
+                regBtn.disabled = true;
+                regBtn.innerHTML = `创建中 <span class="spinner-dot"></span>`;
+                const { data, error } = await supabaseClient.auth.signUp({ email, password: pwd });
+                if (error) { showToast(error.message, true); regBtn.disabled = false; regBtn.innerHTML = `<i class="fas fa-satellite-dish"></i> 注册深空ID`; return; }
+                if (data.user) {
+                    await supabaseClient.from('profiles').insert({ id: data.user.id, username, avatar_url: null });
+                    await initNewcomerData(data.user.id);
+                    showToast("注册成功！请登录");
+                    // 清空并切换到登录
+                    const loginEmailInput = document.getElementById('loginEmail');
+                    if (loginEmailInput) loginEmailInput.value = email;
+                    const switchLoginBtn = document.getElementById('switchToLogin');
+                    if (switchLoginBtn) switchLoginBtn.click();
+                }
+                regBtn.disabled = false;
+                regBtn.innerHTML = `<i class="fas fa-satellite-dish"></i> 注册深空ID`;
+            };
+        }
+    }
+    
+    // 仪表盘交互 (头像上传/退出)
+    function attachDashboardEvents(user) {
+        const logoutBtn = document.getElementById('logoutActionBtn');
+        if (logoutBtn) logoutBtn.onclick = async () => { await supabaseClient.auth.signOut(); showToast("已脱离星环"); renderRoot(); };
+        
+        const avatarImg = document.getElementById('userAvatarImg');
+        const uploadHint = document.getElementById('avatarUploadHint');
+        const fileInput = document.getElementById('avatarFileUploader');
+        const triggerUpload = () => fileInput?.click();
+        if (uploadHint) uploadHint.addEventListener('click', triggerUpload);
+        if (avatarImg) avatarImg.addEventListener('click', triggerUpload);
+        
+        if (fileInput) {
+            fileInput.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file || !file.type.startsWith('image/')) { showToast("请选择图片文件", true); return; }
+                if (avatarImg) avatarImg.style.opacity = '0.6';
+                let ext = file.name.split('.').pop().toLowerCase();
+                if (ext === 'jpeg') ext = 'jpg';
+                const fileName = `${user.id}-${Date.now()}.${ext}`;
+                const { error: uploadErr } = await supabaseClient.storage.from('avatars').upload(fileName, file);
+                if (uploadErr) { showToast("上传失败: " + uploadErr.message, true); if(avatarImg) avatarImg.style.opacity='1'; return; }
+                const { data: { publicUrl } } = supabaseClient.storage.from('avatars').getPublicUrl(fileName);
+                const { error: updateErr } = await supabaseClient.from('profiles').update({ avatar_url: publicUrl }).eq('id', user.id);
+                if (updateErr) { showToast("更新资料失败", true); if(avatarImg) avatarImg.style.opacity='1'; return; }
+                showToast("头像已更新 ✨");
+                if (avatarImg) avatarImg.src = publicUrl + '?t=' + Date.now();
+                if (avatarImg) avatarImg.style.opacity = '1';
+            };
+        }
+    }
+    
+    // 监听认证状态变化
+    supabaseClient.auth.onAuthStateChange(() => { renderRoot(); });
+    
+    // ========= 动态粒子效果（增强现代感） =========
+    (function initParticles() {
+        const canvas = document.getElementById('particleField');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        const resize = () => { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; };
+        const init = () => {
+            particles = [];
+            const count = Math.min(120, Math.floor(width * height / 8000));
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width, y: Math.random() * height,
+                    r: Math.random() * 2 + 0.6,
+                    vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.15,
+                    alpha: Math.random() * 0.5 + 0.2,
+                });
+            }
+        };
+        const draw = () => {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            for (let p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(45, 212, 191, ${p.alpha * 0.6})`;
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+            }
+            requestAnimationFrame(draw);
+        };
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize(); init(); draw();
+    })();
+    
+    renderRoot();
+</script>
+</body>
+</html>

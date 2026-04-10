@@ -109,6 +109,7 @@
             gap: 32px;
             font-weight: 500;
             transition: all 0.3s;
+            align-items: center;
         }
         .nav-links a {
             text-decoration: none;
@@ -132,6 +133,20 @@
             background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 2px;
         }
+        /* 隐藏入口样式 —— 透明可点击区域 */
+        .secret-entrance {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: transparent;
+            cursor: pointer;
+            opacity: 0;
+            margin-left: 4px;
+            border-radius: 50%;
+            transition: opacity 0.2s;
+        }
+        /* 调试时可取消注释查看位置（正式环境隐藏） */
+        /* .secret-entrance:hover { opacity: 0.2; background: rgba(255,0,0,0.1); } */
         .menu-toggle {
             display: none;
             font-size: 1.8rem;
@@ -157,6 +172,8 @@
             }
             .nav-links.open { left: 0; }
             .navbar { position: relative; }
+            /* 移动端隐藏入口缩小一点 */
+            .secret-entrance { width: 24px; height: 24px; margin-left: 0; }
         }
         .btn {
             display: inline-block;
@@ -566,8 +583,15 @@
         <div class="logo-area"><div class="logo">Meilun</div><div class="logo-sub">GAME STUDIO</div></div>
         <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
         <div class="nav-links" id="navLinks">
-            <a data-scroll="hero">幻境</a><a data-scroll="portfolio">枪火阵列</a><a data-scroll="news">暗流涌动</a>
-            <a data-scroll="team">Meilun核心</a><a data-scroll="about">轮回之卷</a><a data-scroll="contact">缔结契约</a>
+            <a data-scroll="hero">幻境</a>
+            <a data-scroll="portfolio">枪火阵列</a>
+            <a data-scroll="news">暗流涌动</a>
+            <a data-scroll="team">Meilun核心</a>
+            <a data-scroll="about">轮回之卷</a>
+            <a data-scroll="contact">缔结契约</a>
+            <a href="account.html">玩家中心</a>
+            <!-- 隐藏入口：连续点击3次触发密码验证 -->
+            <span id="secretEntrance" class="secret-entrance" title=""></span>
         </div>
         <div><a href="#" class="btn btn-outline" id="exploreBtn"><i class="fas fa-gamepad"></i> 作品集</a></div>
     </nav>
@@ -741,6 +765,27 @@
     // 去除URL中的/# 关键代码
     if(window.location.hash) history.replaceState(null, '', window.location.pathname+window.location.search);
     window.addEventListener('hashchange', ()=> history.replaceState(null, '', window.location.pathname+window.location.search));
+    
+    // ========== 隐藏入口逻辑：连续点击3次，弹出密码验证 ==========
+    let secretClickCount = 0;
+    const secretEl = document.getElementById('secretEntrance');
+    if (secretEl) {
+        secretEl.addEventListener('click', () => {
+            secretClickCount++;
+            if (secretClickCount === 3) {
+                secretClickCount = 0;
+                const pwd = prompt('请输入管理员密码：');
+                if (pwd === 'root') {
+                    // 密码正确，跳转 tools.html
+                    window.location.href = 'tools.html';
+                } else if (pwd !== null) {
+                    alert('密码错误，无法进入');
+                }
+            }
+            // 超过3次后重置计数（3次触发后已经重置，但连续第四次又会重新计数，这里不需要额外处理）
+            // 为了防止快速点击累积，设置一个定时器可选，但简单场景够用
+        });
+    }
     
     // 初始化所有
     renderGames('all'); renderNews(newsData); renderAwards(); renderTeam(); renderTimeline(); renderFAQ();
