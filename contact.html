@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>联系我们 / 获取报价 | Totem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .contact-form {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.4rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: border-color var(--ease-base);
+            background: var(--white);
+            color: var(--dark);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(229, 90, 44, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .contact-info-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .contact-info-card .ci-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-info-card .ci-icon i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .contact-info-card h5 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        .contact-info-card p {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .form-success i {
+            font-size: 3rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        .form-success h3 {
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 950px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-page="contact">
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo" id="totemLogo">Totem<span>.</span></a>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item has-dropdown">
+                <a href="products.html" data-i18n="nav_products">产品中心 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="product-reader.html" data-i18n="nav_reader">读卡器系列</a>
+                    <a href="product-banknote.html" data-i18n="nav_banknote">纸币器系列</a>
+                    <a href="product-coin.html" data-i18n="nav_coin">硬币器系列</a>
+                    <a href="product-scanner.html" data-i18n="nav_scanner">扫码器系列</a>
+                    <a href="product-nfc.html" data-i18n="nav_nfc">非接读卡器</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="solutions.html" data-i18n="nav_solutions">解决方案 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="solution-vending.html" data-i18n="nav_vending_sol">自动售货机</a>
+                    <a href="solution-charging.html" data-i18n="nav_charging_sol">充电桩支付</a>
+                    <a href="solution-ticket.html" data-i18n="nav_ticket_sol">自助售票机</a>
+                    <a href="solution-laundry.html" data-i18n="nav_laundry_sol">自助洗衣房</a>
+                    <a href="solution-retail.html" data-i18n="nav_retail_sol">无人零售柜</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="#" data-i18n="nav_industries">行业应用 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="industries.html" data-i18n="nav_game">游戏机支付终端</a>
+                    <a href="industries.html" data-i18n="nav_helmet">头盔清洗机支付模块</a>
+                    <a href="industries.html" data-i18n="nav_vending">自助贩卖机</a>
+                    <a href="industries.html" data-i18n="nav_coffee">咖啡机/果汁机</a>
+                    <a href="industries.html" data-i18n="nav_locker">自助寄存柜</a>
+                    <a href="industries.html" data-i18n="nav_share">共享设备支付</a>
+                </div>
+            </div>
+            <div class="nav-item"><a href="support.html" data-i18n="nav_support">技术支持</a></div>
+            <div class="nav-item"><a href="about.html" data-i18n="nav_about">关于Totem</a></div>
+            <div class="nav-item"><a href="developers.html" data-i18n="nav_dev">开发者</a></div>
+        </div>
+        <div class="nav-buttons">
+            <div class="lang-switch" id="langSwitch"><i class="fas fa-globe"></i> <span id="currentLang">中文</span></div>
+            <a href="contact.html" class="demo-btn" style="background:var(--primary-dark);" data-i18n="nav_quote">获取报价</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="container">
+    <div class="breadcrumb">
+        <a href="index.html" data-i18n="bc_home">首页</a><span>/</span>
+        <span class="current">联系我们</span>
+    </div>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+    <div class="container">
+        <div class="section-header" style="max-width:800px;">
+            <div class="hero-badge" style="margin-bottom:1rem;">Contact Totem</div>
+            <h1 style="font-size:2.6rem;">获取报价 & 联系我们</h1>
+            <p style="color:var(--gray-600);">填写以下表单，Totem硬件专家将在24小时内与您联系，提供定制方案与样品测试服务。</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Form -->
+            <div class="contact-form reveal" id="contactFormWrap">
+                <form id="contactForm" onsubmit="return handleFormSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>姓名 *</label>
+                            <input type="text" name="name" required placeholder="您的姓名">
+                        </div>
+                        <div class="form-group">
+                            <label>公司名称 *</label>
+                            <input type="text" name="company" required placeholder="公司/品牌名称">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>邮箱 *</label>
+                            <input type="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>电话</label>
+                            <input type="tel" name="phone" placeholder="+86 xxx xxxx xxxx">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>感兴趣的产品 *</label>
+                        <select name="product" required>
+                            <option value="">请选择产品类型</option>
+                            <option value="reader">读卡器系列</option>
+                            <option value="banknote">纸币器系列</option>
+                            <option value="coin">硬币器系列</option>
+                            <option value="scanner">扫码器系列</option>
+                            <option value="nfc">非接读卡器</option>
+                            <option value="custom">定制方案</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>应用场景</label>
+                        <select name="scenario">
+                            <option value="">请选择应用场景</option>
+                            <option value="vending">自动售货机</option>
+                            <option value="charging">充电桩</option>
+                            <option value="ticket">自助售票机</option>
+                            <option value="laundry">自助洗衣</option>
+                            <option value="retail">无人零售</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>预计采购数量</label>
+                        <select name="quantity">
+                            <option value="">请选择</option>
+                            <option value="1-50">1-50台</option>
+                            <option value="50-500">50-500台</option>
+                            <option value="500-5000">500-5000台</option>
+                            <option value="5000+">5000台以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>补充说明</label>
+                        <textarea name="message" placeholder="请描述您的具体需求，如型号偏好、协议要求、特殊定制等"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px;">提交询价 <i class="fas fa-paper-plane"></i></button>
+                </form>
+                <div class="form-success" id="formSuccess">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>提交成功！</h3>
+                    <p style="color:var(--gray-600);">我们的硬件专家将在24小时内与您联系。<br>感谢您对Totem的关注！</p>
+                    <button class="btn-outline btn-sm" onclick="resetForm()" style="margin-top:1rem;">继续询价</button>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="reveal reveal-delay-1">
+                <div class="contact-info-card">
+                    <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <h5>销售邮箱</h5>
+                        <p>sales@totem.com</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="ci-icon"><i class="fas fa-headset"></i></div>
+                    <div>
+                        <h5>技术支持</h5>
+                        <p>support@totem.com</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
+                    <div>
+                        <h5>联系电话</h5>
+                        <p>+86 400-XXX-XXXX</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="ci-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <h5>工作时间</h5>
+                        <p>周一至周五 9:00-18:00 (UTC+8)</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h5>详细地址</h5>
+                        <p>中国 · 广州市番禺区市新路恒然创意园A座509<br>Totem Hardware Solutions</p>
+                    </div>
+                </div>
+
+                <div style="margin-top:1.5rem;background:var(--primary-light);border-radius:var(--radius-md);padding:1.5rem;">
+                   <h4 style="font-size:1rem;margin-bottom:0.5rem;"><i class="fas fa-globe" style="color:var(--primary);margin-right:6px;"></i> 海外支付解決方案</h4>
+                   <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">Totem提供一站式海外支付解决方案，支持国际信用卡、本地钱包及多币种结算，助您安全、高效地拓展全球市场。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 data-i18n="footer_products">产品系列</h4>
+                <ul>
+                    <li><a href="product-reader.html" data-i18n="footer_reader">读卡器</a></li>
+                    <li><a href="product-banknote.html" data-i18n="footer_banknote">纸币接收器</a></li>
+                    <li><a href="product-coin.html" data-i18n="footer_coin">硬币器/找零器</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_solutions">解决方案</h4>
+                <ul>
+                    <li><a href="solutions.html" data-i18n="footer_vending_sol">自动售货机集成</a></li>
+                    <li><a href="solution-charging.html" data-i18n="footer_charging_sol">充电桩支付</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_support">技术支持</h4>
+                <ul>
+                    <li><a href="support.html" data-i18n="footer_driver">驱动下载</a></li>
+                    <li><a href="developers.html" data-i18n="footer_api">API文档</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_about">关于Totem</h4>
+                <ul>
+                    <li><a href="about.html" data-i18n="footer_company">公司简介</a></li>
+                    <li><a href="about.html" data-i18n="footer_news">新闻动态</a></li>
+                </ul>
+                <div class="social-icons">
+                    <i class="fab fa-linkedin-in"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-weixin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© <span id="currentYear"></span> <span data-i18n="footer_copyright">Totem Hardware Solutions. 本页面仅供布局预览</span></div>
+    </div>
+</footer>
+
+<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> <span data-i18n="loading">加载图片配置...</span></div>
+<script src="js/app.js"></script>
+<script>
+function handleFormSubmit(e) {
+    e.preventDefault();
+    var form = document.getElementById('contactForm');
+    var data = new FormData(form);
+    var obj = {};
+    data.forEach(function(v, k) { obj[k] = v; });
+    TotemSite.API.submitQuote(obj).then(function() {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+    });
+    return false;
+}
+function resetForm() {
+    document.getElementById('contactForm').reset();
+    document.getElementById('contactForm').style.display = 'block';
+    document.getElementById('formSuccess').style.display = 'none';
+}
+</script>
+</body>
+</html>
