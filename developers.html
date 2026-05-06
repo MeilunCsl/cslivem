@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>开发者中心 | Totem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dev-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .dev-hero-left h1 { font-size: 2.6rem; margin-bottom: 1rem; }
+        .dev-hero-left p { font-size: 1.05rem; color: var(--gray-600); margin-bottom: 1.5rem; max-width: 500px; }
+        .dev-hero-right .code-preview {
+            background: #1a1a2e;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            font-family: 'DM Mono', 'Courier New', monospace;
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+            overflow-x: auto;
+            border: 1px solid #2d2d44;
+        }
+        .code-preview .comment { color: #64748b; }
+        .code-preview .keyword { color: #c084fc; }
+        .code-preview .string { color: #86efac; }
+        .code-preview .func { color: #93c5fd; }
+        .code-preview .var { color: #fbbf24; }
+        .code-tabs { display: flex; gap: 0; margin-bottom: 0; }
+        .code-tab { padding: 8px 18px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm) var(--radius-sm) 0 0; background: #0f0f1a; color: var(--gray-400); border: 1px solid #2d2d44; border-bottom: none; transition: all var(--ease-base); }
+        .code-tab.active { background: #1a1a2e; color: var(--white); }
+        @media (max-width: 950px) {
+            .dev-hero-grid { grid-template-columns: 1fr; }
+            .dev-hero-left { text-align: center; }
+            .dev-hero-left p { max-width: 100%; }
+        }
+    </style>
+</head>
+<body data-page="developers">
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo" id="totemLogo">Totem<span>.</span></a>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item has-dropdown">
+                <a href="products.html" data-i18n="nav_products">产品中心 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="product-reader.html" data-i18n="nav_reader">读卡器系列</a>
+                    <a href="product-banknote.html" data-i18n="nav_banknote">纸币器系列</a>
+                    <a href="product-coin.html" data-i18n="nav_coin">硬币器系列</a>
+                    <a href="product-scanner.html" data-i18n="nav_scanner">扫码器系列</a>
+                    <a href="product-nfc.html" data-i18n="nav_nfc">非接读卡器</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="solutions.html" data-i18n="nav_solutions">解决方案 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="solution-vending.html" data-i18n="nav_vending_sol">自动售货机</a>
+                    <a href="solution-charging.html" data-i18n="nav_charging_sol">充电桩支付</a>
+                    <a href="solution-ticket.html" data-i18n="nav_ticket_sol">自助售票机</a>
+                    <a href="solution-laundry.html" data-i18n="nav_laundry_sol">自助洗衣房</a>
+                    <a href="solution-retail.html" data-i18n="nav_retail_sol">无人零售柜</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="#" data-i18n="nav_industries">行业应用 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="industries.html" data-i18n="nav_game">游戏机支付终端</a>
+                    <a href="industries.html" data-i18n="nav_helmet">头盔清洗机支付模块</a>
+                    <a href="industries.html" data-i18n="nav_vending">自助贩卖机</a>
+                    <a href="industries.html" data-i18n="nav_coffee">咖啡机/果汁机</a>
+                    <a href="industries.html" data-i18n="nav_locker">自助寄存柜</a>
+                    <a href="industries.html" data-i18n="nav_share">共享设备支付</a>
+                </div>
+            </div>
+            <div class="nav-item"><a href="support.html" data-i18n="nav_support">技术支持</a></div>
+            <div class="nav-item"><a href="about.html" data-i18n="nav_about">关于Totem</a></div>
+            <div class="nav-item"><a href="developers.html" data-i18n="nav_dev" style="color:var(--primary);">开发者</a></div>
+        </div>
+        <div class="nav-buttons">
+            <div class="lang-switch" id="langSwitch"><i class="fas fa-globe"></i> <span id="currentLang">中文</span></div>
+            <a href="contact.html" class="demo-btn" data-i18n="nav_quote">获取报价</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="container">
+    <div class="breadcrumb">
+        <a href="index.html" data-i18n="bc_home">首页</a><span>/</span>
+        <span class="current" data-i18n="nav_dev">开发者</span>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="page-hero">
+    <div class="container dev-hero-grid">
+        <div class="dev-hero-left">
+            <div class="hero-badge" style="margin-bottom:1rem;">Totem Developer</div>
+            <h1>开发者中心</h1>
+            <p>完整的SDK、API文档、代码示例与调试工具，帮助您快速将Totem支付硬件集成到自助设备中。</p>
+            <div class="hero-buttons" style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+                <a href="#devQuickStart" class="btn-primary">快速开始 <i class="fas fa-arrow-right"></i></a>
+                <a href="support.html" class="btn-outline">查看全部文档</a>
+            </div>
+        </div>
+        <div class="dev-hero-right">
+            <div class="code-tabs">
+                <span class="code-tab active">Python</span>
+                <span class="code-tab">C</span>
+                <span class="code-tab">Java</span>
+            </div>
+            <div class="code-preview">
+<span class="comment"># Totem 读卡器 MDB 通信示例</span>
+<span class="keyword">import</span> totem_sdk
+
+<span class="var">reader</span> = totem_sdk.<span class="func">CardReader</span>(port=<span class="string">"/dev/ttyUSB0"</span>)
+reader.<span class="func">connect</span>(protocol=<span class="string">"MDB"</span>)
+
+<span class="keyword">def</span> <span class="func">on_payment</span>(result):
+    <span class="keyword">if</span> result.status == <span class="string">"APPROVED"</span>:
+        <span class="func">print</span>(<span class="string">f"支付成功: ¥{result.amount}"</span>)
+        vending.<span class="func">dispense</span>(result.slot)
+
+reader.<span class="func">on_transaction</span>(on_payment)
+reader.<span class="func">start</span>()
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Start -->
+<section class="section" id="devQuickStart">
+    <div class="container">
+        <div class="section-header">
+            <h2>快速集成指南</h2>
+            <p>4步完成Totem支付硬件集成</p>
+        </div>
+        <div class="feature-grid" id="devQuickStart"></div>
+    </div>
+</section>
+
+<!-- SDK -->
+<section class="section" style="background:var(--gray-50);padding-top:60px;padding-bottom:60px;" id="devSdkSection">
+    <div class="container">
+        <div class="section-header">
+            <h2>SDK & 库</h2>
+            <p>多语言SDK，覆盖主流开发平台</p>
+        </div>
+        <div class="resource-grid" id="devSdk"></div>
+    </div>
+</section>
+
+<!-- Tools -->
+<section class="section" id="devToolsSection">
+    <div class="container">
+        <div class="section-header">
+            <h2>开发工具</h2>
+            <p>提高集成效率的实用工具集</p>
+        </div>
+        <div class="resource-grid" id="devTools"></div>
+    </div>
+</section>
+
+<!-- Code Samples -->
+<section class="section" style="background:var(--gray-50);padding-top:60px;padding-bottom:60px;" id="devSamplesSection">
+    <div class="container">
+        <div class="section-header">
+            <h2>代码示例</h2>
+            <p>常见场景的完整代码参考</p>
+        </div>
+        <div class="feature-grid" id="devSamples"></div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="container">
+    <div class="cta-section">
+        <h2>需要技术支持？</h2>
+        <p>Totem开发者团队为您提供一对一集成指导</p>
+        <a href="contact.html" class="btn-dark">联系开发团队 <i class="fas fa-headset"></i></a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 data-i18n="footer_products">产品系列</h4>
+                <ul>
+                    <li><a href="product-reader.html" data-i18n="footer_reader">读卡器</a></li>
+                    <li><a href="product-banknote.html" data-i18n="footer_banknote">纸币接收器</a></li>
+                    <li><a href="product-coin.html" data-i18n="footer_coin">硬币器/找零器</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_solutions">解决方案</h4>
+                <ul>
+                    <li><a href="solutions.html" data-i18n="footer_vending_sol">自动售货机集成</a></li>
+                    <li><a href="solution-charging.html" data-i18n="footer_charging_sol">充电桩支付</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_support">技术支持</h4>
+                <ul>
+                    <li><a href="support.html" data-i18n="footer_driver">驱动下载</a></li>
+                    <li><a href="developers.html" data-i18n="footer_api">API文档</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_about">关于Totem</h4>
+                <ul>
+                    <li><a href="about.html" data-i18n="footer_company">公司简介</a></li>
+                    <li><a href="about.html" data-i18n="footer_news">新闻动态</a></li>
+                </ul>
+                <div class="social-icons">
+                    <i class="fab fa-linkedin-in"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-weixin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© <span id="currentYear"></span> <span data-i18n="footer_copyright">Totem Hardware Solutions. 本页面仅供布局预览</span></div>
+    </div>
+</footer>
+
+<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> <span data-i18n="loading">加载图片配置...</span></div>
+<script src="js/app.js"></script>
+</body>
+</html>

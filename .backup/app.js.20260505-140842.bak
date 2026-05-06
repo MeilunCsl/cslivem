@@ -1,0 +1,2097 @@
+﻿/* ===================================================
+   TOTEM SITE CORE MODULE v2.0
+   功能：数据管理 / i18n / 组件渲染 / API接口预留
+   =================================================== */
+var TotemSite = (function () {
+    'use strict';
+
+    // ==================== 1. 产品数据 (API接口预留) ====================
+    var PRODUCT_DATA = {
+        reader: {
+            id: 'reader',
+            pageFile: 'product-reader.html',
+            category: '读卡器系列',
+            categoryEn: 'Card Readers',
+            title: '专业读卡器',
+            titleEn: 'Professional Card Readers',
+            subtitle: '支持IC卡、磁条卡、NFC手机支付、QR Code全支付方式覆盖',
+            subtitleEn: 'Full payment coverage: IC card, magnetic stripe, NFC mobile, QR Code',
+            description: 'Totem读卡器系列符合EMV L1/L2国际认证标准，支持多种通信协议（MDB/CCtalk/USB/RS232），具备IP65防水防尘等级，交易响应时间低于0.5秒，广泛应用于全球自助支付终端设备。',
+            descriptionEn: 'Totem card reader series meets EMV L1/L2 international certification, supports multiple protocols (MDB/CCtalk/USB/RS232), IP65 rated, transaction response under 0.5s, widely used in global self-service payment terminals.',
+            heroIcon: 'fas fa-credit-card',
+            stats: [
+                { value: 'EMV L1/L2', label: '认证标准', labelEn: 'Certification' },
+                { value: '< 0.5s', label: '交易速度', labelEn: 'Txn Speed' },
+                { value: 'IP65', label: '防护等级', labelEn: 'Protection' }
+            ],
+            features: [
+                { icon: 'fas fa-credit-card', title: '全支付方式', titleEn: 'All Payment Methods', desc: '支持IC卡、磁条卡、NFC手机支付（Apple Pay/Google Pay）、QR Code扫码支付，一机覆盖所有主流支付方式。', descEn: 'Supports IC card, magnetic stripe, NFC mobile (Apple Pay/Google Pay), QR Code — one device covers all mainstream payment methods.' },
+                { icon: 'fas fa-shield-alt', title: 'EMV国际认证', titleEn: 'EMV Certified', desc: '通过EMV L1/L2硬件及软件双重认证，符合PCI PTS安全标准，确保全球范围合规部署。', descEn: 'Dual EMV L1/L2 hardware and software certified, PCI PTS compliant for global deployment.' },
+                { icon: 'fas fa-tint-slash', title: '工业级防护', titleEn: 'Industrial Protection', desc: 'IP65防水防尘设计，工作温度-20°C至60°C，适用于室内外各类恶劣环境。', descEn: 'IP65 waterproof and dustproof, operating temp -20°C to 60°C, suitable for harsh indoor/outdoor environments.' },
+                { icon: 'fas fa-bolt', title: '极速交易', titleEn: 'Ultra-Fast Transaction', desc: '交易响应时间低于0.5秒，支持离线交易缓存，断网也能完成支付。', descEn: 'Transaction response under 0.5s, offline transaction caching supported.' },
+                { icon: 'fas fa-plug', title: '多协议兼容', titleEn: 'Multi-Protocol', desc: '原生支持MDB、CCtalk、USB HID、RS232等主流自助设备通信协议，即插即用。', descEn: 'Native support for MDB, CCtalk, USB HID, RS232 — plug and play with all major vending protocols.' },
+                { icon: 'fas fa-cogs', title: '灵活定制', titleEn: 'Customizable', desc: '支持支付方式图标自定义、固件OTA升级、个性化LED指示灯配置。', descEn: 'Customizable payment icons, OTA firmware updates, personalized LED indicator configuration.' }
+            ],
+            models: [
+                {
+                    id: 'VPOS-TOUCH', name: 'VPOS TOUCH', subtitle: '全触控智能读卡器', subtitleEn: 'Full-Touch Smart Card Reader',
+                    badge: '旗舰', badgeEn: 'Flagship', icon: 'fas fa-tablet-alt',
+                    pageFile: 'product-reader-vpos-touch.html',
+                    specs: ['全触控彩色屏', 'IC卡+NFC+QR+磁条', 'IP65防护', '多协议通信'],
+                    specsEn: ['Full-Touch Color Screen', 'IC+NFC+QR+Magnetic', 'IP65 Rated', 'Multi-Protocol']
+                },
+                {
+                    id: 'ONYX', name: 'ONYX', subtitle: '紧凑型多功能读卡器', subtitleEn: 'Compact Multi-Function Reader',
+                    badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-credit-card',
+                    pageFile: 'product-reader-onyx.html',
+                    specs: ['紧凑设计', 'IC卡+NFC', 'IP65防护', '即插即用'],
+                    specsEn: ['Compact Design', 'IC Card+NFC', 'IP65 Rated', 'Plug & Play']
+                },
+                {
+                    id: 'VPOS-MEDIA4', name: 'VPOS Media 4', subtitle: '多媒体智能支付终端', subtitleEn: 'Multimedia Smart Payment Terminal',
+                    badge: '', icon: 'fas fa-tv',
+                    pageFile: 'product-reader-vpos-media4.html',
+                    specs: ['大尺寸显示屏', '多媒体播放', '全支付方式', '以太网/4G'],
+                    specsEn: ['Large Display', 'Multimedia Playback', 'All Payments', 'Ethernet/4G']
+                },
+                {
+                    id: 'VPOS-MEDIA4-MINI', name: 'VPOS Media 4 Mini', subtitle: '迷你多媒体读卡器', subtitleEn: 'Mini Multimedia Reader',
+                    badge: '', icon: 'fas fa-mobile-alt',
+                    pageFile: 'product-reader-vpos-media4-mini.html',
+                    specs: ['超紧凑机身', 'IC卡+NFC+QR', '低功耗设计', 'USB/RS232'],
+                    specsEn: ['Ultra-Compact', 'IC+NFC+QR', 'Low Power', 'USB/RS232']
+                }
+            ],
+            specifications: {
+                '基本参数': {
+                    titleEn: 'General',
+                    rows: [
+                        ['支持卡类型', 'IC卡(ISO 7816) / 磁条卡(ISO 7811) / NFC(ISO 14443) / QR Code'],
+                        ['认证标准', 'EMV L1/L2, PCI PTS 5.x, PBOC 3.0'],
+                        ['交易速度', '< 0.5秒（含网络通信）'],
+                        ['显示屏', '2.4寸 TFT彩色屏（TR-500/800）']
+                    ],
+                    rowsEn: [
+                        ['Card Types', 'IC (ISO 7816) / Magnetic Stripe (ISO 7811) / NFC (ISO 14443) / QR Code'],
+                        ['Certification', 'EMV L1/L2, PCI PTS 5.x, PBOC 3.0'],
+                        ['Transaction Speed', '< 0.5s (incl. network)'],
+                        ['Display', '2.4" TFT Color (TR-500/800)']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议支持', 'MDB, CCtalk, USB HID, RS232'],
+                        ['网络', '以太网（TR-800）/ 4G模块可选'],
+                        ['天线', '内置NFC天线，外置可选']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'MDB, CCtalk, USB HID, RS232'],
+                        ['Network', 'Ethernet (TR-800) / 4G optional'],
+                        ['Antenna', 'Built-in NFC, external optional']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP54 (TR-200) / IP65 (TR-500) / IP67 (TR-800)'],
+                        ['工作温度', '-20°C ~ 60°C'],
+                        ['存储温度', '-40°C ~ 80°C'],
+                        ['湿度', '10% ~ 90% RH（非凝结）']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP54 (TR-200) / IP65 (TR-500) / IP67 (TR-800)'],
+                        ['Operating Temp', '-20°C ~ 60°C'],
+                        ['Storage Temp', '-40°C ~ 80°C'],
+                        ['Humidity', '10% ~ 90% RH (non-condensing)']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '120×85×42mm（TR-500）'],
+                        ['重量', '约220g（不含线缆）'],
+                        ['安装方式', '面板嵌入 / 壁挂支架'],
+                        ['电源', 'DC 12V / 24V 自适应']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '120×85×42mm (TR-500)'],
+                        ['Weight', '~220g (excl. cable)'],
+                        ['Mounting', 'Panel mount / Wall bracket'],
+                        ['Power', 'DC 12V / 24V auto-detect']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-charging-station', name: '充电桩', nameEn: 'EV Charging' },
+                { icon: 'fas fa-ticket-alt', name: '自助售票机', nameEn: 'Ticket Kiosks' },
+                { icon: 'fas fa-tshirt', name: '自助洗衣', nameEn: 'Self-Service Laundry' },
+                { icon: 'fas fa-coffee', name: '咖啡机', nameEn: 'Coffee Machines' },
+                { icon: 'fas fa-lock', name: '自助寄存柜', nameEn: 'Self-Service Lockers' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: '读卡器驱动程序 V3.2', nameEn: 'Card Reader Driver V3.2', desc: 'Windows/Linux/macOS', descEn: 'Windows/Linux/macOS', size: '18MB' },
+                { icon: 'fas fa-file-code', name: 'API集成开发文档', nameEn: 'API Integration Guide', desc: 'MDB/CCtalk/USB 协议说明', descEn: 'MDB/CCtalk/USB Protocol Docs', size: '2.4MB' },
+                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '接线图与调试步骤', descEn: 'Wiring diagram & debugging', size: '5.1MB' },
+                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数一览', descEn: 'Full technical specifications', size: '1.8MB' }
+            ],
+            relatedProducts: ['banknote', 'coin']
+        },
+
+        banknote: {
+            id: 'banknote',
+            pageFile: 'product-banknote.html',
+            category: '纸币器系列',
+            categoryEn: 'Bill Validators',
+            title: '纸币接收器',
+            titleEn: 'Bill Validators',
+            subtitle: '高识别率真伪鉴别，支持多国纸币，大容量钱箱与循环找零',
+            subtitleEn: 'High-accuracy counterfeit detection, multi-currency support, large cashbox & recycling',
+            description: 'Totem纸币器系列采用多光谱光学识别技术，真伪鉴别准确率达99.2%，支持全球50+国家纸币面额识别，提供大容量钱箱和循环找零两种机型，满足不同自助设备的现金处理需求。',
+            descriptionEn: 'Totem bill validators use multi-spectral optical recognition with 99.2% accuracy, support 50+ country currencies, available in large cashbox and recycling models for diverse self-service cash handling needs.',
+            heroIcon: 'fas fa-money-bill-wave',
+            stats: [
+                { value: '99.2%', label: '识别准确率', labelEn: 'Accuracy' },
+                { value: '50+', label: '支持国家', labelEn: 'Countries' },
+                { value: '600+', label: '钱箱容量(张)', labelEn: 'Cashbox Cap.' }
+            ],
+            features: [
+                { icon: 'fas fa-search-dollar', title: '多光谱鉴伪', titleEn: 'Multi-Spectral Detection', desc: '采用红外、紫外、磁性、图像四重鉴伪技术，有效识别假币、拼接币。', descEn: 'Infrared, UV, magnetic, and image quadruple detection for effective counterfeit identification.' },
+                { icon: 'fas fa-globe-americas', title: '多国纸币支持', titleEn: 'Multi-Currency', desc: '出厂预置50+国家纸币数据库，支持固件升级扩展新币种。', descEn: 'Pre-loaded with 50+ country currency databases, expandable via firmware updates.' },
+                { icon: 'fas fa-box', title: '大容量钱箱', titleEn: 'Large Cashbox', desc: '标准钱箱容量600张，可选1000张大容量钱箱，减少运维频次。', descEn: 'Standard 600-note capacity, optional 1000-note cashbox to reduce maintenance frequency.' },
+                { icon: 'fas fa-sync-alt', title: '循环找零', titleEn: 'Recycling & Change', desc: 'BV-500R支持纸币循环找零功能，降低运营找零成本。', descEn: 'BV-500R supports bill recycling for change, reducing operational costs.' },
+                { icon: 'fas fa-shield-alt', title: '防欺诈设计', titleEn: 'Anti-Fraud Design', desc: '防钓鱼、防回拉机械结构，有效防止纸币被恶意抽回。', descEn: 'Anti-fishing and anti-pullback mechanisms to prevent fraudulent bill retrieval.' },
+                { icon: 'fas fa-wrench', title: '易维护设计', titleEn: 'Easy Maintenance', desc: '模块化结构，前维护设计，纸币通道可视化，清洁维护无需工具。', descEn: 'Modular front-access design, visible bill path, tool-free cleaning and maintenance.' }
+            ],
+            models: [
+                {
+                    id: 'BV-100', name: 'BV-100', subtitle: '紧凑型纸币器', subtitleEn: 'Compact Bill Validator',
+                    badge: '', icon: 'fas fa-money-bill-wave',
+                    specs: ['单向接收', '300张钱箱', 'MDB/CCtalk', '紧凑设计'],
+                    specsEn: ['One-way acceptance', '300-note cashbox', 'MDB/CCtalk', 'Compact design']
+                },
+                {
+                    id: 'BV-300', name: 'BV-300', subtitle: '标准型纸币器', subtitleEn: 'Standard Bill Validator',
+                    badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-money-bill-wave',
+                    specs: ['单向接收', '600张钱箱', '多协议', '多币种'],
+                    specsEn: ['One-way acceptance', '600-note cashbox', 'Multi-protocol', 'Multi-currency']
+                },
+                {
+                    id: 'BV-500R', name: 'BV-500R', subtitle: '循环找零纸币器', subtitleEn: 'Recycling Bill Validator',
+                    badge: '旗舰', badgeEn: 'Flagship', icon: 'fas fa-money-bill-wave',
+                    specs: ['双向循环', '600张+循环', '以太网/MDB', '自动找零'],
+                    specsEn: ['Bidirectional recycling', '600+ recycling slots', 'Ethernet/MDB', 'Auto change']
+                }
+            ],
+            specifications: {
+                '基本参数': {
+                    titleEn: 'General',
+                    rows: [
+                        ['识别技术', '多光谱光学(红外/紫外) + 磁性 + 图像识别'],
+                        ['鉴别准确率', '≥ 99.2%'],
+                        ['接收速度', '≤ 2秒/张'],
+                        ['支持面额', '按国家配置，最多支持12种面额']
+                    ],
+                    rowsEn: [
+                        ['Detection', 'Multi-spectral (IR/UV) + Magnetic + Image recognition'],
+                        ['Accuracy', '≥ 99.2%'],
+                        ['Acceptance Speed', '≤ 2s per note'],
+                        ['Denominations', 'Country-configurable, up to 12 denominations']
+                    ]
+                },
+                '容量参数': {
+                    titleEn: 'Capacity',
+                    rows: [
+                        ['钱箱容量', 'BV-100: 300张 / BV-300: 600张 / BV-500R: 600张+循环'],
+                        ['循环钞箱', 'BV-500R: 4个循环槽位，每槽80张'],
+                        ['钱箱类型', '可锁定安全钱箱，支持快速更换']
+                    ],
+                    rowsEn: [
+                        ['Cashbox', 'BV-100: 300 / BV-300: 600 / BV-500R: 600+ recycling'],
+                        ['Recycling', 'BV-500R: 4 recycling slots, 80 notes each'],
+                        ['Cashbox Type', 'Lockable security cashbox, quick-swap design']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议支持', 'MDB, CCtalk, USB, RS232'],
+                        ['网络', '以太网（BV-500R）'],
+                        ['固件升级', 'USB / 网络OTA']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'MDB, CCtalk, USB, RS232'],
+                        ['Network', 'Ethernet (BV-500R)'],
+                        ['Firmware Update', 'USB / Network OTA']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP54'],
+                        ['工作温度', '0°C ~ 50°C'],
+                        ['存储温度', '-20°C ~ 70°C'],
+                        ['湿度', '10% ~ 85% RH（非凝结）']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP54'],
+                        ['Operating Temp', '0°C ~ 50°C'],
+                        ['Storage Temp', '-20°C ~ 70°C'],
+                        ['Humidity', '10% ~ 85% RH (non-condensing)']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '245×100×88mm（BV-300）'],
+                        ['重量', '约680g（不含钱箱）'],
+                        ['安装方式', '面板嵌入式'],
+                        ['电源', 'DC 12V / 24V']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '245×100×88mm (BV-300)'],
+                        ['Weight', '~680g (excl. cashbox)'],
+                        ['Mounting', 'Panel mount'],
+                        ['Power', 'DC 12V / 24V']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-ticket-alt', name: '自助售票机', nameEn: 'Ticket Kiosks' },
+                { icon: 'fas fa-shopping-cart', name: '无人零售', nameEn: 'Unattended Retail' },
+                { icon: 'fas fa-gamepad', name: '游戏游艺', nameEn: 'Gaming & Amusement' },
+                { icon: 'fas fa-parking', name: '自助缴费', nameEn: 'Self-Service Payment' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: '纸币器配置工具 V2.0', nameEn: 'Bill Validator Config Tool V2.0', desc: '币种配置与参数设置', descEn: 'Currency config & parameter setup', size: '15MB' },
+                { icon: 'fas fa-file-code', name: 'API集成开发文档', nameEn: 'API Integration Guide', desc: 'MDB/CCtalk协议说明', descEn: 'MDB/CCtalk Protocol Docs', size: '3.1MB' },
+                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '安装接线与调试指南', descEn: 'Installation & debugging guide', size: '6.2MB' },
+                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数', descEn: 'Full specifications', size: '2.1MB' }
+            ],
+            relatedProducts: ['reader', 'coin']
+        },
+
+        coin: {
+            id: 'coin',
+            pageFile: 'product-coin.html',
+            category: '硬币器系列',
+            categoryEn: 'Coin Acceptors',
+            title: '硬币器 / 找零模块',
+            titleEn: 'Coin Acceptor / Change Module',
+            subtitle: '高精度硬币识别，多币种储存，自动找零与清空功能',
+            subtitleEn: 'High-precision coin recognition, multi-currency storage, auto change & emptying',
+            description: 'Totem硬币器系列采用电磁+光学双重识别技术，支持全球主流硬币及代币，提供从基础接收到自动找零的完整产品线。低故障率设计，平均无故障运行超过50万次。',
+            descriptionEn: 'Totem coin acceptors use electromagnetic + optical dual recognition, support global coins and tokens. Complete product line from basic acceptance to automatic change. Low failure rate — 500K+ MTBF cycles.',
+            heroIcon: 'fas fa-coins',
+            stats: [
+                { value: '50万+', label: '平均无故障次数', labelEn: 'MTBF Cycles' },
+                { value: '16种', label: '最大支持币种', labelEn: 'Max Coins' },
+                { value: '< 1s', label: '识别速度', labelEn: 'Recognition' }
+            ],
+            features: [
+                { icon: 'fas fa-bullseye', title: '双重识别技术', titleEn: 'Dual Recognition', desc: '电磁感应+光学图像双重验证，有效识别真币、异币、假币。', descEn: 'Electromagnetic + optical dual verification for accurate coin authentication.' },
+                { icon: 'fas fa-coins', title: '多币种支持', titleEn: 'Multi-Currency', desc: '最多同时支持16种不同直径/材质的硬币或代币。', descEn: 'Simultaneously supports up to 16 different diameter/material coins or tokens.' },
+                { icon: 'fas fa-exchange-alt', title: '自动找零', titleEn: 'Auto Change', desc: 'CA-300内置多币种储存管，支持自动找零，减少人工补币。', descEn: 'CA-300 has built-in multi-denomination tubes for automatic change, reducing manual refills.' },
+                { icon: 'fas fa-trash-alt', title: '一键清空', titleEn: 'One-Touch Empty', desc: '支持远程/本地一键清空硬币储存管，方便运营管理。', descEn: 'Remote/local one-touch empty function for convenient operation management.' },
+                { icon: 'fas fa-shield-alt', title: '防钓鱼设计', titleEn: 'Anti-Fishing', desc: '机械+电子双重防钓，防止硬币被绳索等工具恶意抽回。', descEn: 'Mechanical + electronic anti-fishing to prevent fraudulent coin retrieval.' },
+                { icon: 'fas fa-clock', title: '超长寿命', titleEn: 'Extended Lifespan', desc: '核心部件寿命超过100万次，平均无故障运行50万次以上。', descEn: 'Core components rated for 1M+ cycles, 500K+ MTBF cycles.' }
+            ],
+            models: [
+                {
+                    id: 'CA-100', name: 'CA-100', subtitle: '基础型硬币器', subtitleEn: 'Basic Coin Acceptor',
+                    badge: '', icon: 'fas fa-coins',
+                    specs: ['单币种接收', '无找零', 'MDB/脉冲', '高性价比'],
+                    specsEn: ['Single coin acceptance', 'No change', 'MDB/Pulse', 'Cost-effective']
+                },
+                {
+                    id: 'CA-200', name: 'CA-200', subtitle: '多币种硬币器', subtitleEn: 'Multi-Coin Acceptor',
+                    badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-coins',
+                    specs: ['16币种识别', '无找零', 'MDB/CCtalk', '高精度'],
+                    specsEn: ['16-coin recognition', 'No change', 'MDB/CCtalk', 'High precision']
+                },
+                {
+                    id: 'CA-300', name: 'CA-300', subtitle: '硬币找零一体机', subtitleEn: 'Coin Acceptor + Changer',
+                    badge: '旗舰', badgeEn: 'Flagship', icon: 'fas fa-coins',
+                    specs: ['16币种+找零', '4管储存', 'MDB/CCtalk/以太网', '远程管理'],
+                    specsEn: ['16 coins + change', '4 storage tubes', 'MDB/CCtalk/Ethernet', 'Remote mgmt']
+                }
+            ],
+            specifications: {
+                '基本参数': {
+                    titleEn: 'General',
+                    rows: [
+                        ['识别技术', '电磁感应 + 光学图像双重识别'],
+                        ['支持币种', '最多16种（直径18-32mm，厚度1.2-3.2mm）'],
+                        ['识别速度', '< 1秒/枚'],
+                        ['假币拒绝率', '≥ 99.5%']
+                    ],
+                    rowsEn: [
+                        ['Detection', 'Electromagnetic + Optical dual recognition'],
+                        ['Coin Types', 'Up to 16 (dia. 18-32mm, thickness 1.2-3.2mm)'],
+                        ['Speed', '< 1s per coin'],
+                        ['Reject Rate', '≥ 99.5%']
+                    ]
+                },
+                '找零参数': {
+                    titleEn: 'Change Module',
+                    rows: [
+                        ['储存管数量', 'CA-300: 4管'],
+                        ['每管容量', '约30-50枚（视币种直径）'],
+                        ['找零速度', '≤ 2秒/枚'],
+                        ['补币提醒', '支持低币量预警']
+                    ],
+                    rowsEn: [
+                        ['Storage Tubes', 'CA-300: 4 tubes'],
+                        ['Tube Capacity', '~30-50 coins per tube (varies by diameter)'],
+                        ['Change Speed', '≤ 2s per coin'],
+                        ['Refill Alert', 'Low-level warning supported']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议支持', 'MDB, CCtalk, 脉冲(Pulse), RS232'],
+                        ['网络', '以太网（CA-300）'],
+                        ['固件升级', 'USB / 网络OTA']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'MDB, CCtalk, Pulse, RS232'],
+                        ['Network', 'Ethernet (CA-300)'],
+                        ['Firmware Update', 'USB / Network OTA']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP54'],
+                        ['工作温度', '-10°C ~ 55°C'],
+                        ['存储温度', '-30°C ~ 70°C'],
+                        ['湿度', '10% ~ 80% RH']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP54'],
+                        ['Operating Temp', '-10°C ~ 55°C'],
+                        ['Storage Temp', '-30°C ~ 70°C'],
+                        ['Humidity', '10% ~ 80% RH']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '150×80×65mm（CA-200）'],
+                        ['重量', '约350g'],
+                        ['安装方式', '面板嵌入 / 螺丝固定'],
+                        ['电源', 'DC 12V / 24V']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '150×80×65mm (CA-200)'],
+                        ['Weight', '~350g'],
+                        ['Mounting', 'Panel mount / Screw fix'],
+                        ['Power', 'DC 12V / 24V']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-tshirt', name: '自助洗衣', nameEn: 'Self-Service Laundry' },
+                { icon: 'fas fa-parking', name: '停车场缴费', nameEn: 'Parking Payment' },
+                { icon: 'fas fa-gamepad', name: '游戏游艺', nameEn: 'Gaming & Amusement' },
+                { icon: 'fas fa-swimming-pool', name: '自助洗车', nameEn: 'Self-Service Car Wash' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: '硬币器调试工具 V1.5', nameEn: 'Coin Acceptor Debug Tool V1.5', desc: '币种设定与参数调试', descEn: 'Coin config & parameter tuning', size: '8MB' },
+                { icon: 'fas fa-file-code', name: 'MDB协议集成指南', nameEn: 'MDB Protocol Integration Guide', desc: '从接线到指令的完整教程', descEn: 'Complete wiring to command tutorial', size: '4.5MB' },
+                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '安装接线与调试指南', descEn: 'Installation & debugging guide', size: '3.8MB' },
+                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数', descEn: 'Full specifications', size: '1.5MB' }
+            ],
+            relatedProducts: ['reader', 'banknote']
+        },
+
+        scanner: {
+            id: 'scanner',
+            pageFile: 'product-scanner.html',
+            category: '扫码器系列',
+            categoryEn: 'Barcode Scanners',
+            title: '扫码器',
+            titleEn: 'Barcode Scanners',
+            subtitle: '高速1D/2D条码识别，适配各类自助终端',
+            subtitleEn: 'High-speed 1D/2D barcode scanning for all self-service terminals',
+            description: 'Totem扫码器系列支持1D条码和2D QR码的快速识别，具备自动感应触发和常亮照明模式，IP54防护等级，适用于自助售货、自助取票等场景。',
+            descriptionEn: 'Totem barcode scanners support rapid 1D and 2D QR code recognition with auto-sense trigger and continuous illumination, IP54 rated for vending, ticketing and more.',
+            heroIcon: 'fas fa-qrcode',
+            stats: [
+                { value: '1D/2D', label: '码制支持', labelEn: 'Code Types' },
+                { value: '< 0.3s', label: '识别速度', labelEn: 'Scan Speed' },
+                { value: 'IP54', label: '防护等级', labelEn: 'Protection' }
+            ],
+            features: [
+                { icon: 'fas fa-qrcode', title: '1D/2D全码制', titleEn: 'All Barcode Types', desc: '支持QR Code、Data Matrix、PDF417、EAN-13、Code 128等主流码制。', descEn: 'Supports QR Code, Data Matrix, PDF417, EAN-13, Code 128 and more.' },
+                { icon: 'fas fa-eye', title: '自动感应触发', titleEn: 'Auto-Sense Trigger', desc: '红外自动感应，无需按键即可触发扫描，提升用户体验。', descEn: 'Infrared auto-sense — no button press needed, enhancing user experience.' },
+                { icon: 'fas fa-lightbulb', title: '智能补光', titleEn: 'Smart Illumination', desc: '白色LED补光灯，自动调节亮度，暗光环境也能精准识别。', descEn: 'White LED with auto-brightness adjustment for accurate scanning in low light.' },
+                { icon: 'fas fa-plug', title: '即插即用', titleEn: 'Plug & Play', desc: 'USB HID免驱设计，兼容Windows/Linux/Android系统。', descEn: 'USB HID driverless design, compatible with Windows/Linux/Android.' }
+            ],
+            models: [
+                { id: 'SC-100', name: 'SC-100', subtitle: '嵌入式扫码模组', subtitleEn: 'Embedded Scan Module', badge: '', icon: 'fas fa-qrcode', specs: ['1D/2D', 'USB/UART', '嵌入式安装', '低功耗'], specsEn: ['1D/2D', 'USB/UART', 'Embedded', 'Low power'] },
+                { id: 'SC-200', name: 'SC-200', subtitle: '桌面式扫码器', subtitleEn: 'Desktop Scanner', badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-qrcode', specs: ['1D/2D', 'USB HID', '自动感应', 'LED补光'], specsEn: ['1D/2D', 'USB HID', 'Auto-sense', 'LED light'] }
+            ],
+            specifications: {
+                '基本参数': { titleEn: 'General', rows: [['码制支持', '1D: EAN/UPC, Code 128, Code 39 / 2D: QR, Data Matrix, PDF417'], ['识别精度', '≥ 5mil (1D) / ≥ 10mil (2D)'], ['识别距离', '50-300mm'], ['扫描角度', '倾斜±60° / 偏转±60° / 旋转360°']], rowsEn: [['Code Types', '1D: EAN/UPC, Code 128, Code 39 / 2D: QR, Data Matrix, PDF417'], ['Resolution', '≥ 5mil (1D) / ≥ 10mil (2D)'], ['Scan Distance', '50-300mm'], ['Scan Angle', 'Tilt ±60° / Skew ±60° / Rotation 360°']] },
+                '接口与环境': { titleEn: 'Interface & Environment', rows: [['接口', 'USB HID / UART TTL'], ['防护等级', 'IP54'], ['工作温度', '-10°C ~ 50°C'], ['电源', 'DC 5V (USB供电)']], rowsEn: [['Interface', 'USB HID / UART TTL'], ['Protection', 'IP54'], ['Operating Temp', '-10°C ~ 50°C'], ['Power', 'DC 5V (USB powered)']] }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-ticket-alt', name: '自助取票', nameEn: 'Ticket Pickup' },
+                { icon: 'fas fa-shopping-cart', name: '自助收银', nameEn: 'Self-Checkout' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: '扫码器配置工具', nameEn: 'Scanner Config Tool', desc: '参数配置与固件升级', descEn: 'Config & firmware update', size: '6MB' },
+                { icon: 'fas fa-file-code', name: '集成开发文档', nameEn: 'Integration Guide', desc: 'USB/UART接口说明', descEn: 'USB/UART interface docs', size: '1.8MB' }
+            ],
+            relatedProducts: ['reader', 'nfc']
+        },
+        
+
+        nfc: {
+            id: 'nfc',
+            pageFile: 'product-nfc.html',
+            category: '非接读卡器',
+            categoryEn: 'Contactless Readers',
+            title: '非接读卡器',
+            titleEn: 'Contactless NFC Readers',
+            subtitle: 'NFC/RFID非接触式支付与识别，快速安全',
+            subtitleEn: 'NFC/RFID contactless payment & identification, fast and secure',
+            description: 'Totem非接读卡器系列专注NFC/RFID非接触式交互，支持ISO 14443 A/B、ISO 15693、FeliCa等主流协议，适用于手机NFC支付、会员卡识别、门禁等场景。',
+            descriptionEn: 'Totem contactless readers specialize in NFC/RFID interaction, supporting ISO 14443 A/B, ISO 15693, FeliCa protocols for mobile NFC payment, membership cards, access control and more.',
+            heroIcon: 'fas fa-wifi',
+            stats: [
+                { value: '13.56MHz', label: '工作频率', labelEn: 'Frequency' },
+                { value: '< 200ms', label: '响应时间', labelEn: 'Response' },
+                { value: 'IP65', label: '防护等级', labelEn: 'Protection' }
+            ],
+            features: [
+                { icon: 'fas fa-wifi', title: '多协议NFC', titleEn: 'Multi-Protocol NFC', desc: '支持ISO 14443A/B、ISO 15693、FeliCa、NFC Forum Tag。', descEn: 'Supports ISO 14443A/B, ISO 15693, FeliCa, NFC Forum Tag.' },
+                { icon: 'fas fa-mobile-alt', title: '手机NFC支付', titleEn: 'Mobile NFC Payment', desc: '兼容Apple Pay、Google Pay、Samsung Pay等主流移动支付。', descEn: 'Compatible with Apple Pay, Google Pay, Samsung Pay and more.' },
+                { icon: 'fas fa-bolt', title: '极速响应', titleEn: 'Ultra-Fast Response', desc: '非接触式读取响应时间低于200ms，用户无感支付。', descEn: 'Contactless read response under 200ms for seamless payment.' },
+                { icon: 'fas fa-shield-alt', title: '安全加密', titleEn: 'Secure Encryption', desc: '内置AES/DES/3DES硬件加密引擎，支持安全元件(SE)。', descEn: 'Built-in AES/DES/3DES hardware encryption, Secure Element (SE) support.' }
+            ],
+            models: [
+                { id: 'NR-100', name: 'NR-100', subtitle: '基础NFC模组', subtitleEn: 'Basic NFC Module', badge: '', icon: 'fas fa-wifi', specs: ['ISO 14443', 'USB/UART', '嵌入式', '低功耗'], specsEn: ['ISO 14443', 'USB/UART', 'Embedded', 'Low power'] },
+                { id: 'NR-300', name: 'NR-300', subtitle: '全功能非接读卡器', subtitleEn: 'Full-Feature Contactless Reader', badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-wifi', specs: ['全NFC协议', 'MDB/CCtalk/USB', 'IP65', 'LED/蜂鸣器'], specsEn: ['All NFC protocols', 'MDB/CCtalk/USB', 'IP65', 'LED/Buzzer'] }
+            ],
+            specifications: {
+                '基本参数': { titleEn: 'General', rows: [['工作频率', '13.56 MHz'], ['协议支持', 'ISO 14443A/B, ISO 15693, FeliCa, NFC Forum'], ['读取距离', '30-80mm（视标签类型）'], ['响应时间', '< 200ms']], rowsEn: [['Frequency', '13.56 MHz'], ['Protocols', 'ISO 14443A/B, ISO 15693, FeliCa, NFC Forum'], ['Read Range', '30-80mm (depends on tag type)'], ['Response Time', '< 200ms']] },
+                '接口与环境': { titleEn: 'Interface & Environment', rows: [['接口', 'MDB, CCtalk, USB HID, UART'], ['防护等级', 'IP65'], ['工作温度', '-20°C ~ 60°C'], ['电源', 'DC 5V / 12V']], rowsEn: [['Interface', 'MDB, CCtalk, USB HID, UART'], ['Protection', 'IP65'], ['Operating Temp', '-20°C ~ 60°C'], ['Power', 'DC 5V / 12V']] }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-charging-station', name: '充电桩', nameEn: 'EV Charging' },
+                { icon: 'fas fa-door-open', name: '门禁系统', nameEn: 'Access Control' },
+                { icon: 'fas fa-id-card', name: '会员识别', nameEn: 'Membership ID' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: 'NFC读卡器驱动', nameEn: 'NFC Reader Driver', desc: 'Windows/Linux', descEn: 'Windows/Linux', size: '10MB' },
+                { icon: 'fas fa-file-code', name: 'NFC集成开发文档', nameEn: 'NFC Integration Guide', desc: '协议与API说明', descEn: 'Protocol & API docs', size: '2.8MB' }
+            ],
+            relatedProducts: ['reader', 'scanner']
+        },
+
+        // ===== 子产品: VPOS TOUCH =====
+        'vpos-touch': {
+            id: 'vpos-touch',
+            pageFile: 'product-reader-vpos-touch.html',
+            parentCategory: 'reader',
+            category: 'VPOS TOUCH',
+            categoryEn: 'VPOS TOUCH',
+            title: 'VPOS TOUCH',
+            titleEn: 'VPOS TOUCH',
+            subtitle: '全触控智能读卡器，集成彩色显示屏与全支付方式',
+            subtitleEn: 'Full-touch smart card reader with integrated color display and all payment methods',
+            description: 'VPOS TOUCH是Totem旗舰级全触控智能读卡器，配备高分辨率彩色触控屏，支持IC卡、磁条卡、NFC手机支付、QR Code全支付方式。采用工业级防护设计，IP65防水防尘，适用于室内外各类自助支付终端。多协议兼容（MDB/CCtalk/USB/RS232/以太网），即插即用，支持OTA远程固件升级。',
+            descriptionEn: 'VPOS TOUCH is Totem\'s flagship full-touch smart card reader with a high-resolution color touchscreen, supporting IC card, magnetic stripe, NFC mobile payment, and QR Code. Industrial-grade IP65 protection, suitable for indoor/outdoor self-service terminals. Multi-protocol compatible (MDB/CCtalk/USB/RS232/Ethernet), plug-and-play with OTA remote firmware updates.',
+            heroIcon: 'fas fa-tablet-alt',
+            stats: [
+                { value: '5寸触控', label: '彩色显示屏', labelEn: 'Color Touchscreen' },
+                { value: '全支付', label: '支付方式', labelEn: 'Payment Methods' },
+                { value: 'IP65', label: '防护等级', labelEn: 'Protection' }
+            ],
+            features: [
+                { icon: 'fas fa-hand-pointer', title: '5寸彩色触控屏', titleEn: '5" Color Touchscreen', desc: '高分辨率IPS触控屏，支持自定义UI界面，支付信息实时显示，用户体验卓越。', descEn: 'High-resolution IPS touchscreen with customizable UI, real-time payment info display for excellent UX.' },
+                { icon: 'fas fa-credit-card', title: '全支付方式覆盖', titleEn: 'Full Payment Coverage', desc: 'IC卡(ISO 7816)、磁条卡(ISO 7811)、NFC(ISO 14443)、QR Code扫码，一机全覆盖。', descEn: 'IC card (ISO 7816), magnetic stripe (ISO 7811), NFC (ISO 14443), QR Code — all-in-one coverage.' },
+                { icon: 'fas fa-shield-alt', title: 'EMV L1/L2认证', titleEn: 'EMV L1/L2 Certified', desc: '通过EMV国际认证，符合PCI PTS安全标准，全球合规部署无忧。', descEn: 'EMV certified, PCI PTS compliant for worry-free global deployment.' },
+                { icon: 'fas fa-tint-slash', title: 'IP65工业防护', titleEn: 'IP65 Industrial Protection', desc: '防水防尘设计，工作温度-20°C至60°C，适合室内外恶劣环境。', descEn: 'Waterproof and dustproof, -20°C to 60°C operating temperature for harsh environments.' },
+                { icon: 'fas fa-plug', title: '多协议通信', titleEn: 'Multi-Protocol', desc: '原生支持MDB、CCtalk、USB HID、RS232、以太网，适配所有主流自助设备。', descEn: 'Native MDB, CCtalk, USB HID, RS232, Ethernet support for all major self-service devices.' },
+                { icon: 'fas fa-cloud-upload-alt', title: 'OTA远程升级', titleEn: 'OTA Remote Updates', desc: '支持固件OTA远程升级，无需现场维护，降低运维成本。', descEn: 'OTA firmware remote updates, no on-site maintenance needed, reduced operational costs.' }
+            ],
+            models: [],
+            specifications: {
+                '显示参数': {
+                    titleEn: 'Display',
+                    rows: [
+                        ['屏幕尺寸', '5.0英寸 IPS'],
+                        ['分辨率', '480 × 854 像素'],
+                        ['触控方式', '电容式多点触控'],
+                        ['亮度', '400 cd/m²']
+                    ],
+                    rowsEn: [
+                        ['Screen Size', '5.0" IPS'],
+                        ['Resolution', '480 × 854 pixels'],
+                        ['Touch', 'Capacitive multi-touch'],
+                        ['Brightness', '400 cd/m²']
+                    ]
+                },
+                '支付参数': {
+                    titleEn: 'Payment',
+                    rows: [
+                        ['IC卡', 'ISO 7816, EMV L1/L2'],
+                        ['磁条卡', 'ISO 7811, 双向读取'],
+                        ['NFC', 'ISO 14443 A/B, NFC Forum'],
+                        ['QR Code', '前置摄像头 / 红外扫码']
+                    ],
+                    rowsEn: [
+                        ['IC Card', 'ISO 7816, EMV L1/L2'],
+                        ['Magnetic Stripe', 'ISO 7811, bidirectional'],
+                        ['NFC', 'ISO 14443 A/B, NFC Forum'],
+                        ['QR Code', 'Front camera / IR scanner']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议', 'MDB, CCtalk, USB HID, RS232'],
+                        ['网络', '以太网 RJ45 / 4G可选'],
+                        ['固件升级', 'OTA远程 / USB本地']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'MDB, CCtalk, USB HID, RS232'],
+                        ['Network', 'Ethernet RJ45 / 4G optional'],
+                        ['Firmware', 'OTA remote / USB local']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP65'],
+                        ['工作温度', '-20°C ~ 60°C'],
+                        ['存储温度', '-40°C ~ 80°C'],
+                        ['湿度', '10% ~ 90% RH（非凝结）']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP65'],
+                        ['Operating Temp', '-20°C ~ 60°C'],
+                        ['Storage Temp', '-40°C ~ 80°C'],
+                        ['Humidity', '10% ~ 90% RH (non-condensing)']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '145×95×52mm'],
+                        ['重量', '约350g（不含线缆）'],
+                        ['安装方式', '面板嵌入 / 壁挂支架'],
+                        ['电源', 'DC 12V / 24V 自适应']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '145×95×52mm'],
+                        ['Weight', '~350g (excl. cable)'],
+                        ['Mounting', 'Panel mount / Wall bracket'],
+                        ['Power', 'DC 12V / 24V auto-detect']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-charging-station', name: '充电桩', nameEn: 'EV Charging' },
+                { icon: 'fas fa-ticket-alt', name: '自助售票机', nameEn: 'Ticket Kiosks' },
+                { icon: 'fas fa-shopping-cart', name: '无人零售', nameEn: 'Unattended Retail' },
+                { icon: 'fas fa-desktop', name: '自助终端', nameEn: 'Self-Service Kiosks' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: 'VPOS TOUCH 驱动程序', nameEn: 'VPOS TOUCH Driver', desc: 'Windows/Linux/macOS', descEn: 'Windows/Linux/macOS', size: '22MB' },
+                { icon: 'fas fa-file-code', name: 'API集成开发文档', nameEn: 'API Integration Guide', desc: '全协议接口说明', descEn: 'All protocol interface docs', size: '3.2MB' },
+                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '接线图与调试步骤', descEn: 'Wiring diagram & debugging', size: '6.5MB' },
+                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数一览', descEn: 'Full technical specifications', size: '2.3MB' }
+            ],
+            relatedProducts: ['reader']
+        },
+
+        // ===== 子产品: ONYX =====
+        'onyx': {
+            id: 'onyx',
+            pageFile: 'product-reader-onyx.html',
+            parentCategory: 'reader',
+            category: 'ONYX',
+            categoryEn: 'ONYX',
+            title: 'ONYX',
+            titleEn: 'ONYX',
+            subtitle: '紧凑型多功能读卡器，小巧机身蕴含强大支付能力',
+            subtitleEn: 'Compact multi-function card reader, small body with powerful payment capabilities',
+            description: 'ONYX是Totem推出的紧凑型多功能读卡器，采用极简工业设计，机身小巧却功能全面。支持IC卡和NFC非接触式支付，IP65防护等级，即插即用。特别适合空间有限的自助设备集成，如咖啡机、自助洗衣、智能储物柜等场景。',
+            descriptionEn: 'ONYX is Totem\'s compact multi-function card reader with minimalist industrial design. Small yet powerful, supporting IC card and NFC contactless payment, IP65 rated, plug-and-play. Ideal for space-constrained device integration like coffee machines, laundry, smart lockers.',
+            heroIcon: 'fas fa-credit-card',
+            stats: [
+                { value: '紧凑', label: '机身设计', labelEn: 'Compact Design' },
+                { value: 'IC+NFC', label: '支付方式', labelEn: 'Payment Methods' },
+                { value: 'IP65', label: '防护等级', labelEn: 'Protection' }
+            ],
+            features: [
+                { icon: 'fas fa-compress-arrows-alt', title: '超紧凑设计', titleEn: 'Ultra-Compact Design', desc: '机身仅90×60×30mm，轻松嵌入各类小型自助设备面板，不占用额外空间。', descEn: 'Only 90×60×30mm, easily embedded into any small self-service device panel without extra space.' },
+                { icon: 'fas fa-credit-card', title: 'IC卡+NFC支付', titleEn: 'IC Card + NFC Payment', desc: '支持ISO 7816 IC卡和ISO 14443 NFC非接触式支付，覆盖主流支付场景。', descEn: 'ISO 7816 IC card and ISO 14443 NFC contactless payment for mainstream payment scenarios.' },
+                { icon: 'fas fa-tint-slash', title: 'IP65防水防尘', titleEn: 'IP65 Waterproof', desc: '工业级防护设计，-20°C至60°C宽温工作，适应各种恶劣环境。', descEn: 'Industrial protection, -20°C to 60°C wide temperature range for harsh environments.' },
+                { icon: 'fas fa-plug', title: '即插即用', titleEn: 'Plug & Play', desc: '支持MDB/CCtalk/USB HID协议，兼容所有主流自助设备主控板。', descEn: 'MDB/CCtalk/USB HID protocol support, compatible with all major self-service device controllers.' },
+                { icon: 'fas fa-bolt', title: '低功耗设计', titleEn: 'Low Power Design', desc: '工作功耗仅1.5W，待机功耗<0.3W，适合功耗敏感型设备。', descEn: 'Only 1.5W working power, <0.3W standby, perfect for power-sensitive devices.' },
+                { icon: 'fas fa-wrench', title: '易安装维护', titleEn: 'Easy Install & Maintenance', desc: '标准面板开孔设计，前维护结构，5分钟快速安装。', descEn: 'Standard panel cutout, front-access maintenance, 5-minute quick installation.' }
+            ],
+            models: [],
+            specifications: {
+                '支付参数': {
+                    titleEn: 'Payment',
+                    rows: [
+                        ['IC卡', 'ISO 7816, EMV L1/L2'],
+                        ['NFC', 'ISO 14443 A/B, MIFARE'],
+                        ['交易速度', '< 0.5秒']
+                    ],
+                    rowsEn: [
+                        ['IC Card', 'ISO 7816, EMV L1/L2'],
+                        ['NFC', 'ISO 14443 A/B, MIFARE'],
+                        ['Transaction Speed', '< 0.5s']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议', 'MDB, CCtalk, USB HID'],
+                        ['接口', 'USB Type-C / MDB 6pin'],
+                        ['指示灯', 'LED状态指示（红/绿/蓝）']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'MDB, CCtalk, USB HID'],
+                        ['Connector', 'USB Type-C / MDB 6pin'],
+                        ['Indicator', 'LED status (Red/Green/Blue)']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP65'],
+                        ['工作温度', '-20°C ~ 60°C'],
+                        ['存储温度', '-40°C ~ 80°C'],
+                        ['湿度', '10% ~ 90% RH（非凝结）']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP65'],
+                        ['Operating Temp', '-20°C ~ 60°C'],
+                        ['Storage Temp', '-40°C ~ 80°C'],
+                        ['Humidity', '10% ~ 90% RH (non-condensing)']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '90×60×30mm'],
+                        ['重量', '约85g（不含线缆）'],
+                        ['安装方式', '面板嵌入式'],
+                        ['电源', 'DC 5V / 12V 自适应']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '90×60×30mm'],
+                        ['Weight', '~85g (excl. cable)'],
+                        ['Mounting', 'Panel mount'],
+                        ['Power', 'DC 5V / 12V auto-detect']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-coffee', name: '咖啡机', nameEn: 'Coffee Machines' },
+                { icon: 'fas fa-tshirt', name: '自助洗衣', nameEn: 'Self-Service Laundry' },
+                { icon: 'fas fa-lock', name: '智能储物柜', nameEn: 'Smart Lockers' },
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-mug-hot', name: '果汁机/奶茶机', nameEn: 'Juice/Bubble Tea Machines' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: 'ONYX 驱动程序', nameEn: 'ONYX Driver', desc: 'Windows/Linux', descEn: 'Windows/Linux', size: '12MB' },
+                { icon: 'fas fa-file-code', name: 'API集成文档', nameEn: 'API Integration Guide', desc: 'MDB/CCtalk/USB协议', descEn: 'MDB/CCtalk/USB protocols', size: '2.0MB' },
+                { icon: 'fas fa-book', name: '安装手册', nameEn: 'Installation Manual', desc: '快速安装指南', descEn: 'Quick installation guide', size: '3.5MB' }
+            ],
+            relatedProducts: ['reader']
+        },
+
+        // ===== 子产品: VPOS Media 4 =====
+        'vpos-media4': {
+            id: 'vpos-media4',
+            pageFile: 'product-reader-vpos-media4.html',
+            parentCategory: 'reader',
+            category: 'VPOS Media 4',
+            categoryEn: 'VPOS Media 4',
+            title: 'VPOS Media 4',
+            titleEn: 'VPOS Media 4',
+            subtitle: '多媒体智能支付终端，大屏交互与全支付融合',
+            subtitleEn: 'Multimedia smart payment terminal, large screen interaction with full payment integration',
+            description: 'VPOS Media 4是Totem推出的多媒体智能支付终端，配备7英寸高清显示屏，支持多媒体广告播放与支付交互双模式。集成IC卡、NFC、QR Code、磁条卡全支付方式，支持以太网/4G网络通信。适用于高端自助售货机、自助终端、信息查询机等场景。',
+            descriptionEn: 'VPOS Media 4 is Totem\'s multimedia smart payment terminal with a 7-inch HD display, supporting multimedia ad playback and payment interaction dual modes. Integrated IC card, NFC, QR Code, magnetic stripe full payment with Ethernet/4G. Ideal for premium vending machines, kiosks, and information terminals.',
+            heroIcon: 'fas fa-tv',
+            stats: [
+                { value: '7寸高清', label: '显示屏', labelEn: 'HD Display' },
+                { value: '多媒体', label: '广告播放', labelEn: 'Ad Playback' },
+                { value: '以太网/4G', label: '网络通信', labelEn: 'Networking' }
+            ],
+            features: [
+                { icon: 'fas fa-tv', title: '7英寸高清大屏', titleEn: '7" HD Display', desc: '7英寸IPS高清显示屏，支持1080p视频播放，可用于广告展示和用户交互。', descEn: '7" IPS HD display with 1080p video playback for advertising and user interaction.' },
+                { icon: 'fas fa-film', title: '多媒体广告播放', titleEn: 'Multimedia Ad Playback', desc: '支持图片轮播、视频广告、动态UI，空闲时自动播放，提升营收。', descEn: 'Image carousel, video ads, dynamic UI, auto-play during idle for additional revenue.' },
+                { icon: 'fas fa-credit-card', title: '全支付方式', titleEn: 'Full Payment Methods', desc: 'IC卡、磁条卡、NFC、QR Code全覆盖，满足不同用户支付偏好。', descEn: 'IC card, magnetic stripe, NFC, QR Code full coverage for all user payment preferences.' },
+                { icon: 'fas fa-network-wired', title: '以太网+4G通信', titleEn: 'Ethernet + 4G', desc: '双网络通道设计，以太网为主、4G备份，确保支付永不中断。', descEn: 'Dual network channel design, Ethernet primary with 4G backup for uninterrupted payments.' },
+                { icon: 'fas fa-cogs', title: '开放Android系统', titleEn: 'Open Android OS', desc: '基于Android系统，支持第三方应用开发，灵活定制业务逻辑。', descEn: 'Android-based OS with third-party app development support for flexible business logic customization.' },
+                { icon: 'fas fa-shield-alt', title: '安全可靠', titleEn: 'Secure & Reliable', desc: 'EMV认证+PCI PTS合规，硬件加密引擎，交易数据全程加密传输。', descEn: 'EMV certified + PCI PTS compliant, hardware encryption engine for secure transaction data.' }
+            ],
+            models: [],
+            specifications: {
+                '显示参数': {
+                    titleEn: 'Display',
+                    rows: [
+                        ['屏幕尺寸', '7.0英寸 IPS'],
+                        ['分辨率', '1024 × 600 像素'],
+                        ['触控方式', '电容式多点触控'],
+                        ['亮度', '500 cd/m²']
+                    ],
+                    rowsEn: [
+                        ['Screen Size', '7.0" IPS'],
+                        ['Resolution', '1024 × 600 pixels'],
+                        ['Touch', 'Capacitive multi-touch'],
+                        ['Brightness', '500 cd/m²']
+                    ]
+                },
+                '支付参数': {
+                    titleEn: 'Payment',
+                    rows: [
+                        ['IC卡', 'ISO 7816, EMV L1/L2'],
+                        ['磁条卡', 'ISO 7811, 双向读取'],
+                        ['NFC', 'ISO 14443 A/B, NFC Forum'],
+                        ['QR Code', '摄像头扫码']
+                    ],
+                    rowsEn: [
+                        ['IC Card', 'ISO 7816, EMV L1/L2'],
+                        ['Magnetic Stripe', 'ISO 7811, bidirectional'],
+                        ['NFC', 'ISO 14443 A/B, NFC Forum'],
+                        ['QR Code', 'Camera scanning']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议', 'MDB, CCtalk, USB HID, RS232'],
+                        ['网络', '以太网 RJ45 / 4G LTE'],
+                        ['Wi-Fi', '802.11 b/g/n'],
+                        ['蓝牙', 'BLE 5.0']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'MDB, CCtalk, USB HID, RS232'],
+                        ['Network', 'Ethernet RJ45 / 4G LTE'],
+                        ['Wi-Fi', '802.11 b/g/n'],
+                        ['Bluetooth', 'BLE 5.0']
+                    ]
+                },
+                '系统参数': {
+                    titleEn: 'System',
+                    rows: [
+                        ['处理器', '四核 ARM Cortex-A53'],
+                        ['内存', '2GB RAM + 16GB ROM'],
+                        ['操作系统', 'Android 11+'],
+                        ['扩展', 'MicroSD卡槽']
+                    ],
+                    rowsEn: [
+                        ['Processor', 'Quad-core ARM Cortex-A53'],
+                        ['Memory', '2GB RAM + 16GB ROM'],
+                        ['OS', 'Android 11+'],
+                        ['Expansion', 'MicroSD slot']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP54'],
+                        ['工作温度', '0°C ~ 50°C'],
+                        ['存储温度', '-20°C ~ 70°C'],
+                        ['湿度', '10% ~ 85% RH（非凝结）']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP54'],
+                        ['Operating Temp', '0°C ~ 50°C'],
+                        ['Storage Temp', '-20°C ~ 70°C'],
+                        ['Humidity', '10% ~ 85% RH (non-condensing)']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '200×130×45mm'],
+                        ['重量', '约520g'],
+                        ['安装方式', '面板嵌入 / 桌面支架'],
+                        ['电源', 'DC 12V / 24V']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '200×130×45mm'],
+                        ['Weight', '~520g'],
+                        ['Mounting', 'Panel mount / Desktop stand'],
+                        ['Power', 'DC 12V / 24V']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '高端售货机', nameEn: 'Premium Vending' },
+                { icon: 'fas fa-desktop', name: '自助终端/Kiosk', nameEn: 'Self-Service Kiosks' },
+                { icon: 'fas fa-info-circle', name: '信息查询机', nameEn: 'Info Kiosks' },
+                { icon: 'fas fa-ticket-alt', name: '自助售票机', nameEn: 'Ticket Kiosks' },
+                { icon: 'fas fa-hospital', name: '医院自助机', nameEn: 'Hospital Kiosks' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: 'VPOS Media 4 驱动', nameEn: 'VPOS Media 4 Driver', desc: 'Android SDK / USB驱动', descEn: 'Android SDK / USB driver', size: '28MB' },
+                { icon: 'fas fa-file-code', name: 'API集成文档', nameEn: 'API Integration Guide', desc: '全协议接口说明', descEn: 'All protocol interface docs', size: '4.5MB' },
+                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '安装接线与调试', descEn: 'Installation & debugging', size: '7.8MB' },
+                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数', descEn: 'Full specifications', size: '3.1MB' }
+            ],
+            relatedProducts: ['reader']
+        },
+
+        // ===== 子产品: VPOS Media 4 Mini =====
+        'vpos-media4-mini': {
+            id: 'vpos-media4-mini',
+            pageFile: 'product-reader-vpos-media4-mini.html',
+            parentCategory: 'reader',
+            category: 'VPOS Media 4 Mini',
+            categoryEn: 'VPOS Media 4 Mini',
+            title: 'VPOS Media 4 Mini',
+            titleEn: 'VPOS Media 4 Mini',
+            subtitle: '迷你多媒体读卡器，小巧机身支持多媒体与全支付',
+            subtitleEn: 'Mini multimedia reader, compact body with multimedia and full payment support',
+            description: 'VPOS Media 4 Mini是VPOS Media 4的紧凑版本，在保持多媒体播放和全支付能力的同时，大幅缩小机身尺寸。配备4.3英寸触控屏，支持IC卡、NFC、QR Code支付，USB/RS232通信，低功耗设计。特别适合空间有限但仍需多媒体展示的自助设备。',
+            descriptionEn: 'VPOS Media 4 Mini is the compact version of VPOS Media 4, maintaining multimedia playback and full payment capabilities in a much smaller form factor. 4.3" touchscreen, IC card, NFC, QR Code payment, USB/RS232, low power design. Ideal for space-limited devices needing multimedia display.',
+            heroIcon: 'fas fa-mobile-alt',
+            stats: [
+                { value: '4.3寸', label: '触控屏', labelEn: 'Touchscreen' },
+                { value: 'IC+NFC+QR', label: '支付方式', labelEn: 'Payments' },
+                { value: '< 3W', label: '总功耗', labelEn: 'Power' }
+            ],
+            features: [
+                { icon: 'fas fa-mobile-alt', title: '4.3英寸触控屏', titleEn: '4.3" Touchscreen', desc: '紧凑尺寸触控屏，支持支付信息显示与简单多媒体播放。', descEn: 'Compact touchscreen with payment info display and basic multimedia playback.' },
+                { icon: 'fas fa-credit-card', title: 'IC卡+NFC+QR支付', titleEn: 'IC+NFC+QR Payment', desc: '支持IC卡、NFC非接触、QR Code扫码三种支付方式。', descEn: 'IC card, NFC contactless, and QR Code scanning — three payment methods.' },
+                { icon: 'fas fa-battery-quarter', title: '超低功耗', titleEn: 'Ultra-Low Power', desc: '总功耗<3W，待机<0.5W，适合电池或太阳能供电设备。', descEn: 'Total power <3W, standby <0.5W, suitable for battery or solar-powered devices.' },
+                { icon: 'fas fa-compress-arrows-alt', title: '迷你机身', titleEn: 'Mini Form Factor', desc: '仅130×85×35mm，比Media 4缩小35%，轻松集成到小型设备。', descEn: 'Only 130×85×35mm, 35% smaller than Media 4, easy integration into small devices.' },
+                { icon: 'fas fa-plug', title: 'USB/RS232通信', titleEn: 'USB/RS232', desc: '支持USB HID和RS232串口通信，兼容主流自助设备主控。', descEn: 'USB HID and RS232 serial communication, compatible with major device controllers.' },
+                { icon: 'fas fa-palette', title: '自定义界面', titleEn: 'Custom UI', desc: '支持自定义开机画面、支付动画、LED指示灯颜色配置。', descEn: 'Custom boot screen, payment animations, and LED indicator color configuration.' }
+            ],
+            models: [],
+            specifications: {
+                '显示参数': {
+                    titleEn: 'Display',
+                    rows: [
+                        ['屏幕尺寸', '4.3英寸 TFT'],
+                        ['分辨率', '480 × 272 像素'],
+                        ['触控方式', '电容式触控'],
+                        ['亮度', '350 cd/m²']
+                    ],
+                    rowsEn: [
+                        ['Screen Size', '4.3" TFT'],
+                        ['Resolution', '480 × 272 pixels'],
+                        ['Touch', 'Capacitive'],
+                        ['Brightness', '350 cd/m²']
+                    ]
+                },
+                '支付参数': {
+                    titleEn: 'Payment',
+                    rows: [
+                        ['IC卡', 'ISO 7816, EMV L1/L2'],
+                        ['NFC', 'ISO 14443 A/B'],
+                        ['QR Code', '红外扫码模组']
+                    ],
+                    rowsEn: [
+                        ['IC Card', 'ISO 7816, EMV L1/L2'],
+                        ['NFC', 'ISO 14443 A/B'],
+                        ['QR Code', 'IR scan module']
+                    ]
+                },
+                '通信接口': {
+                    titleEn: 'Interface',
+                    rows: [
+                        ['协议', 'USB HID, RS232'],
+                        ['接口', 'USB Type-C / DB9串口'],
+                        ['指示灯', 'LED状态指示']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'USB HID, RS232'],
+                        ['Connector', 'USB Type-C / DB9 serial'],
+                        ['Indicator', 'LED status']
+                    ]
+                },
+                '环境参数': {
+                    titleEn: 'Environmental',
+                    rows: [
+                        ['防护等级', 'IP54'],
+                        ['工作温度', '-10°C ~ 50°C'],
+                        ['存储温度', '-30°C ~ 70°C'],
+                        ['湿度', '10% ~ 85% RH（非凝结）']
+                    ],
+                    rowsEn: [
+                        ['Protection', 'IP54'],
+                        ['Operating Temp', '-10°C ~ 50°C'],
+                        ['Storage Temp', '-30°C ~ 70°C'],
+                        ['Humidity', '10% ~ 85% RH (non-condensing)']
+                    ]
+                },
+                '物理参数': {
+                    titleEn: 'Physical',
+                    rows: [
+                        ['尺寸 (L×W×H)', '130×85×35mm'],
+                        ['重量', '约180g'],
+                        ['安装方式', '面板嵌入式'],
+                        ['电源', 'DC 5V / 12V']
+                    ],
+                    rowsEn: [
+                        ['Dimensions', '130×85×35mm'],
+                        ['Weight', '~180g'],
+                        ['Mounting', 'Panel mount'],
+                        ['Power', 'DC 5V / 12V']
+                    ]
+                }
+            },
+            scenarios: [
+                { icon: 'fas fa-box-open', name: '自动售货机', nameEn: 'Vending Machines' },
+                { icon: 'fas fa-coffee', name: '咖啡机', nameEn: 'Coffee Machines' },
+                { icon: 'fas fa-lock', name: '自助寄存柜', nameEn: 'Self-Service Lockers' },
+                { icon: 'fas fa-gamepad', name: '游戏游艺机', nameEn: 'Gaming Machines' },
+                { icon: 'fas fa-swimming-pool', name: '自助洗车', nameEn: 'Self-Service Car Wash' }
+            ],
+            downloads: [
+                { icon: 'fas fa-download', name: 'VPOS Media 4 Mini 驱动', nameEn: 'VPOS Media 4 Mini Driver', desc: 'Windows/Linux', descEn: 'Windows/Linux', size: '15MB' },
+                { icon: 'fas fa-file-code', name: 'API集成文档', nameEn: 'API Integration Guide', desc: 'USB/RS232接口说明', descEn: 'USB/RS232 interface docs', size: '2.2MB' },
+                { icon: 'fas fa-book', name: '安装手册', nameEn: 'Installation Manual', desc: '快速安装指南', descEn: 'Quick installation guide', size: '4.0MB' }
+            ],
+            relatedProducts: ['reader']
+        }
+        
+    };
+    // ==================== 1B. 解决方案数据 ====================
+var SOLUTION_DATA = {
+    vending: {
+        id: 'vending',
+        pageFile: 'solution-vending.html',
+        icon: 'fas fa-box-open',
+        title: '自动售货机',
+        titleEn: 'Vending Machines',
+        subtitle: '读卡器+纸币器+硬币器一体化集成方案',
+        subtitleEn: 'All-in-one card reader + bill validator + coin acceptor integration',
+        description: 'Totem为自动售货机提供完整的支付硬件集成方案，涵盖读卡器、纸币器、硬币器三大核心模块。支持MDB/CCtalk标准协议，即插即用。从零食饮料售货机到生鲜无人柜，Totem模块已在50万+台售货机上稳定运行。',
+        descriptionEn: 'Totem provides complete payment hardware integration for vending machines, covering card readers, bill validators, and coin acceptors. MDB/CCtalk plug-and-play. Totem modules are stably running on 500K+ vending machines worldwide.',
+        highlights: [
+            { icon: 'fas fa-puzzle-piece', title: '模块化集成', titleEn: 'Modular Integration', desc: '读卡器、纸币器、硬币器独立模块，按需组合，适配各类售货机机型。', descEn: 'Independent modules for card reader, bill validator, coin acceptor — mix and match for any vending machine type.' },
+            { icon: 'fas fa-hand-holding-usd', title: '混合支付', titleEn: 'Hybrid Payment', desc: '同时支持现金（纸币+硬币）与电子支付（NFC+QR），覆盖所有用户群体。', descEn: 'Simultaneous cash (bills + coins) and electronic (NFC + QR) payment support for all user demographics.' },
+            { icon: 'fas fa-chart-line', title: '交易数据分析', titleEn: 'Transaction Analytics', desc: '支持云端交易数据上传，实时监控每台设备的支付状态与营收数据。', descEn: 'Cloud transaction data upload for real-time monitoring of payment status and revenue per device.' },
+            { icon: 'fas fa-tools', title: '远程运维', titleEn: 'Remote Management', desc: '通过以太网/4G模块实现远程固件升级、故障诊断与参数配置。', descEn: 'Remote firmware update, fault diagnosis, and parameter configuration via Ethernet/4G.' }
+        ],
+        products: ['reader', 'banknote', 'coin'],
+        stats: [
+            { value: '500K+', label: '已部署设备', labelEn: 'Deployed Devices' },
+            { value: '99.5%', label: '支付成功率', labelEn: 'Payment Success Rate' },
+            { value: '45%', label: '故障率降低', labelEn: 'Failure Rate Reduction' }
+        ]
+    },
+    charging: {
+        id: 'charging',
+        pageFile: 'solution-charging.html',
+        icon: 'fas fa-charging-station',
+        title: '充电桩支付',
+        titleEn: 'EV Charging Payment',
+        subtitle: '户外耐用读卡器，无现金支付升级方案',
+        subtitleEn: 'Outdoor durable card readers, cashless payment upgrade solution',
+        description: 'Totem为充电桩运营商提供IP65/IP67级户外耐用读卡器，支持NFC手机支付与IC卡充电卡，兼容OCPP协议。宽温设计(-20°C~60°C)确保在极端气候下稳定运行，助力充电桩从投币时代迈入无现金支付。',
+        descriptionEn: 'Totem provides IP65/IP67 outdoor durable card readers for EV charging operators, supporting NFC mobile and IC charging cards, OCPP compatible. Wide temperature design (-20°C to 60°C) ensures stable operation in extreme climates.',
+        highlights: [
+            { icon: 'fas fa-tint-slash', title: '户外工业防护', titleEn: 'Outdoor Industrial Protection', desc: 'IP65/IP67防水防尘，-20°C~60°C宽温工作，防紫外线外壳设计。', descEn: 'IP65/IP67 waterproof, -20°C to 60°C wide temp, UV-resistant housing.' },
+            { icon: 'fas fa-wifi', title: 'NFC无接触支付', titleEn: 'Contactless NFC Payment', desc: '支持Apple Pay、Google Pay及各类充电会员卡NFC刷卡。', descEn: 'Apple Pay, Google Pay, and various charging membership NFC cards.' },
+            { icon: 'fas fa-plug', title: 'OCPP协议兼容', titleEn: 'OCPP Compatible', desc: '原生支持OCPP 1.6/2.0协议，与主流充电桩管理平台无缝对接。', descEn: 'Native OCPP 1.6/2.0 support, seamless integration with major charging platforms.' },
+            { icon: 'fas fa-solar-panel', title: '低功耗设计', titleEn: 'Low Power Design', desc: '待机功耗<1W，适合太阳能供电等离网充电场景。', descEn: 'Standby power <1W, suitable for solar-powered off-grid charging scenarios.' }
+        ],
+        products: ['reader', 'nfc'],
+        stats: [
+            { value: '20K+', label: '充电桩已接入', labelEn: 'Charging Points' },
+            { value: '99.8%', label: '支付可用率', labelEn: 'Payment Uptime' },
+            { value: 'IP67', label: '最高防护等级', labelEn: 'Max Protection' }
+        ]
+    },
+    ticket: {
+        id: 'ticket',
+        pageFile: 'solution-ticket.html',
+        icon: 'fas fa-ticket-alt',
+        title: '自助售票/取票机',
+        titleEn: 'Self-Service Ticket Kiosks',
+        subtitle: '高安全性纸币接收，大容量硬币找零',
+        subtitleEn: 'High-security bill acceptance, large capacity coin change',
+        description: 'Totem为自助售票/取票机提供纸币器+硬币器+读卡器组合方案。纸币器具备四重鉴伪技术，硬币器支持多币种自动找零，读卡器支持交通卡/银行卡NFC支付。适用于地铁站、景区、影院等高流量场景。',
+        descriptionEn: 'Totem provides bill validator + coin acceptor + card reader combos for ticket kiosks. Quadruple counterfeit detection, multi-currency auto-change, NFC transit/bank card payment. Ideal for metro stations, attractions, cinemas.',
+        highlights: [
+            { icon: 'fas fa-search-dollar', title: '四重鉴伪安全', titleEn: 'Quadruple Detection Security', desc: '红外+紫外+磁性+图像四重鉴伪，有效防止假币欺诈。', descEn: 'IR + UV + Magnetic + Image quadruple detection prevents counterfeit fraud.' },
+            { icon: 'fas fa-coins', title: '大容量找零', titleEn: 'High-Capacity Change', desc: '硬币器4管储存，纸币器循环找零，减少高峰时段运维。', descEn: '4-tube coin storage, bill recycling change, reducing peak-hour maintenance.' },
+            { icon: 'fas fa-id-card', title: '交通卡兼容', titleEn: 'Transit Card Compatible', desc: '支持城市交通卡、银行卡NFC刷卡，符合PBOC/EMV标准。', descEn: 'City transit cards, bank card NFC, PBOC/EMV compliant.' },
+            { icon: 'fas fa-users', title: '高并发处理', titleEn: 'High Concurrency', desc: '交易响应<0.5秒，支撑高峰时段每分钟数十笔交易。', descEn: 'Transaction response <0.5s, supports dozens of transactions per minute at peak.' }
+        ],
+        products: ['reader', 'banknote', 'coin'],
+        stats: [
+            { value: '5K+', label: '售票机已部署', labelEn: 'Kiosks Deployed' },
+            { value: '99.2%', label: '纸币识别率', labelEn: 'Bill Accuracy' },
+            { value: '< 0.5s', label: '交易响应', labelEn: 'Txn Response' }
+        ]
+    },
+    laundry: {
+        id: 'laundry',
+        pageFile: 'solution-laundry.html',
+        icon: 'fas fa-tshirt',
+        title: '自助洗衣/储物柜',
+        titleEn: 'Laundry & Locker Systems',
+        subtitle: '硬币器模块+读卡器组合，低成本快速部署',
+        subtitleEn: 'Coin acceptor + card reader combo, low-cost rapid deployment',
+        description: 'Totem为自助洗衣房和智能储物柜提供紧凑型硬币器+读卡器组合方案。硬币器支持多币种识别，读卡器支持NFC会员卡/手机支付。模块化设计可快速安装至现有设备，低成本升级支付系统。',
+        descriptionEn: 'Totem provides compact coin acceptor + card reader combos for laundry rooms and smart lockers. Multi-coin recognition, NFC membership/mobile payment. Modular design for quick installation and low-cost payment upgrade.',
+        highlights: [
+            { icon: 'fas fa-compress-arrows-alt', title: '紧凑型设计', titleEn: 'Compact Design', desc: '硬币器+读卡器集成面板，最小化安装空间，适配各类设备面板。', descEn: 'Integrated coin reader + card reader panel, minimal space, fits any device panel.' },
+            { icon: 'fas fa-dollar-sign', title: '低成本部署', titleEn: 'Low-Cost Deployment', desc: '即插即用MDB/脉冲协议，无需改动设备主控，15分钟完成安装。', descEn: 'Plug-and-play MDB/Pulse protocol, no main controller changes, 15-minute installation.' },
+            { icon: 'fas fa-mobile-alt', title: 'NFC会员卡', titleEn: 'NFC Membership Card', desc: '支持洗衣店/储物柜自定义NFC会员卡，充值消费一体化。', descEn: 'Custom NFC membership cards for laundry/lockers, integrated top-up and spending.' },
+            { icon: 'fas fa-battery-full', title: '超低功耗', titleEn: 'Ultra-Low Power', desc: '总功耗<3W，适合电池供电或太阳能辅助的户外储物柜。', descEn: 'Total power <3W, suitable for battery or solar-powered outdoor lockers.' }
+        ],
+        products: ['coin', 'reader'],
+        stats: [
+            { value: '100K+', label: '设备已接入', labelEn: 'Devices Connected' },
+            { value: '15min', label: '平均安装时间', labelEn: 'Avg Install Time' },
+            { value: '< 3W', label: '总功耗', labelEn: 'Total Power' }
+        ]
+    },
+    retail: {
+        id: 'retail',
+        pageFile: 'solution-retail.html',
+        icon: 'fas fa-shopping-cart',
+        title: '无人零售柜',
+        titleEn: 'Unattended Retail',
+        subtitle: '扫码+刷卡+现金全支付覆盖，提升转化率',
+        subtitleEn: 'QR + card + cash full payment coverage, boosting conversion rates',
+        description: 'Totem为无人零售柜/智能货柜提供扫码器+读卡器+纸币器全支付方案。支持商品扫码识别、NFC/银行卡支付、纸币/硬币现金收款，多种支付方式并行提升30%以上交易转化率。',
+        descriptionEn: 'Totem provides scanner + card reader + bill validator full payment for unmanned retail cabinets. Product barcode scanning, NFC/bank card, bill/coin cash collection. Multiple payment methods boost conversion by 30%+.',
+        highlights: [
+            { icon: 'fas fa-qrcode', title: '扫码识别', titleEn: 'QR & Barcode Scanning', desc: '1D/2D扫码器快速识别商品条码与用户支付码，一扫即付。', descEn: '1D/2D scanner rapidly reads product barcodes and payment QR codes.' },
+            { icon: 'fas fa-layer-group', title: '全支付并行', titleEn: 'Parallel All Payments', desc: '扫码、刷卡、NFC、纸币、硬币五种支付方式同时可用。', descEn: 'QR, card, NFC, bill, coin — five payment methods available simultaneously.' },
+            { icon: 'fas fa-brain', title: '智能库存联动', titleEn: 'Smart Inventory Sync', desc: '支付数据实时同步库存管理系统，自动触发补货提醒。', descEn: 'Payment data syncs with inventory management, auto-triggers restock alerts.' },
+            { icon: 'fas fa-lock', title: '交易安全审计', titleEn: 'Transaction Audit Trail', desc: '每笔交易完整记录，支持云端对账与财务审计。', descEn: 'Complete transaction logging, cloud reconciliation and financial audit support.' }
+        ],
+        products: ['reader', 'scanner', 'banknote'],
+        stats: [
+            { value: '30%+', label: '转化率提升', labelEn: 'Conversion Boost' },
+            { value: '5种', label: '支付方式', labelEn: 'Payment Methods' },
+            { value: '24/7', label: '无人值守', labelEn: 'Unattended' }
+        ]
+    }
+};
+
+    // ==================== 1F. 搜索配置数据 ====================
+    var SEARCH_CONFIG = {
+        countries: [
+            { code: 'all', name: '全部国家/地区', nameEn: 'All Countries/Regions' },
+            { code: 'CN', name: '中国', nameEn: 'China', flag: '🇨🇳' },
+            { code: 'US', name: '美国', nameEn: 'United States', flag: '🇺🇸' },
+            { code: 'EU', name: '欧洲', nameEn: 'Europe', flag: '🇪🇺' },
+            { code: 'UK', name: '英国', nameEn: 'United Kingdom', flag: '🇬🇧' },
+            { code: 'JP', name: '日本', nameEn: 'Japan', flag: '🇯🇵' },
+            { code: 'KR', name: '韩国', nameEn: 'South Korea', flag: '🇰🇷' },
+            { code: 'AU', name: '澳大利亚', nameEn: 'Australia', flag: '🇦🇺' },
+            { code: 'IN', name: '印度', nameEn: 'India', flag: '🇮🇳' },
+            { code: 'BR', name: '巴西', nameEn: 'Brazil', flag: '🇧🇷' },
+            { code: 'RU', name: '俄罗斯', nameEn: 'Russia', flag: '🇷🇺' },
+            { code: 'AE', name: '阿联酋', nameEn: 'UAE', flag: '🇦🇪' },
+            { code: 'SA', name: '沙特阿拉伯', nameEn: 'Saudi Arabia', flag: '🇸🇦' },
+            { code: 'TH', name: '泰国', nameEn: 'Thailand', flag: '🇹🇭' },
+            { code: 'VN', name: '越南', nameEn: 'Vietnam', flag: '🇻🇳' },
+            { code: 'ID', name: '印度尼西亚', nameEn: 'Indonesia', flag: '🇮🇩' },
+            { code: 'MY', name: '马来西亚', nameEn: 'Malaysia', flag: '🇲🇾' },
+            { code: 'PH', name: '菲律宾', nameEn: 'Philippines', flag: '🇵🇭' },
+            { code: 'SG', name: '新加坡', nameEn: 'Singapore', flag: '🇸🇬' },
+            { code: 'MX', name: '墨西哥', nameEn: 'Mexico', flag: '🇲🇽' },
+            { code: 'ZA', name: '南非', nameEn: 'South Africa', flag: '🇿🇦' },
+            { code: 'NG', name: '尼日利亚', nameEn: 'Nigeria', flag: '🇳🇬' },
+            { code: 'EG', name: '埃及', nameEn: 'Egypt', flag: '🇪🇬' },
+            { code: 'TR', name: '土耳其', nameEn: 'Turkey', flag: '🇹🇷' },
+            { code: 'DE', name: '德国', nameEn: 'Germany', flag: '🇩🇪' },
+            { code: 'FR', name: '法国', nameEn: 'France', flag: '🇫🇷' },
+            { code: 'IT', name: '意大利', nameEn: 'Italy', flag: '🇮🇹' },
+            { code: 'ES', name: '西班牙', nameEn: 'Spain', flag: '🇪🇸' },
+            { code: 'NL', name: '荷兰', nameEn: 'Netherlands', flag: '🇳🇱' },
+            { code: 'PL', name: '波兰', nameEn: 'Poland', flag: '🇵🇱' },
+            { code: 'CA', name: '加拿大', nameEn: 'Canada', flag: '🇨🇦' }
+        ],
+        paymentMethods: [
+            { code: 'all', name: '全部支付方式', nameEn: 'All Payment Methods', icon: 'fas fa-layer-group' },
+            { code: 'cash', name: '现金支付（纸币+硬币）', nameEn: 'Cash Payment (Bills + Coins)', icon: 'fas fa-money-bill-wave' },
+            { code: 'nfc', name: '非接触式支付（NFC）', nameEn: 'Contactless Payment (NFC)', icon: 'fas fa-wifi' },
+            { code: 'qr', name: '扫码支付（QR Code）', nameEn: 'QR Code Payment', icon: 'fas fa-qrcode' },
+            { code: 'card', name: 'IC卡/磁条卡', nameEn: 'IC Card / Magnetic Stripe', icon: 'fas fa-credit-card' }
+        ],
+        deviceTypes: [
+            { code: 'all', name: '全部设备类型', nameEn: 'All Device Types', icon: 'fas fa-cubes' },
+            { code: 'vending', name: '自动售货机', nameEn: 'Vending Machines', icon: 'fas fa-box-open' },
+            { code: 'charging', name: '充电桩', nameEn: 'EV Charging', icon: 'fas fa-charging-station' },
+            { code: 'ticket', name: '自助售票机', nameEn: 'Ticket Kiosks', icon: 'fas fa-ticket-alt' },
+            { code: 'laundry', name: '自助洗衣/储物柜', nameEn: 'Laundry / Lockers', icon: 'fas fa-tshirt' },
+            { code: 'retail', name: '无人零售柜', nameEn: 'Unattended Retail', icon: 'fas fa-shopping-cart' },
+            { code: 'kiosk', name: '自助终端/Kiosk', nameEn: 'Self-Service Kiosks', icon: 'fas fa-desktop' },
+            { code: 'parking', name: '停车场缴费', nameEn: 'Parking Payment', icon: 'fas fa-parking' },
+            { code: 'gaming', name: '游戏游艺', nameEn: 'Gaming & Amusement', icon: 'fas fa-gamepad' }
+        ],
+        // 支持矩阵：国家 -> 支付方式 -> 设备类型，值为 true 表示支持
+        // 格式: supportMatrix[countryCode][paymentCode] = [deviceType1, deviceType2, ...]
+        supportMatrix: {
+            'CN': { cash: ['vending', 'ticket', 'retail', 'kiosk', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk', 'laundry'], qr: ['vending', 'charging', 'ticket', 'retail', 'kiosk', 'laundry', 'parking'], card: ['vending', 'ticket', 'retail', 'kiosk'] },
+            'US': { cash: ['vending', 'ticket', 'laundry', 'parking', 'gaming'], nfc: ['vending', 'charging', 'ticket', 'retail', 'laundry'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'laundry', 'parking'] },
+            'EU': { cash: ['vending', 'ticket', 'laundry', 'parking', 'gaming'], nfc: ['vending', 'charging', 'ticket', 'retail', 'laundry', 'kiosk'], qr: ['vending', 'charging', 'retail'], card: ['vending', 'ticket', 'retail', 'kiosk', 'parking'] },
+            'UK': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'laundry'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'JP': { cash: ['vending', 'ticket', 'laundry', 'kiosk', 'gaming'], nfc: ['vending', 'charging', 'ticket', 'retail'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail'] },
+            'KR': { cash: ['vending', 'ticket', 'laundry', 'kiosk'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail'] },
+            'AU': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'laundry'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'IN': { cash: ['vending', 'ticket', 'retail', 'kiosk'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail'] },
+            'BR': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'charging', 'retail'], card: ['vending', 'ticket', 'retail'] },
+            'RU': { cash: ['vending', 'ticket', 'laundry', 'kiosk'], nfc: ['vending', 'charging'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail'] },
+            'AE': { cash: ['vending', 'ticket', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], qr: ['vending', 'charging', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail', 'kiosk', 'parking'] },
+            'SA': { cash: ['vending', 'ticket', 'parking'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'charging', 'retail'], card: ['vending', 'ticket', 'retail'] },
+            'TH': { cash: ['vending', 'ticket', 'laundry', 'kiosk'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail'] },
+            'VN': { cash: ['vending', 'ticket', 'laundry'], nfc: ['vending', 'retail'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket'] },
+            'ID': { cash: ['vending', 'ticket', 'laundry'], nfc: ['vending', 'retail'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket'] },
+            'MY': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'PH': { cash: ['vending', 'ticket', 'laundry'], nfc: ['vending', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket'] },
+            'SG': { cash: ['vending', 'ticket', 'laundry'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], qr: ['vending', 'retail', 'kiosk'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'MX': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail'] },
+            'ZA': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail'] },
+            'NG': { cash: ['vending', 'ticket', 'laundry'], nfc: ['vending', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket'] },
+            'EG': { cash: ['vending', 'ticket', 'kiosk'], nfc: ['vending'], qr: ['vending', 'retail'], card: ['vending', 'ticket'] },
+            'TR': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'DE': { cash: ['vending', 'ticket', 'laundry', 'parking', 'gaming'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], qr: ['vending', 'charging', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'FR': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'IT': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'ES': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'NL': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'kiosk'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] },
+            'PL': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'retail'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail'] },
+            'CA': { cash: ['vending', 'ticket', 'laundry', 'parking'], nfc: ['vending', 'charging', 'ticket', 'retail', 'laundry'], qr: ['vending', 'retail'], card: ['vending', 'ticket', 'retail', 'parking'] }
+        }
+    };
+
+    // 搜索功能初始化（首页）
+    function initSearchOnHome() {
+        var searchForm = document.getElementById('homeSearchForm');
+        if (!searchForm) return;
+
+        var countrySelect = document.getElementById('searchCountry');
+        var paymentSelect = document.getElementById('searchPayment');
+        var deviceSelect = document.getElementById('searchDevice');
+        var resultContainer = document.getElementById('searchResults');
+
+        if (!countrySelect || !paymentSelect || !deviceSelect) return;
+
+        // 填充下拉选项
+        populateSearchOptions(countrySelect, SEARCH_CONFIG.countries, 'code', 'name');
+        populateSearchOptions(paymentSelect, SEARCH_CONFIG.paymentMethods, 'code', 'name');
+        populateSearchOptions(deviceSelect, SEARCH_CONFIG.deviceTypes, 'code', 'name');
+
+        if (searchForm.dataset.searchInitialized === 'true') return;
+        searchForm.dataset.searchInitialized = 'true';
+
+        // 表单提交事件
+        searchForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            performSearch(countrySelect.value, paymentSelect.value, deviceSelect.value, resultContainer);
+        });
+
+        // 下拉变化时自动搜索
+        [countrySelect, paymentSelect, deviceSelect].forEach(function (sel) {
+            sel.addEventListener('change', function () {
+                if (countrySelect.value !== 'all' || paymentSelect.value !== 'all' || deviceSelect.value !== 'all') {
+                    performSearch(countrySelect.value, paymentSelect.value, deviceSelect.value, resultContainer);
+                }
+            });
+        });
+    }
+
+    function populateSearchOptions(selectEl, data, keyField, labelField) {
+        var isEn = currentLang === 'en';
+        selectEl.innerHTML = '';
+        data.forEach(function (item) {
+            var opt = document.createElement('option');
+            opt.value = item[keyField];
+            opt.textContent = (item.flag ? item.flag + ' ' : '') + (isEn ? (item.nameEn || item[labelField]) : item[labelField]);
+            selectEl.appendChild(opt);
+        });
+    }
+
+    function performSearch(country, payment, device, resultContainer) {
+        if (!resultContainer) return;
+        var isEn = currentLang === 'en';
+
+        // 至少选择一个条件
+        if (country === 'all' && payment === 'all' && device === 'all') {
+            resultContainer.innerHTML = '<div class="search-result-empty"><i class="fas fa-search"></i><p>' + (isEn ? 'Please select at least one search criteria' : '请至少选择一个搜索条件') + '</p></div>';
+            resultContainer.style.display = 'block';
+            return;
+        }
+
+        var results = [];
+        var countriesToSearch = country === 'all' ? SEARCH_CONFIG.countries.filter(function (c) { return c.code !== 'all'; }) : SEARCH_CONFIG.countries.filter(function (c) { return c.code === country; });
+        var paymentsToSearch = payment === 'all' ? SEARCH_CONFIG.paymentMethods.filter(function (p) { return p.code !== 'all'; }) : SEARCH_CONFIG.paymentMethods.filter(function (p) { return p.code === payment; });
+        var devicesToSearch = device === 'all' ? null : SEARCH_CONFIG.deviceTypes.filter(function (d) { return d.code === device; });
+
+        countriesToSearch.forEach(function (countryItem) {
+            var matrix = SEARCH_CONFIG.supportMatrix[countryItem.code];
+            if (!matrix) return;
+
+            var supportedPayments = [];
+            paymentsToSearch.forEach(function (payItem) {
+                var payDevices = matrix[payItem.code];
+                if (!payDevices) return;
+
+                var matchedDevices = [];
+                if (devicesToSearch && devicesToSearch.length > 0) {
+                    // 检查指定设备是否在支持列表中
+                    devicesToSearch.forEach(function (devItem) {
+                        if (payDevices.indexOf(devItem.code) !== -1) {
+                            matchedDevices.push(devItem);
+                        }
+                    });
+                } else {
+                    // 返回所有支持的设备
+                    payDevices.forEach(function (devCode) {
+                        var devItem = SEARCH_CONFIG.deviceTypes.find(function (d) { return d.code === devCode; });
+                        if (devItem) matchedDevices.push(devItem);
+                    });
+                }
+
+                if (matchedDevices.length > 0) {
+                    supportedPayments.push({
+                        payment: payItem,
+                        devices: matchedDevices
+                    });
+                }
+            });
+
+            if (supportedPayments.length > 0) {
+                results.push({
+                    country: countryItem,
+                    payments: supportedPayments
+                });
+            }
+        });
+
+        renderSearchResults(results, resultContainer);
+    }
+
+    function renderSearchResults(results, container) {
+        var isEn = currentLang === 'en';
+
+        if (results.length === 0) {
+            container.innerHTML = '<div class="search-result-empty"><i class="fas fa-exclamation-circle"></i><p>' + (isEn ? 'No common supported pack found. Please adjust your criteria or contact sales for a custom configuration.' : '暂未找到常见可支持方案。请调整搜索条件，或联系我们的销售团队获取定制配置。') + '</p><a href="contact.html" class="btn-primary btn-sm">' + (isEn ? 'Contact Sales' : '联系销售') + ' <i class="fas fa-arrow-right"></i></a></div>';
+            container.style.display = 'block';
+            return;
+        }
+
+        var html = '<div class="search-result-header"><h3>' + (isEn ? 'Search Results' : '搜索结果') + '</h3><span class="search-result-count">' + (isEn ? 'Found ' + results.length + ' region(s)' : '找到 ' + results.length + ' 个地区') + '</span></div>';
+        html += '<p class="search-result-disclaimer">' + (isEn ? 'These are common support references only. Final device model, currency, certification, and pricing should be confirmed with Totem sales.' : '以下为常见可支持方案参考，最终设备型号、币种、认证与报价请联系 Totem 销售确认。') + '</p>';
+        html += '<div class="search-result-grid">';
+
+        results.forEach(function (result) {
+            html += '<div class="search-result-card">';
+            html += '<div class="search-result-country">';
+            html += '<span class="country-flag">' + (result.country.flag || '🌍') + '</span>';
+            html += '<h4>' + (isEn ? result.country.nameEn : result.country.name) + '</h4>';
+            html += '</div>';
+            html += '<div class="search-result-payments">';
+
+            result.payments.forEach(function (payInfo) {
+                html += '<div class="payment-group">';
+                html += '<div class="payment-label"><i class="' + payInfo.payment.icon + '"></i> ' + (isEn ? payInfo.payment.nameEn : payInfo.payment.name) + '</div>';
+                html += '<div class="device-tags">';
+                payInfo.devices.forEach(function (dev) {
+                    html += '<span class="device-tag"><i class="' + dev.icon + '"></i> ' + (isEn ? dev.nameEn : dev.name) + '</span>';
+                });
+                html += '</div>';
+                html += '</div>';
+            });
+
+            html += '</div>';
+            html += '<div class="search-result-cta">';
+            html += '<p class="result-note">' + (isEn ? 'Common supported pack. Contact sales to confirm final configuration and pricing.' : '常见可支持方案，最终配置与报价请联系销售确认。') + '</p>';
+            html += '<a href="contact.html" class="btn-primary btn-sm">' + (isEn ? 'Contact Sales' : '联系销售获取详情') + ' <i class="fas fa-arrow-right"></i></a>';
+            html += '</div>';
+            html += '</div>';
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+        container.style.display = 'block';
+
+        // 滚动到结果区域
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ==================== 1C. 行业应用数据 ====================
+var INDUSTRY_DATA = {
+    game: { icon: 'fas fa-gamepad', title: '游戏机支付终端', titleEn: 'Gaming Payment Terminals', desc: '支持游戏币代币和电子支付的混合收款方案', descEn: 'Mixed collection for game tokens and electronic payment' },
+    helmet: { icon: 'fas fa-hard-hat', title: '头盔清洗机', titleEn: 'Helmet Cleaner Payment', desc: '硬币+扫码支付模块，适配小型自助清洗设备', descEn: 'Coin + QR payment module for small self-service cleaning devices' },
+    vending: { icon: 'fas fa-store', title: '自助贩卖机', titleEn: 'Self-Service Vending', desc: '全品类售货机支付硬件方案', descEn: 'Full-range vending machine payment hardware' },
+    coffee: { icon: 'fas fa-mug-hot', title: '咖啡机/果汁机', titleEn: 'Coffee & Juice Machines', desc: '小型设备专用紧凑型读卡器+硬币器', descEn: 'Compact card reader + coin acceptor for small appliances' },
+    locker: { icon: 'fas fa-lock', title: '自助寄存柜', titleEn: 'Self-Service Lockers', desc: '硬币器+读卡器低功耗方案', descEn: 'Coin + card reader low-power solution' },
+    share: { icon: 'fas fa-share-alt', title: '共享设备', titleEn: 'Shared Devices', desc: '共享充电宝/雨伞等设备的扫码+NFC支付', descEn: 'QR + NFC payment for shared power banks, umbrellas, etc.' }
+};
+
+// ==================== 1D. 支持资源数据 ====================
+var SUPPORT_DATA = {
+    categories: [
+        {
+            icon: 'fas fa-download',
+            title: '驱动与工具',
+            titleEn: 'Drivers & Tools',
+            items: [
+                { name: '读卡器驱动程序 V3.2', nameEn: 'Card Reader Driver V3.2', desc: 'Windows/Linux/macOS 全平台', descEn: 'Windows/Linux/macOS', size: '18MB', version: 'v3.2' },
+                { name: '纸币器配置工具 V2.0', nameEn: 'Bill Validator Config Tool V2.0', desc: '币种配置与参数设置', descEn: 'Currency config & setup', size: '15MB', version: 'v2.0' },
+                { name: '硬币器调试工具 V1.5', nameEn: 'Coin Acceptor Debug Tool V1.5', desc: '币种设定与参数调试', descEn: 'Coin config & tuning', size: '8MB', version: 'v1.5' },
+                { name: '扫码器配置工具 V1.0', nameEn: 'Scanner Config Tool V1.0', desc: '参数配置与固件升级', descEn: 'Config & firmware update', size: '6MB', version: 'v1.0' }
+            ]
+        },
+        {
+            icon: 'fas fa-file-code',
+            title: 'API与协议文档',
+            titleEn: 'API & Protocol Docs',
+            items: [
+                { name: 'MDB协议集成指南', nameEn: 'MDB Protocol Integration Guide', desc: '从硬件接线到指令调试的完整教程', descEn: 'Complete wiring to command tutorial', size: '4.5MB' },
+                { name: 'CCtalk协议参考手册', nameEn: 'CCtalk Protocol Reference', desc: 'CCtalk通信协议详解', descEn: 'CCtalk communication protocol details', size: '2.8MB' },
+                { name: 'RESTful API文档', nameEn: 'RESTful API Documentation', desc: '云端管理平台API接口说明', descEn: 'Cloud management platform API docs', size: '1.2MB' },
+                { name: '串口通信协议规范', nameEn: 'Serial Communication Protocol', desc: 'RS232/UART接口协议说明', descEn: 'RS232/UART interface protocol', size: '0.8MB' }
+            ]
+        },
+        {
+            icon: 'fas fa-book',
+            title: '安装与使用手册',
+            titleEn: 'Installation & User Manuals',
+            items: [
+                { name: '读卡器安装手册', nameEn: 'Card Reader Installation Manual', desc: '接线图、安装步骤与调试指南', descEn: 'Wiring diagram, installation & debugging', size: '5.1MB' },
+                { name: '纸币器安装手册', nameEn: 'Bill Validator Installation Manual', desc: '面板开孔图、接线与调试', descEn: 'Panel cutout, wiring & debugging', size: '6.2MB' },
+                { name: '硬币器安装手册', nameEn: 'Coin Acceptor Installation Manual', desc: '安装接线与调试指南', descEn: 'Installation & debugging guide', size: '3.8MB' },
+                { name: '快速入门指南', nameEn: 'Quick Start Guide', desc: '全系列产品快速上手', descEn: 'Quick start for all products', size: '2.0MB' }
+            ]
+        }
+    ],
+    faq: [
+        { q: 'Totem读卡器支持哪些通信协议？', qEn: 'What communication protocols do Totem card readers support?', a: 'Totem读卡器支持MDB、CCtalk、USB HID、RS232等主流自助设备通信协议。旗舰款TR-800还支持以太网通信。', aEn: 'Totem card readers support MDB, CCtalk, USB HID, RS232 and other major self-service protocols. The flagship TR-800 also supports Ethernet.' },
+        { q: '纸币器如何配置新币种？', qEn: 'How to configure new currencies on bill validators?', a: '使用Totem纸币器配置工具V2.0，通过USB连接电脑，在软件中选择目标国家/币种，一键下载配置到设备。也可通过OTA远程升级。', aEn: 'Use the Totem Bill Validator Config Tool V2.0, connect via USB, select target country/currency in the software, and download configuration to the device. OTA remote upgrade is also available.' },
+        { q: '硬币器支持哪些币种？', qEn: 'What currencies do coin acceptors support?', a: 'CA-200/CA-300最多支持16种不同直径和材质的硬币或代币，出厂预置主流币种，可通过调试工具自定义配置。', aEn: 'CA-200/CA-300 support up to 16 different diameter/material coins or tokens. Mainstream currencies are pre-loaded, customizable via debug tool.' },
+        { q: '如何获取技术支持？', qEn: 'How to get technical support?', a: '您可以通过官网在线工单、邮件(support@totem.com)、电话(400-XXX-XXXX)联系我们的技术支持团队，工作日24小时内响应。', aEn: 'Contact our support team via online ticket, email (support@totem.com), or phone. Response within 24 hours on business days.' },
+        { q: '产品质保期是多久？', qEn: 'What is the product warranty period?', a: 'Totem全线产品提供18个月标准质保，核心部件（读卡头、鉴伪模块）提供24个月质保。可购买延保服务。', aEn: 'All Totem products come with 18-month standard warranty. Core components (card head, detection module) have 24-month warranty. Extended warranty available.' },
+        { q: '是否提供样品测试？', qEn: 'Do you provide sample testing?', a: '是的，Totem为合格客户提供免费样品测试服务，测试周期一般为2-4周。请联系销售团队获取样品申请表。', aEn: 'Yes, Totem provides free sample testing for qualified customers, typically 2-4 weeks. Contact sales for sample request form.' }
+    ]
+};
+
+// ==================== 1E. 开发者资源数据 ====================
+var DEVELOPER_DATA = {
+    quickStart: [
+        { step: 1, icon: 'fas fa-plug', title: '硬件接线', titleEn: 'Hardware Wiring', desc: '按照安装手册完成设备接线，连接MDB/CCtalk/USB接口到主控板。', descEn: 'Complete device wiring per installation manual, connect MDB/CCtalk/USB to main controller.' },
+        { step: 2, icon: 'fas fa-code', title: '协议对接', titleEn: 'Protocol Integration', desc: '参考API文档，使用MDB/CCtalk协议指令与支付模块通信。', descEn: 'Refer to API docs, communicate with payment module using MDB/CCtalk protocol commands.' },
+        { step: 3, icon: 'fas fa-vial', title: '联调测试', titleEn: 'Integration Testing', desc: '使用Totem调试工具进行模拟交易测试，验证支付流程完整性。', descEn: 'Use Totem debug tools for simulated transaction testing, verify payment flow integrity.' },
+        { step: 4, icon: 'fas fa-rocket', title: '部署上线', titleEn: 'Deploy & Go Live', desc: '完成测试后批量部署，通过云端平台监控设备状态。', descEn: 'After testing, deploy in bulk and monitor device status via cloud platform.' }
+    ],
+    sdk: [
+        { icon: 'fab fa-java', name: 'Java SDK', desc: '适用于Android自助终端', descEn: 'For Android self-service terminals', version: 'v2.1.0' },
+        { icon: 'fab fa-python', name: 'Python SDK', desc: '适用于Linux嵌入式设备', descEn: 'For Linux embedded devices', version: 'v1.8.0' },
+        { icon: 'fab fa-js-square', name: 'JavaScript SDK', desc: '适用于Web管理后台', descEn: 'For web management dashboards', version: 'v1.3.0' },
+        { icon: 'fas fa-code', name: 'C/C++ SDK', desc: '适用于嵌入式固件开发', descEn: 'For embedded firmware development', version: 'v3.0.0' }
+    ],
+    tools: [
+        { icon: 'fas fa-terminal', name: 'Totem CLI', desc: '命令行调试工具', descEn: 'Command-line debug tool', version: 'v1.5.0' },
+        { icon: 'fas fa-desktop', name: 'Totem Config GUI', desc: '图形化配置工具', descEn: 'GUI configuration tool', version: 'v2.0.0' },
+        { icon: 'fas fa-cloud', name: 'Totem Cloud API', desc: '云端设备管理接口', descEn: 'Cloud device management API', version: 'v1.2.0' },
+        { icon: 'fas fa-vial', name: 'Simulator', desc: '支付流程模拟器', descEn: 'Payment flow simulator', version: 'v1.0.0' }
+    ],
+    samples: [
+        { lang: 'C', title: 'MDB协议基础通信', titleEn: 'MDB Protocol Basic Communication', desc: '演示如何通过串口发送MDB指令并接收响应', descEn: 'Demo sending MDB commands via serial port and receiving responses' },
+        { lang: 'Python', title: '纸币器状态轮询', titleEn: 'Bill Validator Status Polling', desc: '定时查询纸币器状态并处理回调事件', descEn: 'Periodically query bill validator status and handle callback events' },
+        { lang: 'Java', title: '读卡器交易流程', titleEn: 'Card Reader Transaction Flow', desc: '完整的刷卡-授权-扣款-确认交易流程示例', descEn: 'Complete swipe-authorize-charge-confirm transaction flow example' },
+        { lang: 'JavaScript', title: '云端设备监控面板', titleEn: 'Cloud Device Monitoring Dashboard', desc: '使用Totem Cloud API构建实时设备监控界面', descEn: 'Build real-time device monitoring UI with Totem Cloud API' }
+    ]
+};
+
+
+    // ==================== 2. i18n 翻译数据 ====================
+    var translations = {
+        zh: {
+            nav_products: "产品中心", nav_solutions: "解决方案", nav_industries: "行业应用",
+            nav_support: "技术支持", nav_about: "关于Totem", nav_dev: "开发者", nav_quote: "获取报价",
+            nav_reader: "读卡器系列", nav_banknote: "纸币器系列", nav_coin: "硬币器系列",
+            nav_scanner: "扫码器系列", nav_nfc: "非接读卡器",
+            nav_vending_sol: "自动售货机", nav_charging_sol: "充电桩支付", nav_ticket_sol: "自助售票机",
+            nav_laundry_sol: "自助洗衣房", nav_retail_sol: "无人零售柜",
+            nav_game: "游戏机支付终端", nav_helmet: "头盔清洗机支付模块", nav_vending: "自助贩卖机",
+            nav_coffee: "咖啡机/果汁机", nav_locker: "自助寄存柜", nav_share: "共享设备支付",
+            hero_title: "专业支付硬件<br>读卡器 · 纸币器 · 硬币器",
+            hero_desc: "Totem为全球自助设备提供高可靠、全兼容的现金与非接支付模块。支持多种支付方式图标自定义展示。",
+            hero_btn1: "查看全系列产品", hero_btn2: "联系销售",
+            hero_card_title: "Totem 集成支付核心",
+            hero_card_badge_reader: "<i class='fas fa-credit-card'></i> 读卡器",
+            hero_card_badge_banknote: "<i class='fas fa-money-bill-wave'></i> 纸币器",
+            hero_card_badge_coin: "<i class='fas fa-coins'></i> 硬币器",
+            hero_card_desc: "兼容MDB, CCtalk, 多协议 · 工业级防护",
+            products_title: "三大核心支付硬件", products_sub: "稳定、精准、全场景覆盖 —— Totem 为自助设备提供完整收付模块",
+            card_reader_title: "读卡器", card_reader_desc: "支持IC卡、磁条卡、NFC手机支付、QR code，符合EMV标准，快速交易，防水防尘设计。",
+            card_reader_link: "了解读卡器系列",
+            card_banknote_title: "纸币器", card_banknote_desc: "高识别率真伪鉴别，支持多国纸币，大容量钱箱与循环找零机型。",
+            card_banknote_link: "了解纸币器系列",
+            card_coin_title: "硬币器/找零模块", card_coin_desc: "高精度硬币识别，多币种储存，自动找零与清空功能，低故障率。",
+            card_coin_link: "了解硬币器系列",
+            solutions_title: "行业深度整合方案", solutions_sub: "无论是现金还是电子支付，Totem硬件模块适配各类自助设备",
+            sol_vending: "自动售货机", sol_vending_desc: "读卡器+纸币器+硬币器一体化集成",
+            sol_ticket: "自助售票/取票机", sol_ticket_desc: "高安全性纸币接收，大容量硬币找零",
+            sol_charging: "充电桩/加油站", sol_charging_desc: "户外耐用读卡器，无现金支付升级",
+            sol_laundry: "自助洗衣/储物柜", sol_laundry_desc: "硬币器模块+读卡器组合",
+            stat1_label: "年海外支付模块经验", stat2_label: "全球模块部署量", stat3_label: "纸币识别准确率", stat4_label: "资讯服务响应",
+            cases_title: "成功案例与技术洞察", cases_sub: "了解Totem硬件如何助力运营商提升交易效率与用户满意度",
+            case1_date: "客户案例", case1_title: "某头部售货机品牌全面换装Totem纸币器", case1_desc: "识别率提升至99.2%，故障率降低45%", case1_link: "查看案例",
+            case2_date: "白皮书", case2_title: "下一代自助支付：读卡器与现金模块融合趋势", case2_desc: "解析混合支付终端在无人零售中的关键设计。", case2_link: "免费下载",
+            case3_date: "技术文档", case3_title: "硬币器MDB协议快速集成指南", case3_desc: "开发人员必备，从硬件接线到指令调试。", case3_link: "查阅文档",
+            cta_title: "需要定制支付硬件方案？", cta_desc: "即刻联系Totem商务，获取提供一站式海外支付解决方案，助您安全、高效地拓展全球市场。", cta_btn: "即刻预约咨询",
+            footer_products: "产品系列", footer_solutions: "解决方案", footer_support: "技术支持", footer_about: "关于Totem",
+            footer_reader: "读卡器", footer_banknote: "纸币接收器", footer_coin: "硬币器/找零器",
+            footer_vending_sol: "自动售货机集成", footer_charging_sol: "充电桩支付",
+            footer_driver: "驱动下载", footer_api: "API文档",
+            footer_company: "公司简介", footer_news: "新闻动态",
+            footer_copyright: "Totem Hardware Solutions. 本页面仅供布局预览",
+            loading: "加载图片配置...",
+            // 产品总览页
+            overview_title: "全系列产品", overview_sub: "从读卡器到纸币器、硬币器，Totem提供自助设备所需的完整支付硬件产品线",
+            // 详情页通用
+            detail_features: "核心特性", detail_models: "产品型号", detail_specs: "技术规格",
+            detail_scenarios: "适用场景", detail_downloads: "下载资源", detail_related: "相关产品",
+            bc_home: "首页", bc_products: "产品中心",
+            // 搜索功能
+            search_title: "查找适合您的支付方案",
+            search_sub: "选择您的目标市场与支付需求，了解Totem在各地区的解决方案支持情况",
+            search_label_country: "国家/地区",
+            search_label_payment: "支付方式",
+            search_label_device: "设备类型",
+            search_btn: "查询支持方案"
+        },
+        en: {
+            nav_products: "Products", nav_solutions: "Solutions", nav_industries: "Industries",
+            nav_support: "Support", nav_about: "About Totem", nav_dev: "Developers", nav_quote: "Get Quote",
+            nav_reader: "Card Readers", nav_banknote: "Bill Validators", nav_coin: "Coin Acceptors",
+            nav_scanner: "Barcode Scanners", nav_nfc: "Contactless Readers",
+            nav_vending_sol: "Vending Machines", nav_charging_sol: "EV Charging", nav_ticket_sol: "Ticket Kiosks",
+            nav_laundry_sol: "Laundry", nav_retail_sol: "Unattended Retail",
+            nav_game: "Gaming Terminals", nav_helmet: "Helmet Cleaner Payment", nav_vending: "Vending Machines",
+            nav_coffee: "Coffee/Juice Machines", nav_locker: "Self-Service Lockers", nav_share: "Shared Device Payments",
+            hero_title: "Professional Payment Hardware<br>Card Reader · Bill Validator · Coin Acceptor",
+            hero_desc: "Totem provides highly reliable and fully compatible cash and contactless payment modules for global self-service devices. Support for customizable payment method icons.",
+            hero_btn1: "View All Products", hero_btn2: "Contact Sales",
+            hero_card_title: "Totem Integrated Payment Core",
+            hero_card_badge_reader: "<i class='fas fa-credit-card'></i> Card Reader",
+            hero_card_badge_banknote: "<i class='fas fa-money-bill-wave'></i> Bill Validator",
+            hero_card_badge_coin: "<i class='fas fa-coins'></i> Coin Acceptor",
+            hero_card_desc: "Compatible with MDB, CCtalk, multi-protocol · Industrial protection",
+            products_title: "Core Payment Hardware", products_sub: "Stable, precise, full-scene coverage — Totem provides complete payment modules for self-service devices",
+            card_reader_title: "Card Reader", card_reader_desc: "Supports IC card, magnetic stripe, NFC mobile payment, QR code, EMV compliant, fast transaction, waterproof and dustproof design.",
+            card_reader_link: "Learn More",
+            card_banknote_title: "Bill Validator", card_banknote_desc: "High accuracy counterfeit detection, supports multiple currencies, large capacity cashbox and recycling models.",
+            card_banknote_link: "Learn More",
+            card_coin_title: "Coin Acceptor / Change Module", card_coin_desc: "High precision coin recognition, multi-currency storage, automatic change and emptying functions, low failure rate.",
+            card_coin_link: "Learn More",
+            solutions_title: "Deep Industry Integration", solutions_sub: "Whether cash or digital payments, Totem hardware modules adapt to all self-service devices",
+            sol_vending: "Vending Machine", sol_vending_desc: "All-in-one integration of card reader + bill validator + coin acceptor",
+            sol_ticket: "Self-Service Ticket Kiosk", sol_ticket_desc: "High-security bill acceptance, large capacity coin change",
+            sol_charging: "EV Charging / Gas Station", sol_charging_desc: "Outdoor durable card reader, cashless payment upgrade",
+            sol_laundry: "Laundry / Locker", sol_laundry_desc: "Coin acceptor + card reader combination",
+            stat1_label: "Years of Experience", stat2_label: "Modules Deployed", stat3_label: "Recognition Accuracy", stat4_label: "Support Response",
+            cases_title: "Success Stories & Insights", cases_sub: "Learn how Totem hardware helps operators improve efficiency and satisfaction",
+            case1_date: "Customer Case", case1_title: "Top Vending Brand Upgrades to Totem Bill Validator", case1_desc: "Recognition rate increased to 99.2%, failure rate reduced by 45%", case1_link: "View Case",
+            case2_date: "Whitepaper", case2_title: "Next-Gen Self-Service Payments: Trends in Card and Cash Integration", case2_desc: "Analyzing key designs of hybrid payment terminals in unattended retail.", case2_link: "Download",
+            case3_date: "Tech Doc", case3_title: "Quick Integration Guide for MDB Protocol with Coin Acceptor", case3_desc: "Essential for developers, from hardware wiring to command debugging.", case3_link: "Read Docs",
+            cta_title: "Need a Custom Payment Hardware Solution?", cta_desc: "Contact Totem hardware experts for sample testing and technical support", cta_btn: "Request Consultation",
+            footer_products: "Product Series", footer_solutions: "Solutions", footer_support: "Technical Support", footer_about: "About Totem",
+            footer_reader: "Card Readers", footer_banknote: "Bill Validators", footer_coin: "Coin Acceptors",
+            footer_vending_sol: "Vending Machine Integration", footer_charging_sol: "EV Charging Payment",
+            footer_driver: "Driver Download", footer_api: "API Documentation",
+            footer_company: "Company Profile", footer_news: "News",
+            footer_copyright: "Totem Hardware Solutions. This page is for layout preview only.",
+            loading: "Loading images...",
+            overview_title: "Full Product Line", overview_sub: "From card readers to bill validators and coin acceptors, Totem provides a complete payment hardware product line for self-service devices",
+            detail_features: "Key Features", detail_models: "Product Models", detail_specs: "Technical Specifications",
+            detail_scenarios: "Application Scenarios", detail_downloads: "Downloads & Resources", detail_related: "Related Products",
+            bc_home: "Home", bc_products: "Products",
+            // Search
+            search_title: "Find Your Payment Solution",
+            search_sub: "Select your target market and payment needs to learn about Totem's solution support across regions",
+            search_label_country: "Country / Region",
+            search_label_payment: "Payment Method",
+            search_label_device: "Device Type",
+            search_btn: "Search Solutions"
+        }
+    };
+
+    var currentLang = localStorage.getItem('lang') || 'zh';
+
+    // ==================== 3. API 接口层 (预留) ====================
+    var API = {
+        /**
+         * 获取所有产品列表
+         * 未来替换为: fetch('/api/products')
+         */
+        getProducts: function () {
+            return Promise.resolve(PRODUCT_DATA);
+        },
+
+        /**
+         * 根据ID获取单个产品
+         * 未来替换为: fetch('/api/products/' + id)
+         */
+        getProductById: function (id) {
+            return Promise.resolve(PRODUCT_DATA[id] || null);
+        },
+
+        /**
+         * 提交报价请求
+         * 未来替换为: fetch('/api/quote', { method: 'POST', body: data })
+         */
+        submitQuote: function (data) {
+            console.log('[API] Quote submitted:', data);
+            return Promise.resolve({ success: true, message: '已收到您的请求' });
+        },
+
+        /**
+         * 获取下载资源列表
+         * 未来替换为: fetch('/api/downloads/' + productId)
+         */
+        getDownloads: function (productId) {
+            var product = PRODUCT_DATA[productId];
+            return Promise.resolve(product ? product.downloads : []);
+        },
+
+        /**
+         * 获取解决方案列表
+         * 未来替换为: fetch('/api/solutions')
+         */
+        getSolutions: function () {
+            return Promise.resolve([]); // TODO: 补充方案数据
+        }
+    };
+
+    // ==================== 4. i18n 模块 ====================
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+
+        var langSpan = document.getElementById('currentLang');
+        if (langSpan) {
+            langSpan.innerHTML = lang === 'zh' ? '中文 \uD83C\uDDE8\uD83C\uDDF3' : 'English \uD83C\uDDEC\uD83C\uDDE7';
+        }
+
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+            var key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.value = translations[lang][key];
+                } else {
+                    el.innerHTML = translations[lang][key];
+                }
+            }
+        });
+    }
+
+    function t(key) {
+        return (translations[currentLang] && translations[currentLang][key]) || key;
+    }
+
+    function getLocalized(product, field) {
+        if (!product) return '';
+        if (currentLang === 'en' && product[field + 'En']) return product[field + 'En'];
+        return product[field] || '';
+    }
+
+    // ==================== 5. 图片配置加载 ====================
+    var CONFIG_STORAGE_KEY = 'totem_image_config_v2';
+
+    function showLoading(show) {
+        var el = document.getElementById('configLoading');
+        if (el) el.style.display = show ? 'flex' : 'none';
+    }
+
+    function renderIcons(container, iconsArray) {
+        if (!container) return;
+        var valid = (iconsArray || []).filter(function (item) {
+            return item && item.startsWith('data:image');
+        });
+        container.style.display = 'grid';
+        container.style.alignItems = 'center';
+        container.style.justifyItems = 'center';
+        if (valid.length === 0) {
+            container.style.gridTemplateColumns = '1fr';
+            container.innerHTML = '';
+            var def = document.createElement('div');
+            def.className = 'icon-item';
+            def.innerHTML = '<i class="fas fa-microchip" style="font-size:2.5rem;color:var(--primary);"></i>';
+            container.appendChild(def);
+            return;
+        }
+        container.style.gridTemplateColumns = 'repeat(' + valid.length + ', 1fr)';
+        container.innerHTML = '';
+        valid.forEach(function (b64) {
+            var div = document.createElement('div');
+            div.className = 'icon-item';
+            var img = document.createElement('img');
+            img.src = b64;
+            img.alt = 'payment icon';
+            img.loading = 'lazy';
+            div.appendChild(img);
+            container.appendChild(div);
+        });
+    }
+
+    function applyLogo(b64) {
+        var logo = document.getElementById('totemLogo');
+        if (!logo) return;
+        if (b64 && b64.startsWith('data:image')) {
+            logo.innerHTML = '';
+            var img = document.createElement('img');
+            img.src = b64;
+            img.alt = 'Totem Logo';
+            img.style.height = '42px';
+            img.style.width = 'auto';
+            logo.appendChild(img);
+            logo.style.background = 'none';
+            logo.style.color = 'inherit';
+        } else {
+            logo.innerHTML = 'Totem<span>.</span>';
+            logo.style.background = 'linear-gradient(135deg, #E55A2C, #B43A12)';
+            logo.style.webkitBackgroundClip = 'text';
+            logo.style.backgroundClip = 'text';
+            logo.style.color = 'transparent';
+        }
+    }
+
+    function loadConfigAndApply() {
+        showLoading(true);
+        var local = localStorage.getItem(CONFIG_STORAGE_KEY);
+        if (local) {
+            try {
+                var cfg = JSON.parse(local);
+                applyLogo(cfg.logo);
+                renderIcons(document.getElementById('readerIconsContainer'), cfg.readerIcons);
+                renderIcons(document.getElementById('banknoteIconsContainer'), cfg.banknoteIcons);
+                renderIcons(document.getElementById('coinIconsContainer'), cfg.coinIcons);
+                showLoading(false);
+                return;
+            } catch (e) { console.warn(e); }
+        }
+        fetch('./config.json')
+            .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+            .then(function (cfg) {
+                applyLogo(cfg.logo);
+                renderIcons(document.getElementById('readerIconsContainer'), cfg.readerIcons);
+                renderIcons(document.getElementById('banknoteIconsContainer'), cfg.banknoteIcons);
+                renderIcons(document.getElementById('coinIconsContainer'), cfg.coinIcons);
+                localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(cfg));
+                showLoading(false);
+            })
+            .catch(function () { showLoading(false); });
+    }
+
+    // ==================== 6. 移动端菜单 ====================
+    function initMobileMenu() {
+        var hamburger = document.getElementById('hamburger');
+        var navLinks = document.getElementById('navLinks');
+        if (!hamburger || !navLinks) return;
+        hamburger.addEventListener('click', function () { navLinks.classList.toggle('active'); });
+        document.addEventListener('click', function (e) {
+            if (window.innerWidth <= 950 && navLinks.classList.contains('active') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        document.querySelectorAll('.nav-links a').forEach(function (link) {
+            link.addEventListener('click', function () { if (window.innerWidth <= 950) navLinks.classList.remove('active'); });
+        });
+    }
+
+    // ==================== 7. Scroll Reveal ====================
+    function initScrollReveal() {
+        var els = document.querySelectorAll('.reveal');
+        if (!els.length) return;
+        if (!('IntersectionObserver' in window)) {
+            els.forEach(function (el) { el.classList.add('visible'); });
+            return;
+        }
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        els.forEach(function (el) { observer.observe(el); });
+    }
+
+    // ==================== 8. Section Nav (Sticky) ====================
+    function initSectionNav() {
+        var nav = document.getElementById('sectionNav');
+        if (!nav) return;
+        var hero = document.querySelector('.page-hero');
+        if (!hero) return;
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                nav.classList.toggle('visible', !entry.isIntersecting);
+            });
+        }, { threshold: 0 });
+        observer.observe(hero);
+
+        var links = nav.querySelectorAll('.section-nav-link');
+        links.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    var offset = nav.offsetHeight + 70;
+                    var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        var sections = [];
+        links.forEach(function (link) {
+            var target = document.querySelector(link.getAttribute('href'));
+            if (target) sections.push({ el: target, link: link });
+        });
+
+        window.addEventListener('scroll', function () {
+            var scrollPos = window.scrollY + 150;
+            var current = null;
+            sections.forEach(function (s) {
+                if (s.el.offsetTop <= scrollPos) current = s;
+            });
+            links.forEach(function (l) { l.classList.remove('active'); });
+            if (current) current.link.classList.add('active');
+        });
+    }
+
+    // ==================== 9. 产品详情页渲染 ====================
+    function renderProductDetail(productId) {
+        var product = PRODUCT_DATA[productId];
+        if (!product) return;
+
+        var isEn = currentLang === 'en';
+
+        // Breadcrumb
+        var bcCategory = document.getElementById('bcCategory');
+        var bcProduct = document.getElementById('bcProduct');
+        if (bcCategory) bcCategory.textContent = t('nav_products');
+        if (bcProduct) bcProduct.textContent = getLocalized(product, 'category');
+
+        // Hero
+        var heroTitle = document.getElementById('detailHeroTitle');
+        var heroSubtitle = document.getElementById('detailHeroSubtitle');
+        var heroDesc = document.getElementById('detailHeroDesc');
+        var heroIcon = document.getElementById('detailHeroIcon');
+        if (heroTitle) heroTitle.textContent = getLocalized(product, 'title');
+        if (heroSubtitle) heroSubtitle.textContent = getLocalized(product, 'subtitle');
+        if (heroDesc) heroDesc.textContent = getLocalized(product, 'description');
+        if (heroIcon) heroIcon.className = product.heroIcon + ' hero-icon-fa';
+
+        // Hero Stats
+        var statsContainer = document.getElementById('detailHeroStats');
+        if (statsContainer && product.stats) {
+            statsContainer.innerHTML = product.stats.map(function (s) {
+                return '<div class="hero-stat-badge"><span class="value">' + s.value + '</span><span class="label">' + (isEn ? s.labelEn : s.label) + '</span></div>';
+            }).join('');
+        }
+
+        // Features
+        var featuresContainer = document.getElementById('detailFeatures');
+        if (featuresContainer && product.features) {
+            featuresContainer.innerHTML = product.features.map(function (f, i) {
+                return '<div class="feature-card reveal reveal-delay-' + (i % 4 + 1) + '"><div class="feature-icon"><i class="' + f.icon + '"></i></div><h4>' + getLocalized(f, 'title') + '</h4><p>' + getLocalized(f, 'desc') + '</p></div>';
+            }).join('');
+        }
+
+        // Models
+        var modelsContainer = document.getElementById('detailModels');
+        if (modelsContainer && product.models) {
+            modelsContainer.innerHTML = product.models.map(function (m) {
+                var badgeHtml = '';
+                var badgeText = isEn ? (m.badgeEn || m.badge) : m.badge;
+                if (badgeText) badgeHtml = '<div class="model-badge">' + badgeText + '</div>';
+                var specsList = (isEn ? (m.specsEn || m.specs) : m.specs).map(function (s) {
+                    return '<li><i class="fas fa-check-circle"></i> ' + s + '</li>';
+                }).join('');
+                var clickableClass = m.pageFile ? ' clickable' : '';
+                var linkBtn = m.pageFile
+                    ? '<a href="' + m.pageFile + '" class="btn-outline btn-sm">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-arrow-right"></i></a>'
+                    : '<a href="contact.html" class="btn-outline btn-sm">' + (isEn ? 'Get Quote' : '获取报价') + ' <i class="fas fa-arrow-right"></i></a>';
+                return '<a href="' + (m.pageFile || 'contact.html') + '" class="model-card reveal' + (m.badge ? ' recommended' : '') + clickableClass + '" style="text-decoration:none;color:inherit;display:block;">' + badgeHtml + '<div class="model-icon"><i class="' + m.icon + '"></i></div><h4>' + m.name + '</h4><div class="model-subtitle">' + getLocalized(m, 'subtitle') + '</div><ul class="model-specs">' + specsList + '</ul>' + linkBtn + '</a>';
+            }).join('');
+        }
+
+        // Specs
+        var specsContainer = document.getElementById('detailSpecs');
+        if (specsContainer && product.specifications) {
+            var html = '';
+            for (var catName in product.specifications) {
+                var cat = product.specifications[catName];
+                var catTitle = isEn ? (cat.titleEn || catName) : catName;
+                var rows = isEn ? (cat.rowsEn || cat.rows) : cat.rows;
+                html += '<div class="spec-category-title">' + catTitle + '</div>';
+                html += '<table class="spec-table">';
+                rows.forEach(function (row) {
+                    html += '<tr><td>' + row[0] + '</td><td>' + row[1] + '</td></tr>';
+                });
+                html += '</table>';
+            }
+            specsContainer.innerHTML = html;
+        }
+
+        // Scenarios
+        var scenariosContainer = document.getElementById('detailScenarios');
+        if (scenariosContainer && product.scenarios) {
+            scenariosContainer.innerHTML = product.scenarios.map(function (s) {
+                return '<div class="scenario-item"><i class="' + s.icon + '"></i><h5>' + getLocalized(s, 'name') + '</h5></div>';
+            }).join('');
+        }
+
+        // Downloads
+        var downloadsContainer = document.getElementById('detailDownloads');
+        if (downloadsContainer && product.downloads) {
+            downloadsContainer.innerHTML = product.downloads.map(function (d) {
+                return '<div class="resource-card"><div class="resource-icon"><i class="' + d.icon + '"></i></div><div class="resource-info"><h5>' + getLocalized(d, 'name') + '</h5><p>' + getLocalized(d, 'desc') + ' · ' + d.size + '</p></div></div>';
+            }).join('');
+        }
+
+        // Related Products
+        var relatedContainer = document.getElementById('detailRelated');
+        if (relatedContainer && product.relatedProducts) {
+            relatedContainer.innerHTML = product.relatedProducts.map(function (rid) {
+                var rp = PRODUCT_DATA[rid];
+                if (!rp) return '';
+                return '<div class="overview-card"><div class="overview-icon"><i class="' + rp.heroIcon + '"></i></div><h3>' + getLocalized(rp, 'title') + '</h3><p>' + getLocalized(rp, 'subtitle') + '</p><a href="' + rp.pageFile + '" class="link-arrow">' + (isEn ? 'Learn More' : '了解更多') + ' <i class="fas fa-chevron-right"></i></a></div>';
+            }).join('');
+        }
+
+        // Re-init scroll reveal for dynamically added elements
+        setTimeout(initScrollReveal, 100);
+    }
+
+    // ==================== 10. 产品总览页渲染 ====================
+    function renderProductsOverview() {
+        var container = document.getElementById('productsOverviewGrid');
+        if (!container) return;
+        var isEn = currentLang === 'en';
+        var html = '';
+        for (var key in PRODUCT_DATA) {
+            var p = PRODUCT_DATA[key];
+            // Skip sub-products (they'll be listed under their parent)
+            if (p.parentCategory) continue;
+            var specs = p.stats.map(function (s) {
+                return '<span class="spec-tag">' + s.value + '</span>';
+            }).join('');
+            html += '<div class="overview-card reveal"><div class="overview-icon"><i class="' + p.heroIcon + '"></i></div><h3>' + getLocalized(p, 'title') + '</h3><p>' + getLocalized(p, 'subtitle') + '</p><div class="overview-specs">' + specs + '</div>';
+            // Show sub-products as clickable links if this product has models with pageFile
+            if (p.models && p.models.length > 0) {
+                html += '<div class="sub-product-links" style="margin-bottom:1rem;">';
+                p.models.forEach(function (m) {
+                    if (m.pageFile) {
+                        html += '<a href="' + m.pageFile + '" class="sub-product-link" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;margin:4px 4px 4px 0;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-full);font-size:0.8rem;font-weight:600;color:var(--gray-700);text-decoration:none;transition:all 0.2s ease;cursor:pointer;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.color=\'var(--primary)\';this.style.background=\'var(--primary-light)\'" onmouseout="this.style.borderColor=\'var(--gray-200)\';this.style.color=\'var(--gray-700)\';this.style.background=\'var(--gray-50)\'"><i class="' + m.icon + '" style="font-size:0.75rem;"></i> ' + m.name + '</a>';
+                    }
+                });
+                html += '</div>';
+            }
+            html += '<a href="' + p.pageFile + '" class="link-arrow">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-chevron-right"></i></a></div>';
+        }
+        container.innerHTML = html;
+        setTimeout(initScrollReveal, 100);
+    }
+    // ==================== 12B. 解决方案页渲染 ====================
+function renderSolutionsPage() {
+    var container = document.getElementById('solutionsGrid');
+    if (!container) return;
+    var isEn = currentLang === 'en';
+    var html = '';
+    for (var key in SOLUTION_DATA) {
+        var s = SOLUTION_DATA[key];
+        var statsHtml = s.stats.map(function (st) {
+            return '<span class="spec-tag">' + st.value + '</span>';
+        }).join('');
+        html += '<div class="overview-card reveal">';
+        html += '<div class="overview-icon"><i class="' + s.icon + '"></i></div>';
+        html += '<h3>' + getLocalized(s, 'title') + '</h3>';
+        html += '<p>' + getLocalized(s, 'subtitle') + '</p>';
+        html += '<div class="overview-specs">' + statsHtml + '</div>';
+        html += '<a href="' + s.pageFile + '" class="link-arrow">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-chevron-right"></i></a>';
+        html += '</div>';
+    }
+    container.innerHTML = html;
+    setTimeout(initScrollReveal, 100);
+}
+
+// ==================== 12C. 技术支持页渲染 ====================
+function renderSupportPage() {
+    var isEn = currentLang === 'en';
+
+    // Categories
+    var catContainer = document.getElementById('supportCategories');
+    if (catContainer) {
+        catContainer.innerHTML = SUPPORT_DATA.categories.map(function (cat) {
+            var itemsHtml = cat.items.map(function (item) {
+                return '<div class="resource-card"><div class="resource-icon"><i class="' + cat.icon + '"></i></div><div class="resource-info"><h5>' + getLocalized(item, 'name') + '</h5><p>' + getLocalized(item, 'desc') + ' · ' + item.size + '</p></div></div>';
+            }).join('');
+            return '<div class="reveal"><h3 style="font-size:1.3rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:10px;"><i class="' + cat.icon + '" style="color:var(--primary);"></i> ' + getLocalized(cat, 'title') + '</h3><div class="resource-grid">' + itemsHtml + '</div></div>';
+        }).join('');
+    }
+
+    // FAQ
+    var faqContainer = document.getElementById('supportFaq');
+    if (faqContainer) {
+        faqContainer.innerHTML = SUPPORT_DATA.faq.map(function (item, i) {
+            var html = '<div class="faq-item reveal" style="border:1px solid var(--gray-200);border-radius:var(--radius-md);margin-bottom:1rem;overflow:hidden;">';
+            html += '<div class="faq-question" onclick="this.parentElement.classList.toggle(\'open\')" style="padding:1rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:0.95rem;">';
+            html += '<span>' + getLocalized(item, 'q') + '</span>';
+            html += '<i class="fas fa-chevron-down" style="transition:transform 0.2s;color:var(--gray-400);"></i>';
+            html += '</div>';
+            html += '<div class="faq-answer" style="padding:0 1.5rem;max-height:0;overflow:hidden;transition:all 0.3s ease;color:var(--gray-600);font-size:0.9rem;line-height:1.7;">';
+            html += '<div style="padding-bottom:1rem;">' + getLocalized(item, 'a') + '</div>';
+            html += '</div></div>';
+            return html;
+        }).join('');
+    }
+
+    setTimeout(initScrollReveal, 100);
+}
+
+    // ==================== 12D. 开发者页渲染 ====================
+    function renderDevelopersPage() {
+        var isEn = currentLang === 'en';
+
+        // Quick Start
+        var qsContainer = document.getElementById('devQuickStart');
+        if (qsContainer) {
+            qsContainer.innerHTML = DEVELOPER_DATA.quickStart.map(function (s) {
+                return '<div class="feature-card reveal"><div class="feature-icon"><span style="font-size:1.4rem;font-weight:800;color:var(--primary);">' + s.step + '</span></div><h4>' + getLocalized(s, 'title') + '</h4><p>' + getLocalized(s, 'desc') + '</p></div>';
+            }).join('');
+        }
+
+        // SDK
+        var sdkContainer = document.getElementById('devSdk');
+        if (sdkContainer) {
+            sdkContainer.innerHTML = DEVELOPER_DATA.sdk.map(function (s) {
+                return '<div class="resource-card"><div class="resource-icon"><i class="' + s.icon + '"></i></div><div class="resource-info"><h5>' + s.name + ' <span style="font-size:0.72rem;color:var(--gray-400);font-weight:400;">' + s.version + '</span></h5><p>' + getLocalized(s, 'desc') + '</p></div></div>';
+            }).join('');
+        }
+
+        // Tools
+        var toolsContainer = document.getElementById('devTools');
+        if (toolsContainer) {
+            toolsContainer.innerHTML = DEVELOPER_DATA.tools.map(function (t) {
+                return '<div class="resource-card"><div class="resource-icon"><i class="' + t.icon + '"></i></div><div class="resource-info"><h5>' + t.name + ' <span style="font-size:0.72rem;color:var(--gray-400);font-weight:400;">' + t.version + '</span></h5><p>' + getLocalized(t, 'desc') + '</p></div></div>';
+            }).join('');
+        }
+
+        // Samples
+        var samplesContainer = document.getElementById('devSamples');
+        if (samplesContainer) {
+            samplesContainer.innerHTML = DEVELOPER_DATA.samples.map(function (s) {
+                var langColor = { 'C': '#555555', 'Python': '#3776AB', 'Java': '#ED8B00', 'JavaScript': '#F7DF1E' };
+                return '<div class="feature-card reveal"><div style="display:flex;align-items:center;gap:10px;margin-bottom:0.8rem;"><span style="background:' + (langColor[s.lang] || 'var(--gray-600)') + ';color:white;padding:3px 10px;border-radius:var(--radius-full);font-size:0.72rem;font-weight:700;">' + s.lang + '</span></div><h4 style="font-size:1rem;">' + getLocalized(s, 'title') + '</h4><p>' + getLocalized(s, 'desc') + '</p><a href="#" class="link-arrow" style="margin-top:0.8rem;font-size:0.85rem;">' + (isEn ? 'View Code' : '查看代码') + ' <i class="fas fa-external-link-alt"></i></a></div>';
+            }).join('');
+        }
+
+        setTimeout(initScrollReveal, 100);
+    }
+
+
+    // ==================== 11. 页面初始化 ====================
+    function init() {
+        // Language switch
+        var langSwitch = document.getElementById('langSwitch');
+        if (langSwitch) {
+            langSwitch.addEventListener('click', function () {
+                setLanguage(currentLang === 'zh' ? 'en' : 'zh');
+                // Re-render dynamic content
+                var page = document.body.getAttribute('data-page');
+                if (page === 'product-detail') {
+                    var pid = document.body.getAttribute('data-product');
+                    renderProductDetail(pid);
+                } else if (page === 'products-overview') {
+                    renderProductsOverview();
+                } else if (page === 'home') {
+                    initSearchOnHome();
+                }
+            });
+        }
+
+        setLanguage(currentLang);
+
+        // Year
+        var yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.innerText = new Date().getFullYear();
+
+        // Mobile menu
+        initMobileMenu();
+
+        // Image config
+        loadConfigAndApply();
+
+        // Scroll reveal
+        initScrollReveal();
+
+        // Section nav
+        initSectionNav();
+
+        // Page-specific rendering
+        var page = document.body.getAttribute('data-page');
+        if (page === 'product-detail') {
+            renderProductDetail(document.body.getAttribute('data-product'));
+        } else if (page === 'products-overview') {
+            renderProductsOverview();
+        } else if (page === 'solutions') {
+            renderSolutionsPage();
+        } else if (page === 'support') {
+            renderSupportPage();
+        } else if (page === 'developers') {
+            renderDevelopersPage();
+        }
+
+        // 首页搜索功能
+        initSearchOnHome();
+
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    // ==================== 12. 公开接口 ====================
+    return {
+        API: API,
+        PRODUCT_DATA: PRODUCT_DATA,
+        SOLUTION_DATA: SOLUTION_DATA,
+        INDUSTRY_DATA: INDUSTRY_DATA,
+        SUPPORT_DATA: SUPPORT_DATA,
+        DEVELOPER_DATA: DEVELOPER_DATA,
+        setLanguage: setLanguage,
+        t: t,
+        getLocalized: getLocalized,
+        getCurrentLang: function () { return currentLang; },
+        renderProductDetail: renderProductDetail,
+        renderProductsOverview: renderProductsOverview,
+        renderSolutionsPage: renderSolutionsPage,
+        renderSupportPage: renderSupportPage,
+        renderDevelopersPage: renderDevelopersPage
+    };
+
+
+})();

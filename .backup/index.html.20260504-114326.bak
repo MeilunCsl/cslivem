@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Totem | 现金与非现金自助支付硬件解决方案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo" id="totemLogo">Totem<span>.</span></a>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item has-dropdown">
+                <a href="products.html" data-i18n="nav_products">产品中心 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="product-reader.html" data-i18n="nav_reader">读卡器系列</a>
+                    <a href="product-banknote.html" data-i18n="nav_banknote">纸币器系列</a>
+                    <a href="product-coin.html" data-i18n="nav_coin">硬币器系列</a>
+                    <a href="product-scanner.html" data-i18n="nav_scanner">扫码器系列</a>
+                    <a href="product-nfc.html" data-i18n="nav_nfc">非接读卡器</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="solutions.html" data-i18n="nav_solutions">解决方案 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="solution-vending.html" data-i18n="nav_vending_sol">自动售货机</a>
+                    <a href="solution-charging.html" data-i18n="nav_charging_sol">充电桩支付</a>
+                    <a href="solution-ticket.html" data-i18n="nav_ticket_sol">自助售票机</a>
+                    <a href="solution-laundry.html" data-i18n="nav_laundry_sol">自助洗衣房</a>
+                    <a href="solution-retail.html" data-i18n="nav_retail_sol">无人零售柜</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="industries.html" data-i18n="nav_industries">行业应用 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="industries.html" data-i18n="nav_game">游戏机支付终端</a>
+                    <a href="industries.html" data-i18n="nav_helmet">头盔清洗机支付模块</a>
+                    <a href="industries.html" data-i18n="nav_vending">自助贩卖机</a>
+                    <a href="industries.html" data-i18n="nav_coffee">咖啡机/果汁机</a>
+                    <a href="industries.html" data-i18n="nav_locker">自助寄存柜</a>
+                    <a href="industries.html" data-i18n="nav_share">共享设备支付</a>
+                </div>
+            </div>
+            <div class="nav-item"><a href="support.html" data-i18n="nav_support">技术支持</a></div>
+            <div class="nav-item"><a href="about.html" data-i18n="nav_about">关于Totem</a></div>
+            <div class="nav-item"><a href="developers.html" data-i18n="nav_dev">开发者</a></div>
+        </div>
+        <div class="nav-buttons">
+            <div class="lang-switch" id="langSwitch"><i class="fas fa-globe"></i> <span id="currentLang">中文</span></div>
+            <a href="contact.html" class="demo-btn" data-i18n="nav_quote">获取报价</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <section class="home-hero">
+        <div class="container home-hero-grid">
+            <div class="home-hero-copy reveal">
+                <div class="eyebrow">Totem Payment Hardware</div>
+                <h1>为自助设备快速配置<br><span>现金 + 非现金</span>支付方案</h1>
+                <p>Totem 面向售货机、售票机、洗衣房、充电桩、无人零售柜等场景，提供 POS 读卡器、纸币器、硬币器与扫码/NFC 模块组合。具体币种、地区与认证配置由销售团队为您确认。</p>
+                <div class="home-hero-actions">
+                    <a href="#solutionFinder" class="btn-primary">查询支持方案 <i class="fas fa-search"></i></a>
+                    <a href="contact.html" class="btn-outline">联系销售获取配置</a>
+                </div>
+                <div class="home-trust-row">
+                    <span><strong>500K+</strong> 模块部署</span>
+                    <span><strong>50+</strong> 国家/地区</span>
+                    <span><strong>10+</strong> 年行业经验</span>
+                </div>
+            </div>
+            <div class="home-hero-visual reveal reveal-delay-1" aria-label="Totem 产品图片预留区域">
+                <div class="visual-topline">
+                    <span>Product image area</span>
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="device-stage">
+                    <div class="device-card device-card-main">
+                        <i class="fas fa-tablet-alt"></i>
+                        <strong>VPOS TOUCH</strong>
+                        <span>POS / NFC / QR</span>
+                    </div>
+                    <div class="device-card device-card-side">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <strong>BV30 · NV9 · CBA9 · NV10</strong>
+                        <span>Bill validators</span>
+                    </div>
+                    <div class="device-card device-card-coin">
+                        <i class="fas fa-coins"></i>
+                        <strong>Coin module</strong>
+                        <span>Coin acceptor / change</span>
+                    </div>
+                </div>
+                <p>后续可替换为真实产品照片或组合渲染图。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-finder" id="solutionFinder">
+        <div class="container">
+            <form class="search-box home-search-box reveal" id="homeSearchForm">
+                <div class="search-header">
+                    <div class="eyebrow">Solution Finder</div>
+                    <h2><i class="fas fa-search"></i> 查找常见可支持方案</h2>
+                    <p>选择国家/地区、支付方式与设备类型，快速判断 Totem 是否有常见组合。结果仅作选型参考，最终配置、币种与认证请联系销售确认。</p>
+                </div>
+                <div class="search-fields">
+                    <div class="search-field">
+                        <label for="searchCountry"><i class="fas fa-globe"></i> 国家/地区</label>
+                        <select id="searchCountry" name="country"></select>
+                    </div>
+                    <div class="search-field">
+                        <label for="searchPayment"><i class="fas fa-credit-card"></i> 支付方式</label>
+                        <select id="searchPayment" name="payment"></select>
+                    </div>
+                    <div class="search-field">
+                        <label for="searchDevice"><i class="fas fa-cubes"></i> 设备类型</label>
+                        <select id="searchDevice" name="device"></select>
+                    </div>
+                </div>
+                <button class="btn-primary search-btn" type="submit">查询支持方案 <i class="fas fa-search"></i></button>
+                <div class="search-results" id="searchResults" style="display:none;"></div>
+            </form>
+        </div>
+    </section>
+
+    <section class="section home-solution-packs">
+        <div class="container">
+            <div class="section-header">
+                <div class="eyebrow">Ready-to-build Packs</div>
+                <h2>常见方案包，缩短从选型到报价的距离</h2>
+                <p>先用成熟组合判断方向，再由销售与技术团队确认地区、币种、协议、安装结构和认证需求。</p>
+            </div>
+            <div class="solution-pack-grid">
+                <article class="solution-pack reveal">
+                    <div class="pack-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>现金 + 非现金全支付</h3>
+                    <p>适合售货机、售票机、无人零售柜。支持纸币/硬币收款，同时叠加 NFC、银行卡、扫码支付。</p>
+                    <div class="pack-tags">
+                        <span>VPOS TOUCH</span><span>纸币器</span><span>硬币器</span><span>QR/NFC</span>
+                    </div>
+                    <a href="contact.html" class="link-arrow">让销售推荐配置 <i class="fas fa-chevron-right"></i></a>
+                </article>
+                <article class="solution-pack reveal reveal-delay-1">
+                    <div class="pack-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <h3>仅现金收付方案</h3>
+                    <p>适合现金占比高或网络条件不稳定地区。可按币种选择纸币器、硬币器、找零模块。</p>
+                    <div class="pack-tags">
+                        <span>BV30</span><span>NV9</span><span>CBA9</span><span>NV10</span>
+                    </div>
+                    <a href="contact.html" class="link-arrow">确认币种支持 <i class="fas fa-chevron-right"></i></a>
+                </article>
+                <article class="solution-pack reveal reveal-delay-2">
+                    <div class="pack-icon"><i class="fas fa-wifi"></i></div>
+                    <h3>无现金升级方案</h3>
+                    <p>适合充电桩、共享设备、现有设备升级。以 ONYX、M4、MS 等 POS/读卡器模块补齐电子支付能力。</p>
+                    <div class="pack-tags">
+                        <span>ONYX</span><span>M4</span><span>MS</span><span>Contactless</span>
+                    </div>
+                    <a href="contact.html" class="link-arrow">咨询升级方式 <i class="fas fa-chevron-right"></i></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section home-products">
+        <div class="container">
+            <div class="section-header">
+                <div class="eyebrow">Hardware Lines</div>
+                <h2>围绕交易成功率设计的核心硬件</h2>
+                <p>从读卡、验钞、投币到找零，按场景组合，不让客户在零散模块里反复试错。</p>
+            </div>
+            <div class="cards-grid">
+                <article class="product-card reveal">
+                    <div class="card-icon"><i class="fas fa-credit-card"></i></div>
+                    <h3>POS / 读卡器方案</h3>
+                    <p>覆盖插卡、刷卡、NFC、扫码与会员卡等电子支付方式，适配自助终端前面板。</p>
+                    <div class="model-tags">
+                        <a href="product-reader-vpos-touch.html" class="model-tag">VPOS TOUCH</a>
+                        <a href="product-reader-onyx.html" class="model-tag">ONYX</a>
+                        <a href="product-reader-vpos-media4.html" class="model-tag">M4</a>
+                        <a href="product-reader-vpos-media4-mini.html" class="model-tag">MS</a>
+                    </div>
+                    <a href="product-reader.html" class="link-arrow">查看读卡器系列 <i class="fas fa-chevron-right"></i></a>
+                </article>
+                <article class="product-card reveal reveal-delay-1">
+                    <div class="card-icon"><i class="fas fa-money-check-alt"></i></div>
+                    <h3>纸币器方案</h3>
+                    <p>针对不同国家/地区币种、现金箱容量、验钞安全和维护频率，提供可落地选型。</p>
+                    <div class="model-tags">
+                        <a href="product-banknote.html" class="model-tag">BV30</a>
+                        <a href="product-banknote.html" class="model-tag">NV9</a>
+                        <a href="product-banknote.html" class="model-tag">CBA9</a>
+                        <a href="product-banknote.html" class="model-tag">NV10</a>
+                        <a href="product-banknote.html" class="model-tag">其他型号</a>
+                    </div>
+                    <a href="product-banknote.html" class="link-arrow">查看纸币器系列 <i class="fas fa-chevron-right"></i></a>
+                </article>
+                <article class="product-card reveal reveal-delay-2">
+                    <div class="card-icon"><i class="fas fa-coins"></i></div>
+                    <h3>硬币器 / 找零模块</h3>
+                    <p>适合洗衣、售票、停车、游戏游艺等现金场景，支持投币识别、储币与找零组合。</p>
+                    <div class="model-tags">
+                        <a href="product-coin.html" class="model-tag">Coin acceptor</a>
+                        <a href="product-coin.html" class="model-tag">Changer</a>
+                        <a href="product-coin.html" class="model-tag">MDB</a>
+                        <a href="product-coin.html" class="model-tag">Pulse</a>
+                    </div>
+                    <a href="product-coin.html" class="link-arrow">查看硬币器系列 <i class="fas fa-chevron-right"></i></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section home-industries">
+        <div class="container">
+            <div class="section-header">
+                <div class="eyebrow">Industries</div>
+                <h2>行业应用围绕“成交”来组织</h2>
+                <p>用户不用先理解硬件细节，只需从设备类型进入，快速看到可用支付组合并联系销售。</p>
+            </div>
+            <div class="industry-grid">
+                <a href="solution-vending.html" class="industry-tile reveal">
+                    <i class="fas fa-box-open"></i><h3>自动售货机</h3><p>现金 + NFC + QR，多支付并行提升转化。</p>
+                </a>
+                <a href="solution-ticket.html" class="industry-tile reveal reveal-delay-1">
+                    <i class="fas fa-ticket-alt"></i><h3>自助售票机</h3><p>纸币验钞、硬币找零、交通卡/银行卡支付。</p>
+                </a>
+                <a href="solution-laundry.html" class="industry-tile reveal reveal-delay-2">
+                    <i class="fas fa-tshirt"></i><h3>洗衣/储物柜</h3><p>投币、会员卡、NFC 小额支付低成本部署。</p>
+                </a>
+                <a href="solution-charging.html" class="industry-tile reveal reveal-delay-3">
+                    <i class="fas fa-charging-station"></i><h3>充电桩支付</h3><p>户外读卡与非接支付升级，适配无人值守。</p>
+                </a>
+                <a href="solution-retail.html" class="industry-tile reveal">
+                    <i class="fas fa-shopping-cart"></i><h3>无人零售柜</h3><p>扫码、刷卡、现金收款并行，减少流失。</p>
+                </a>
+                <a href="industries.html" class="industry-tile reveal reveal-delay-1">
+                    <i class="fas fa-gamepad"></i><h3>游戏/共享设备</h3><p>投币、扫码、会员卡等按运营模式组合。</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-strength">
+        <div class="container strength-grid">
+            <div class="strength-copy reveal">
+                <div class="eyebrow">Why Totem</div>
+                <h2>给客户的是可成交方案，不只是零散硬件</h2>
+                <p>Totem 的价值在于把地区、币种、设备协议、安装结构、支付方式和售后支持放在同一个选型流程里，让客户更快判断能不能做、怎么做、找谁确认。</p>
+                <a href="contact.html" class="btn-dark">让销售为项目匹配方案 <i class="fas fa-headset"></i></a>
+            </div>
+            <div class="strength-list">
+                <div class="strength-item reveal">
+                    <i class="fas fa-plug"></i>
+                    <div><h3>协议与集成经验</h3><p>围绕 MDB、CCtalk、USB、RS232 等常见自助设备接口，减少适配成本。</p></div>
+                </div>
+                <div class="strength-item reveal reveal-delay-1">
+                    <i class="fas fa-globe-americas"></i>
+                    <div><h3>地区与币种支持</h3><p>按国家/地区确认现金模块、电子支付方式和可交付组合。</p></div>
+                </div>
+                <div class="strength-item reveal reveal-delay-2">
+                    <i class="fas fa-screwdriver-wrench"></i>
+                    <div><h3>从样品到部署</h3><p>支持样品测试、接线调试、型号替代和量产配置确认。</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-final-cta">
+        <div class="container">
+            <div class="cta-section">
+                <div class="eyebrow">Start a Quote</div>
+                <h2>告诉我们设备类型和目标地区，销售会给出可落地组合</h2>
+                <p>可先提交国家/地区、设备类型、是否需要现金、是否需要非现金支付。具体型号、价格、交期和认证由销售团队确认。</p>
+                <a href="contact.html" class="btn-dark">联系销售获取方案与报价 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 data-i18n="footer_products">产品系列</h4>
+                <ul>
+                    <li><a href="product-reader.html" data-i18n="footer_reader">读卡器</a></li>
+                    <li><a href="product-banknote.html" data-i18n="footer_banknote">纸币接收器</a></li>
+                    <li><a href="product-coin.html" data-i18n="footer_coin">硬币器/找零器</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_solutions">解决方案</h4>
+                <ul>
+                    <li><a href="solutions.html" data-i18n="footer_vending_sol">自动售货机集成</a></li>
+                    <li><a href="solution-charging.html" data-i18n="footer_charging_sol">充电桩支付</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_support">技术支持</h4>
+                <ul>
+                    <li><a href="support.html" data-i18n="footer_driver">驱动下载</a></li>
+                    <li><a href="developers.html" data-i18n="footer_api">API文档</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_about">关于Totem</h4>
+                <ul>
+                    <li><a href="about.html" data-i18n="footer_company">公司简介</a></li>
+                    <li><a href="about.html" data-i18n="footer_news">新闻动态</a></li>
+                </ul>
+                <div class="social-icons">
+                    <i class="fab fa-linkedin-in"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-weixin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© <span id="currentYear"></span> <span data-i18n="footer_copyright">Totem Hardware Solutions. 本页面仅供布局预览</span></div>
+    </div>
+</footer>
+
+<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> <span data-i18n="loading">加载图片配置...</span></div>
+<script src="js/app.js"></script>
+</body>
+</html>

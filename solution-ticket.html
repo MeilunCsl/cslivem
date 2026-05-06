@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>自动售货机方案 | Totem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="solution-ticket">
+
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo" id="totemLogo">Totem<span>.</span></a>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item has-dropdown">
+                <a href="products.html">产品中心 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="product-reader.html">读卡器系列</a>
+                    <a href="product-banknote.html">纸币器系列</a>
+                    <a href="product-coin.html">硬币器系列</a>
+                    <a href="product-scanner.html">扫码器系列</a>
+                    <a href="product-nfc.html">非接读卡器</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="solutions.html" style="color:var(--primary);">解决方案 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="solution-vending.html" style="color:var(--primary);">自动售货机</a>
+                    <a href="solution-charging.html">充电桩支付</a>
+                    <a href="solution-ticket.html">自助售票机</a>
+                    <a href="solution-laundry.html">自助洗衣房</a>
+                    <a href="solution-retail.html">无人零售柜</a>
+                </div>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="industries.html">行业应用 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="industries.html">游戏机支付终端</a>
+                    <a href="industries.html">头盔清洗机支付模块</a>
+                    <a href="industries.html">自助贩卖机</a>
+                    <a href="industries.html">咖啡机/果汁机</a>
+                    <a href="industries.html">自助寄存柜</a>
+                    <a href="industries.html">共享设备支付</a>
+                </div>
+            </div>
+            <div class="nav-item"><a href="support.html">技术支持</a></div>
+            <div class="nav-item"><a href="about.html">关于Totem</a></div>
+            <div class="nav-item"><a href="developers.html">开发者</a></div>
+        </div>
+        <div class="nav-buttons">
+            <div class="lang-switch" id="langSwitch"><i class="fas fa-globe"></i> <span id="currentLang">中文</span></div>
+            <a href="contact.html" class="demo-btn">获取报价</a>
+        </div>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <div class="container page-hero-grid">
+        <div class="page-hero-left">
+            <div class="hero-badge">解决方案</div>
+            <h1>自助售票/取票机</h1>
+            <p>高安全性纸币接收，大容量硬币找零，支持交通卡。</p>
+            <div class="hero-stats">
+                <div class="hero-stat-badge"><span class="value">5K+</span><span class="label">售票机已部署</span></div>
+                <div class="hero-stat-badge"><span class="value">99.2%</span><span class="label">纸币识别率</span></div>
+                <div class="hero-stat-badge"><span class="value">< 0.5s</span><span class="label">交易响应</span></div>
+            </div>
+        </div>
+        <div class="page-hero-right">
+            <div class="hero-visual">
+                <div class="visual-icon"><i class="fas fa-ticket-alt" style="font-size:4rem;color:var(--primary);"></i></div>
+                <div class="visual-title">Ticketing Payment</div>
+                <div class="visual-desc">IC / NFC / QR · 多币种 · 联网打印</div>
+                <div class="badge-group" style="margin-top:1rem;">
+                    <span class="badge"><i class="fas fa-credit-card"></i> 读卡器</span>
+                    <span class="badge"><i class="fas fa-money-bill-wave"></i> 纸币器</span>
+                    <span class="badge"><i class="fas fa-coins"></i> 硬币器</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>方案亮点</h2>
+        </div>
+        <div class="feature-grid">
+            <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-search-dollar"></i></div>
+            <h4>四重鉴伪安全</h4>
+            <p>红外+紫外+磁性+图像四重鉴伪，有效防止假币欺诈。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-coins"></i></div>
+                <h4>大容量找零</h4>
+                <p>硬币器4管储存，纸币器循环找零，减少高峰时段运维。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-id-card"></i></div>
+                <h4>交通卡兼容</h4>
+                <p>支持城市交通卡、银行卡NFC刷卡，符合PBOC/EMV标准。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-users"></i></div>
+                <h4>高并发处理</h4>
+                <p>交易响应<0.5秒，支撑高峰时段每分钟数十笔交易。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:var(--gray-50);">
+    <div class="container">
+        <div class="section-header">
+            <h2>适用产品</h2>
+        </div>
+        <div class="overview-grid">
+            <div class="overview-card">
+                <div class="overview-icon"><i class="fas fa-credit-card"></i></div>
+                <h3>读卡器 TR-800</h3>
+                <p>IP67，宽温，支持NFC/IC卡/QR</p>
+                <a href="product-reader.html" class="link-arrow">了解详情 <i class="fas fa-chevron-right"></i></a>
+            </div> 
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="cta-section">
+        <h2>需要定制自动售货机支付方案？</h2>
+        <p>即刻联系Totem商务，获取提供一站式海外支付解决方案，助您安全、高效地拓展全球市场。</p>
+        <a href="contact.html" class="btn-dark">即刻预约咨询 <i class="fas fa-headset"></i></a>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>产品系列</h4>
+                <ul>
+                    <li><a href="product-reader.html">读卡器</a></li>
+                    <li><a href="product-banknote.html">纸币接收器</a></li>
+                    <li><a href="product-coin.html">硬币器/找零器</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>解决方案</h4>
+                <ul>
+                    <li><a href="solution-vending.html">自动售货机集成</a></li>
+                    <li><a href="solution-charging.html">充电桩支付</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>技术支持</h4>
+                <ul>
+                    <li><a href="support.html">驱动下载</a></li>
+                    <li><a href="developers.html">API文档</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>关于Totem</h4>
+                <ul>
+                    <li><a href="about.html">公司简介</a></li>
+                    <li><a href="about.html">新闻动态</a></li>
+                </ul>
+                <div class="social-icons">
+                    <i class="fab fa-linkedin-in"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-weixin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© <span id="currentYear"></span> Totem Hardware Solutions. 本页面仅供布局预览</div>
+    </div>
+</footer>
+
+<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> 加载图片配置...</div>
+<script src="js/app.js"></script>
+</body>
+</html>
