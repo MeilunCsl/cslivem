@@ -2,9 +2,13 @@
 *.log
 .local-*
 
-# 临时文件
+# 临时文件 / 脚本
 .tmp-*
 fix*.js
+*.bak
+
+# 备份目录
+.backup/
 
 # 系统文件
 Thumbs.db

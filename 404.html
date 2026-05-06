@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Totem | 页面跳转中...</title>
+<script>
+// GitHub Pages 无后缀 URL 重写
+// 访问 /about 自动跳转到 /about.html
+var path = window.location.pathname;
+// 去掉末尾斜杠（保留根路径 /）
+var clean = path === '/' ? path : path.replace(/\/+$/, '');
+// 如果路径不含文件扩展名，尝试添加 .html
+if (clean && clean.indexOf('.') === -1) {
+    window.location.replace(clean + '.html' + window.location.search + window.location.hash);
+}
+</script>
+</head>
+<body>
+<p style="text-align:center;padding:3rem;font-family:sans-serif;color:#64748b;">页面跳转中...</p>
+</body>
+</html>
