@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>纸币器系列 | Totem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="product-detail" data-product="banknote">
+
+<!-- Navbar -->
+<!-- Breadcrumb -->
+<div class="container">
+    <div class="breadcrumb">
+        <a href="/" data-i18n="bc_home">首页</a><span>/</span>
+        <a href="/products" id="bcCategory" data-i18n="nav_products">产品中心</a><span>/</span>
+        <span class="current" id="bcProduct">读卡器系列</span>
+    </div>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+    <div class="container page-hero-grid">
+        <div class="page-hero-left">
+            <div class="hero-badge">Totem Product</div>
+            <h1 id="detailHeroTitle">专业读卡器</h1>
+            <p id="detailHeroSubtitle">支持IC卡、磁条卡、NFC手机支付、QR Code全支付方式覆盖</p>
+            <p id="detailHeroDesc" style="font-size:0.92rem;color:var(--gray-500);margin-bottom:1.5rem;"></p>
+            <div class="hero-stats" id="detailHeroStats"></div>
+            <div class="hero-buttons" style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+                <a href="/contact" class="btn-primary" data-i18n="hero_btn2">联系销售 <i class="fas fa-arrow-right"></i></a>
+                <a href="#detailDownloads" class="btn-outline">下载资源</a>
+            </div>
+        </div>
+        <div class="page-hero-right">
+            <div class="hero-visual">
+                <div class="visual-icon"><i id="detailHeroIcon" class="fas fa-credit-card hero-icon-fa" style="font-size:4rem;color:var(--primary);"></i></div>
+                <div class="visual-title">Totem Card Reader</div>
+                <div class="visual-desc">EMV Certified · Multi-Protocol · IP65</div>
+                <div class="badge-group" style="margin-top:1rem;">
+                    <span class="badge"><i class="fas fa-credit-card"></i> IC卡</span>
+                    <span class="badge"><i class="fas fa-wifi"></i> NFC</span>
+                    <span class="badge"><i class="fas fa-qrcode"></i> QR Code</span>
+                    <span class="badge"><i class="fas fa-magnet"></i> 磁条卡</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Nav -->
+<nav class="section-nav" id="sectionNav">
+    <div class="container">
+        <a href="#detailFeatures" class="section-nav-link active" data-i18n="detail_features">核心特性</a>
+        <a href="#detailModels" class="section-nav-link" data-i18n="detail_models">产品型号</a>
+        <a href="#detailSpecs" class="section-nav-link" data-i18n="detail_specs">技术规格</a>
+        <a href="#detailScenarios" class="section-nav-link" data-i18n="detail_scenarios">适用场景</a>
+        <a href="#detailDownloads" class="section-nav-link" data-i18n="detail_downloads">下载资源</a>
+    </div>
+</nav>
+
+<!-- Features -->
+<section class="section" id="detailFeatures">
+    <div class="container">
+        <div class="section-header">
+            <h2 data-i18n="detail_features">核心特性</h2>
+        </div>
+        <div class="feature-grid" id="detailFeatures"></div>
+    </div>
+</section>
+
+<!-- Models -->
+<section class="section" style="background:var(--gray-50);padding-top:60px;padding-bottom:60px;" id="detailModels">
+    <div class="container">
+        <div class="section-header">
+            <h2 data-i18n="detail_models">产品型号</h2>
+        </div>
+        <div class="models-grid" id="detailModels"></div>
+    </div>
+</section>
+
+<!-- Specs -->
+<section class="section" id="detailSpecs">
+    <div class="container">
+        <div class="section-header">
+            <h2 data-i18n="detail_specs">技术规格</h2>
+        </div>
+        <div class="spec-table-wrap" id="detailSpecs"></div>
+    </div>
+</section>
+
+<!-- Scenarios -->
+<section class="section" style="background:var(--gray-50);padding-top:60px;padding-bottom:60px;" id="detailScenarios">
+    <div class="container">
+        <div class="section-header">
+            <h2 data-i18n="detail_scenarios">适用场景</h2>
+        </div>
+        <div class="scenario-grid" id="detailScenarios"></div>
+    </div>
+</section>
+
+<!-- Downloads -->
+<section class="section" id="detailDownloads">
+    <div class="container">
+        <div class="section-header">
+            <h2 data-i18n="detail_downloads">下载资源</h2>
+        </div>
+        <div class="resource-grid" id="detailDownloads"></div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="section" style="background:var(--gray-50);padding-top:60px;padding-bottom:60px;">
+    <div class="container">
+        <div class="section-header">
+            <h2 data-i18n="detail_related">相关产品</h2>
+        </div>
+        <div class="overview-grid" id="detailRelated"></div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="container">
+    <div class="cta-section">
+        <h2 data-i18n="cta_title">需要定制支付硬件方案？</h2>
+        <p data-i18n="cta_desc">即刻联系Totem商务，获取提供一站式海外支付解决方案，助您安全、高效地拓展全球市场。</p>
+        <a href="/contact" class="btn-dark" data-i18n="cta_btn">即刻预约咨询 <i class="fas fa-headset"></i></a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> <span data-i18n="loading">加载图片配置...</span></div>
+<script src="/js/app.js"></script>
+<script src="/js/components.js"></script>
+</body>
+</html>

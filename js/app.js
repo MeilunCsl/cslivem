@@ -9,7 +9,7 @@ var TotemSite = (function () {
     var PRODUCT_DATA = {
         reader: {
             id: 'reader',
-            pageFile: 'product-reader.html',
+            pageFile: '/products/reader',
             category: '读卡器系列',
             categoryEn: 'Card Readers',
             title: '专业读卡器',
@@ -36,28 +36,28 @@ var TotemSite = (function () {
                 {
                     id: 'VPOS-TOUCH', name: 'VPOS TOUCH', subtitle: '全触控智能读卡器', subtitleEn: 'Full-Touch Smart Card Reader',
                     badge: '旗舰', badgeEn: 'Flagship', icon: 'fas fa-tablet-alt',
-                    pageFile: 'product-reader-vpos-touch.html',
+                    pageFile: '/products/reader/vpos-touch',
                     specs: ['全触控彩色屏', 'IC卡+NFC+QR+磁条', 'IP65防护', '多协议通信'],
                     specsEn: ['Full-Touch Color Screen', 'IC+NFC+QR+Magnetic', 'IP65 Rated', 'Multi-Protocol']
                 },
                 {
                     id: 'ONYX', name: 'ONYX', subtitle: '紧凑型多功能读卡器', subtitleEn: 'Compact Multi-Function Reader',
                     badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-credit-card',
-                    pageFile: 'product-reader-onyx.html',
+                    pageFile: '/products/reader/onyx',
                     specs: ['紧凑设计', 'IC卡+NFC', 'IP65防护', '即插即用'],
                     specsEn: ['Compact Design', 'IC Card+NFC', 'IP65 Rated', 'Plug & Play']
                 },
                 {
                     id: 'VPOS-MEDIA4', name: 'VPOS Media 4', subtitle: '多媒体智能支付终端', subtitleEn: 'Multimedia Smart Payment Terminal',
                     badge: '', icon: 'fas fa-tv',
-                    pageFile: 'product-reader-vpos-media4.html',
+                    pageFile: '/products/reader/vpos-media4',
                     specs: ['大尺寸显示屏', '多媒体播放', '全支付方式', '以太网/4G'],
                     specsEn: ['Large Display', 'Multimedia Playback', 'All Payments', 'Ethernet/4G']
                 },
                 {
                     id: 'VPOS-MEDIA4-MINI', name: 'VPOS Media 4 Mini', subtitle: '迷你多媒体读卡器', subtitleEn: 'Mini Multimedia Reader',
                     badge: '', icon: 'fas fa-mobile-alt',
-                    pageFile: 'product-reader-vpos-media4-mini.html',
+                    pageFile: '/products/reader/vpos-media4-mini',
                     specs: ['超紧凑机身', 'IC卡+NFC+QR', '低功耗设计', 'USB/RS232'],
                     specsEn: ['Ultra-Compact', 'IC+NFC+QR', 'Low Power', 'USB/RS232']
                 }
@@ -69,38 +69,38 @@ var TotemSite = (function () {
                         ['支持卡类型', 'IC卡(ISO 7816) / 磁条卡(ISO 7811) / NFC(ISO 14443) / QR Code'],
                         ['认证标准', 'EMV L1/L2, PCI PTS 5.x, PBOC 3.0'],
                         ['交易速度', '< 0.5秒（含网络通信）'],
-                        ['显示屏', '2.4寸 TFT彩色屏（TR-500/800）']
+                        ['显示屏', '彩色触控屏（视型号而定）']
                     ],
                     rowsEn: [
                         ['Card Types', 'IC (ISO 7816) / Magnetic Stripe (ISO 7811) / NFC (ISO 14443) / QR Code'],
                         ['Certification', 'EMV L1/L2, PCI PTS 5.x, PBOC 3.0'],
                         ['Transaction Speed', '< 0.5s (incl. network)'],
-                        ['Display', '2.4" TFT Color (TR-500/800)']
+                        ['Display', 'Color touchscreen (varies by model)']
                     ]
                 },
                 '通信接口': {
                     titleEn: 'Interface',
                     rows: [
                         ['协议支持', 'MDB, CCtalk, USB HID, RS232'],
-                        ['网络', '以太网（TR-800）/ 4G模块可选'],
+                        ['网络', '以太网 / 4G模块可选（视型号而定）'],
                         ['天线', '内置NFC天线，外置可选']
                     ],
                     rowsEn: [
                         ['Protocols', 'MDB, CCtalk, USB HID, RS232'],
-                        ['Network', 'Ethernet (TR-800) / 4G optional'],
+                        ['Network', 'Ethernet / 4G optional (varies by model)'],
                         ['Antenna', 'Built-in NFC, external optional']
                     ]
                 },
                 '环境参数': {
                     titleEn: 'Environmental',
                     rows: [
-                        ['防护等级', 'IP54 (TR-200) / IP65 (TR-500) / IP67 (TR-800)'],
+                        ['防护等级', 'IP54 / IP65 / IP67（视型号而定）'],
                         ['工作温度', '-20°C ~ 60°C'],
                         ['存储温度', '-40°C ~ 80°C'],
                         ['湿度', '10% ~ 90% RH（非凝结）']
                     ],
                     rowsEn: [
-                        ['Protection', 'IP54 (TR-200) / IP65 (TR-500) / IP67 (TR-800)'],
+                        ['Protection', 'IP54 / IP65 / IP67 (varies by model)'],
                         ['Operating Temp', '-20°C ~ 60°C'],
                         ['Storage Temp', '-40°C ~ 80°C'],
                         ['Humidity', '10% ~ 90% RH (non-condensing)']
@@ -109,13 +109,13 @@ var TotemSite = (function () {
                 '物理参数': {
                     titleEn: 'Physical',
                     rows: [
-                        ['尺寸 (L×W×H)', '120×85×42mm（TR-500）'],
+                        ['尺寸 (L×W×H)', '视型号而定'],
                         ['重量', '约220g（不含线缆）'],
                         ['安装方式', '面板嵌入 / 壁挂支架'],
                         ['电源', 'DC 12V / 24V 自适应']
                     ],
                     rowsEn: [
-                        ['Dimensions', '120×85×42mm (TR-500)'],
+                        ['Dimensions', 'Varies by model'],
                         ['Weight', '~220g (excl. cable)'],
                         ['Mounting', 'Panel mount / Wall bracket'],
                         ['Power', 'DC 12V / 24V auto-detect']
@@ -141,119 +141,90 @@ var TotemSite = (function () {
 
         banknote: {
             id: 'banknote',
-            pageFile: 'product-banknote.html',
+            pageFile: '/products/banknote',
             category: '纸币器系列',
             categoryEn: 'Bill Validators',
             title: '纸币接收器',
             titleEn: 'Bill Validators',
-            subtitle: '高识别率真伪鉴别，支持多国纸币，大容量钱箱与循环找零',
-            subtitleEn: 'High-accuracy counterfeit detection, multi-currency support, large cashbox & recycling',
-            description: 'Totem纸币器系列采用多光谱光学识别技术，真伪鉴别准确率达99.2%，支持全球50+国家纸币面额识别，提供大容量钱箱和循环找零两种机型，满足不同自助设备的现金处理需求。',
-            descriptionEn: 'Totem bill validators use multi-spectral optical recognition with 99.2% accuracy, support 50+ country currencies, available in large cashbox and recycling models for diverse self-service cash handling needs.',
+            subtitle: 'NV9/NV10/BV30/NV200S纸币接收系列，覆盖低值到高端场景',
+            subtitleEn: 'NV9/NV10/BV30/NV200S bill acceptor series, covering low-value to premium scenarios',
+            description: 'Totem纸币器系列涵盖NV9、NV10、CBA9、BV30及NV200/200S五款型号，支持SSP/ccTalk/MDB/Pulse等主流协议，具备RGB边框灯、增强型光学与机械防钓鱼设计，满足从低值交易到高端自助设备的不同现金处理需求。',
+            descriptionEn: 'The Totem bill validator series includes NV9, NV10, CBA9, BV30, and NV200/200S models, supporting SSP/ccTalk/MDB/Pulse protocols with RGB bezel illumination, enhanced optical & mechanical anti-stringing, covering low-value to premium self-service cash handling.',
             heroIcon: 'fas fa-money-bill-wave',
             stats: [
-                { value: '99.2%', label: '识别准确率', labelEn: 'Accuracy' },
-                { value: '50+', label: '支持国家', labelEn: 'Countries' },
-                { value: '600+', label: '钱箱容量(张)', labelEn: 'Cashbox Cap.' }
+                { value: 'NV9/NV10/BV30', label: '核心型号', labelEn: 'Core Models' },
+                { value: 'NV200/200S', label: '高端型号', labelEn: 'Premium Models' },
+                { value: 'MDB/Pulse', label: '协议支持', labelEn: 'Protocols' }
             ],
             features: [
-                { icon: 'fas fa-search-dollar', title: '多光谱鉴伪', titleEn: 'Multi-Spectral Detection', desc: '采用红外、紫外、磁性、图像四重鉴伪技术，有效识别假币、拼接币。', descEn: 'Infrared, UV, magnetic, and image quadruple detection for effective counterfeit identification.' },
-                { icon: 'fas fa-globe-americas', title: '多国纸币支持', titleEn: 'Multi-Currency', desc: '出厂预置50+国家纸币数据库，支持固件升级扩展新币种。', descEn: 'Pre-loaded with 50+ country currency databases, expandable via firmware updates.' },
-                { icon: 'fas fa-box', title: '大容量钱箱', titleEn: 'Large Cashbox', desc: '标准钱箱容量600张，可选1000张大容量钱箱，减少运维频次。', descEn: 'Standard 600-note capacity, optional 1000-note cashbox to reduce maintenance frequency.' },
-                { icon: 'fas fa-sync-alt', title: '循环找零', titleEn: 'Recycling & Change', desc: 'BV-500R支持纸币循环找零功能，降低运营找零成本。', descEn: 'BV-500R supports bill recycling for change, reducing operational costs.' },
-                { icon: 'fas fa-shield-alt', title: '防欺诈设计', titleEn: 'Anti-Fraud Design', desc: '防钓鱼、防回拉机械结构，有效防止纸币被恶意抽回。', descEn: 'Anti-fishing and anti-pullback mechanisms to prevent fraudulent bill retrieval.' },
-                { icon: 'fas fa-wrench', title: '易维护设计', titleEn: 'Easy Maintenance', desc: '模块化结构，前维护设计，纸币通道可视化，清洁维护无需工具。', descEn: 'Modular front-access design, visible bill path, tool-free cleaning and maintenance.' }
+                { icon: 'fas fa-lightbulb', title: 'RGB边框灯', titleEn: 'RGB Bezel Illumination', desc: 'BV30/NV200S配备RGB可编程边框灯，提升用户交互体验。', descEn: 'BV30/NV200S feature programmable RGB bezel illumination for enhanced user interaction.' },
+                { icon: 'fas fa-search-dollar', title: '增强鉴伪安全', titleEn: 'Enhanced Detection Security', desc: '改进的紫外线和反射式纸币检测，有效识别真伪。', descEn: 'Improved UV & reflective note detection for effective counterfeit identification.' },
+                { icon: 'fas fa-shield-alt', title: '防钓鱼设计', titleEn: 'Anti-Stringing Design', desc: '增强型光学与机械防钓鱼结构，有效防止纸币被恶意抽回。', descEn: 'Enhanced optical & mechanical anti-stringing to prevent fraudulent note retrieval.' },
+                { icon: 'fas fa-bolt', title: '快速纸币处理', titleEn: 'Fast Note Processing', desc: '更快的纸币识别与接收速度，提升交易效率。', descEn: 'Faster note recognition and acceptance for improved transaction efficiency.' },
+                { icon: 'fas fa-wifi', title: 'SMART数据兼容', titleEn: 'SMART Data Compatible', desc: '支持远程下载SMART数据，免费固件更新。', descEn: 'Remote SMART data download with free firmware updates.' },
+                { icon: 'fas fa-wrench', title: '易维护设计', titleEn: 'Easy Maintenance', desc: '低持有成本，未来兼容设计，减少现场维护。', descEn: 'Lowest cost of ownership, future-proof design, minimal on-site maintenance.' }
             ],
             models: [
                 {
-                    id: 'BV-100', name: 'BV-100', subtitle: '紧凑型纸币器', subtitleEn: 'Compact Bill Validator',
+                    id: 'NV9', name: 'NV9', subtitle: '紧凑型纸币接收器', subtitleEn: 'Compact Bill Validator',
                     badge: '', icon: 'fas fa-money-bill-wave',
-                    specs: ['单向接收', '300张钱箱', 'MDB/CCtalk', '紧凑设计'],
-                    specsEn: ['One-way acceptance', '300-note cashbox', 'MDB/CCtalk', 'Compact design']
+                    specs: ['紧凑设计', 'MDB/ccTalk', 'SSP协议', '高性价比'],
+                    specsEn: ['Compact design', 'MDB/ccTalk', 'SSP protocol', 'Cost-effective']
                 },
                 {
-                    id: 'BV-300', name: 'BV-300', subtitle: '标准型纸币器', subtitleEn: 'Standard Bill Validator',
+                    id: 'NV10', name: 'NV10', subtitle: '纸币接收器', subtitleEn: 'Bill Validator',
+                    badge: '', icon: 'fas fa-money-bill-wave',
+                    specs: ['MDB/Pulse', '多币种', '增强鉴伪', '易维护'],
+                    specsEn: ['MDB/Pulse', 'Multi-currency', 'Enhanced detection', 'Easy maintenance']
+                },
+                {
+                    id: 'CBA9', name: 'CBA9', subtitle: '纸币接收器', subtitleEn: 'Bill Validator',
+                    badge: '', icon: 'fas fa-money-bill-wave',
+                    specs: ['MDB协议', '紧凑设计', '高可靠性', '多币种'],
+                    specsEn: ['MDB protocol', 'Compact design', 'High reliability', 'Multi-currency']
+                },
+                {
+                    id: 'BV30', name: 'BV30', subtitle: '下一代紧凑型纸币接收器', subtitleEn: 'Next-Gen Compact Bill Accept',
                     badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-money-bill-wave',
-                    specs: ['单向接收', '600张钱箱', '多协议', '多币种'],
-                    specsEn: ['One-way acceptance', '600-note cashbox', 'Multi-protocol', 'Multi-currency']
+                    specs: ['RGB边框灯', 'SSP/MDB/Pulse', 'MCBF 100K', '300g轻量'],
+                    specsEn: ['RGB bezel', 'SSP/MDB/Pulse', 'MCBF 100K', '300g lightweight']
                 },
                 {
-                    id: 'BV-500R', name: 'BV-500R', subtitle: '循环找零纸币器', subtitleEn: 'Recycling Bill Validator',
+                    id: 'NV200-200S', name: 'NV200/200S', subtitle: '高端纸币接收器', subtitleEn: 'Premium Bill Validator',
                     badge: '旗舰', badgeEn: 'Flagship', icon: 'fas fa-money-bill-wave',
-                    specs: ['双向循环', '600张+循环', '以太网/MDB', '自动找零'],
-                    specsEn: ['Bidirectional recycling', '600+ recycling slots', 'Ethernet/MDB', 'Auto change']
+                    specs: ['高端鉴伪', '大容量钱箱', 'NV200S带RGB灯', 'SMART数据'],
+                    specsEn: ['Premium detection', 'Large cashbox', 'NV200S w/ RGB', 'SMART data']
                 }
             ],
             specifications: {
-                '基本参数': {
+                'BV30参数': {
+                    titleEn: 'BV30 Specs',
+                    rows: [
+                        ['协议支持', 'SSP, ccTalk, MDB, Pulse, Parallel, Binary, Serial'],
+                        ['电源', '12V DC，待机150mA，运行540mA，峰值1.5A'],
+                        ['MCBF', '100,000次'],
+                        ['边框灯', '72mm RGB可编程'],
+                        ['重量', '300g']
+                    ],
+                    rowsEn: [
+                        ['Protocols', 'SSP, ccTalk, MDB, Pulse, Parallel, Binary, Serial'],
+                        ['Power', '12V DC, Standby 150mA, Running 540mA, Peak 1.5A'],
+                        ['MCBF', '100,000 cycles'],
+                        ['Bezel', '72mm RGB programmable'],
+                        ['Weight', '300g']
+                    ]
+                },
+                '通用参数': {
                     titleEn: 'General',
                     rows: [
-                        ['识别技术', '多光谱光学(红外/紫外) + 磁性 + 图像识别'],
-                        ['鉴别准确率', '≥ 99.2%'],
-                        ['接收速度', '≤ 2秒/张'],
-                        ['支持面额', '按国家配置，最多支持12种面额']
+                        ['系列型号', 'NV9 / NV10 / CBA9 / BV30 / NV200 / NV200S'],
+                        ['协议支持', 'MDB, ccTalk, SSP, Pulse（视型号而定）'],
+                        ['应用', '自动售货机、售票机、自助缴费终端等']
                     ],
                     rowsEn: [
-                        ['Detection', 'Multi-spectral (IR/UV) + Magnetic + Image recognition'],
-                        ['Accuracy', '≥ 99.2%'],
-                        ['Acceptance Speed', '≤ 2s per note'],
-                        ['Denominations', 'Country-configurable, up to 12 denominations']
-                    ]
-                },
-                '容量参数': {
-                    titleEn: 'Capacity',
-                    rows: [
-                        ['钱箱容量', 'BV-100: 300张 / BV-300: 600张 / BV-500R: 600张+循环'],
-                        ['循环钞箱', 'BV-500R: 4个循环槽位，每槽80张'],
-                        ['钱箱类型', '可锁定安全钱箱，支持快速更换']
-                    ],
-                    rowsEn: [
-                        ['Cashbox', 'BV-100: 300 / BV-300: 600 / BV-500R: 600+ recycling'],
-                        ['Recycling', 'BV-500R: 4 recycling slots, 80 notes each'],
-                        ['Cashbox Type', 'Lockable security cashbox, quick-swap design']
-                    ]
-                },
-                '通信接口': {
-                    titleEn: 'Interface',
-                    rows: [
-                        ['协议支持', 'MDB, CCtalk, USB, RS232'],
-                        ['网络', '以太网（BV-500R）'],
-                        ['固件升级', 'USB / 网络OTA']
-                    ],
-                    rowsEn: [
-                        ['Protocols', 'MDB, CCtalk, USB, RS232'],
-                        ['Network', 'Ethernet (BV-500R)'],
-                        ['Firmware Update', 'USB / Network OTA']
-                    ]
-                },
-                '环境参数': {
-                    titleEn: 'Environmental',
-                    rows: [
-                        ['防护等级', 'IP54'],
-                        ['工作温度', '0°C ~ 50°C'],
-                        ['存储温度', '-20°C ~ 70°C'],
-                        ['湿度', '10% ~ 85% RH（非凝结）']
-                    ],
-                    rowsEn: [
-                        ['Protection', 'IP54'],
-                        ['Operating Temp', '0°C ~ 50°C'],
-                        ['Storage Temp', '-20°C ~ 70°C'],
-                        ['Humidity', '10% ~ 85% RH (non-condensing)']
-                    ]
-                },
-                '物理参数': {
-                    titleEn: 'Physical',
-                    rows: [
-                        ['尺寸 (L×W×H)', '245×100×88mm（BV-300）'],
-                        ['重量', '约680g（不含钱箱）'],
-                        ['安装方式', '面板嵌入式'],
-                        ['电源', 'DC 12V / 24V']
-                    ],
-                    rowsEn: [
-                        ['Dimensions', '245×100×88mm (BV-300)'],
-                        ['Weight', '~680g (excl. cashbox)'],
-                        ['Mounting', 'Panel mount'],
-                        ['Power', 'DC 12V / 24V']
+                        ['Models', 'NV9 / NV10 / CBA9 / BV30 / NV200 / NV200S'],
+                        ['Protocols', 'MDB, ccTalk, SSP, Pulse (varies by model)'],
+                        ['Applications', 'Vending, ticketing, self-service payment terminals']
                     ]
                 }
             },
@@ -265,131 +236,101 @@ var TotemSite = (function () {
                 { icon: 'fas fa-parking', name: '自助缴费', nameEn: 'Self-Service Payment' }
             ],
             downloads: [
-                { icon: 'fas fa-download', name: '纸币器配置工具 V2.0', nameEn: 'Bill Validator Config Tool V2.0', desc: '币种配置与参数设置', descEn: 'Currency config & parameter setup', size: '15MB' },
-                { icon: 'fas fa-file-code', name: 'API集成开发文档', nameEn: 'API Integration Guide', desc: 'MDB/CCtalk协议说明', descEn: 'MDB/CCtalk Protocol Docs', size: '3.1MB' },
-                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '安装接线与调试指南', descEn: 'Installation & debugging guide', size: '6.2MB' },
-                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数', descEn: 'Full specifications', size: '2.1MB' }
+                { icon: 'fas fa-download', name: '纸币器配置工具', nameEn: 'Bill Validator Config Tool', desc: '币种配置与参数设置', descEn: 'Currency config & parameter setup', size: '[待确认]' },
+                { icon: 'fas fa-file-code', name: 'API集成开发文档', nameEn: 'API Integration Guide', desc: 'MDB/CCtalk协议说明', descEn: 'MDB/CCtalk Protocol Docs', size: '[待确认]' },
+                { icon: 'fas fa-book', name: '产品安装手册', nameEn: 'Installation Manual', desc: '安装接线与调试指南', descEn: 'Installation & debugging guide', size: '[待确认]' },
+                { icon: 'fas fa-file-pdf', name: '产品数据手册', nameEn: 'Product Datasheet', desc: '完整技术参数', descEn: 'Full specifications', size: '[待确认]' }
             ],
             relatedProducts: ['reader', 'coin']
         },
 
         coin: {
             id: 'coin',
-            pageFile: 'product-coin.html',
+            pageFile: '/products/coin',
             category: '硬币器系列',
             categoryEn: 'Coin Acceptors',
             title: '硬币器 / 找零模块',
             titleEn: 'Coin Acceptor / Change Module',
-            subtitle: '高精度硬币识别，多币种储存，自动找零与清空功能',
-            subtitleEn: 'High-precision coin recognition, multi-currency storage, auto change & emptying',
-            description: 'Totem硬币器系列采用电磁+光学双重识别技术，支持全球主流硬币及代币，提供从基础接收到自动找零的完整产品线。低故障率设计，平均无故障运行超过50万次。',
-            descriptionEn: 'Totem coin acceptors use electromagnetic + optical dual recognition, support global coins and tokens. Complete product line from basic acceptance to automatic change. Low failure rate — 500K+ MTBF cycles.',
+            subtitle: 'TM600F多币种硬币器与比较式投币器，覆盖自助设备硬币支付需求',
+            subtitleEn: 'TM600F multi-coin acceptor and comparison coin acceptor, covering self-service coin payment needs',
+            description: 'Totem硬币器系列包含TM600F电子硬币接收器和比较式投币器两款产品。TM600F支持6组（可扩展至8组）不同面额硬币识别，直径17-30.5mm，具备串口/并口双输出模式，广泛应用于自助售货机、游戏设备等场景。',
+            descriptionEn: 'The Totem coin acceptor series includes the TM600F electronic coin acceptor and comparison-based coin acceptor. TM600F recognizes up to 6 groups (expandable to 8) of coin denominations, diameter 17-30.5mm, with serial/parallel dual output modes, widely used in vending machines and amusement devices.',
             heroIcon: 'fas fa-coins',
             stats: [
-                { value: '50万+', label: '平均无故障次数', labelEn: 'MTBF Cycles' },
-                { value: '16种', label: '最大支持币种', labelEn: 'Max Coins' },
-                { value: '< 1s', label: '识别速度', labelEn: 'Recognition' }
+                { value: 'TM600F', label: '电子硬币器', labelEn: 'Electronic Acceptor' },
+                { value: '6组', label: '硬币识别组', labelEn: 'Coin Groups' },
+                { value: '17-30.5mm', label: '支持直径', labelEn: 'Coin Diameter' }
             ],
             features: [
-                { icon: 'fas fa-bullseye', title: '双重识别技术', titleEn: 'Dual Recognition', desc: '电磁感应+光学图像双重验证，有效识别真币、异币、假币。', descEn: 'Electromagnetic + optical dual verification for accurate coin authentication.' },
-                { icon: 'fas fa-coins', title: '多币种支持', titleEn: 'Multi-Currency', desc: '最多同时支持16种不同直径/材质的硬币或代币。', descEn: 'Simultaneously supports up to 16 different diameter/material coins or tokens.' },
-                { icon: 'fas fa-exchange-alt', title: '自动找零', titleEn: 'Auto Change', desc: 'CA-300内置多币种储存管，支持自动找零，减少人工补币。', descEn: 'CA-300 has built-in multi-denomination tubes for automatic change, reducing manual refills.' },
-                { icon: 'fas fa-trash-alt', title: '一键清空', titleEn: 'One-Touch Empty', desc: '支持远程/本地一键清空硬币储存管，方便运营管理。', descEn: 'Remote/local one-touch empty function for convenient operation management.' },
+                { icon: 'fas fa-bullseye', title: '电磁+光学识别', titleEn: 'Electromagnetic + Optical', desc: 'TM600F采用电磁感应+光学双重识别，有效识别真币、异币、假币。', descEn: 'TM600F uses electromagnetic + optical dual recognition for accurate coin authentication.' },
+                { icon: 'fas fa-coins', title: '6组硬币识别', titleEn: '6 Coin Groups', desc: '支持6组不同面额硬币识别（可扩展至8组），每组最多20枚样本。', descEn: 'Supports 6 coin denomination groups (expandable to 8), up to 20 sample coins per group.' },
+                { icon: 'fas fa-exchange-alt', title: '串口/并口双输出', titleEn: 'Serial/Parallel Output', desc: '支持5Pin串口和10Pin并口工业标准接口，兼容脉冲和RS232信号。', descEn: '5Pin serial and 10Pin parallel industrial standard interfaces, compatible with pulse and RS232 signals.' },
+                { icon: 'fas fa-sliders-h', title: '灵活参数设置', titleEn: 'Flexible Configuration', desc: '支持DIP开关设置输出模式、安全等级、禁止接收等参数。', descEn: 'DIP switch settings for output mode, security level, inhibit acceptance and more.' },
                 { icon: 'fas fa-shield-alt', title: '防钓鱼设计', titleEn: 'Anti-Fishing', desc: '机械+电子双重防钓，防止硬币被绳索等工具恶意抽回。', descEn: 'Mechanical + electronic anti-fishing to prevent fraudulent coin retrieval.' },
-                { icon: 'fas fa-clock', title: '超长寿命', titleEn: 'Extended Lifespan', desc: '核心部件寿命超过100万次，平均无故障运行50万次以上。', descEn: 'Core components rated for 1M+ cycles, 500K+ MTBF cycles.' }
+                { icon: 'fas fa-wrench', title: '自诊断功能', titleEn: 'Self-Diagnosis', desc: '内置自诊断系统，支持错误代码显示（E1-EE），方便快速排障。', descEn: 'Built-in self-diagnosis with error code display (E1-EE) for quick troubleshooting.' }
             ],
             models: [
                 {
-                    id: 'CA-100', name: 'CA-100', subtitle: '基础型硬币器', subtitleEn: 'Basic Coin Acceptor',
-                    badge: '', icon: 'fas fa-coins',
-                    specs: ['单币种接收', '无找零', 'MDB/脉冲', '高性价比'],
-                    specsEn: ['Single coin acceptance', 'No change', 'MDB/Pulse', 'Cost-effective']
-                },
-                {
-                    id: 'CA-200', name: 'CA-200', subtitle: '多币种硬币器', subtitleEn: 'Multi-Coin Acceptor',
+                    id: 'TM600F', name: 'TM600F', subtitle: '多币种电子硬币接收器', subtitleEn: 'Multi-Coin Electronic Acceptor',
                     badge: '推荐', badgeEn: 'Recommended', icon: 'fas fa-coins',
-                    specs: ['16币种识别', '无找零', 'MDB/CCtalk', '高精度'],
-                    specsEn: ['16-coin recognition', 'No change', 'MDB/CCtalk', 'High precision']
+                    specs: ['6组硬币识别', '串口/并口输出', 'RS232/Pulse', 'DIP开关配置'],
+                    specsEn: ['6 coin groups', 'Serial/Parallel output', 'RS232/Pulse', 'DIP switch config']
                 },
                 {
-                    id: 'CA-300', name: 'CA-300', subtitle: '硬币找零一体机', subtitleEn: 'Coin Acceptor + Changer',
-                    badge: '旗舰', badgeEn: 'Flagship', icon: 'fas fa-coins',
-                    specs: ['16币种+找零', '4管储存', 'MDB/CCtalk/以太网', '远程管理'],
-                    specsEn: ['16 coins + change', '4 storage tubes', 'MDB/CCtalk/Ethernet', 'Remote mgmt']
+                    id: 'COMP', name: '比较式投币器', subtitle: '基础型硬币器', subtitleEn: 'Comparison Coin Acceptor',
+                    badge: '', icon: 'fas fa-coins',
+                    specs: ['比较式识别', '脉冲输出', '低功耗', '高性价比'],
+                    specsEn: ['Comparison recognition', 'Pulse output', 'Low power', 'Cost-effective']
                 }
             ],
             specifications: {
-                '基本参数': {
-                    titleEn: 'General',
+                'TM600F参数': {
+                    titleEn: 'TM600F Specs',
                     rows: [
-                        ['识别技术', '电磁感应 + 光学图像双重识别'],
-                        ['支持币种', '最多16种（直径18-32mm，厚度1.2-3.2mm）'],
-                        ['识别速度', '< 1秒/枚'],
-                        ['假币拒绝率', '≥ 99.5%']
+                        ['硬币直径', '17 – 30.5mm'],
+                        ['硬币厚度', '1.25 – 3.2mm'],
+                        ['识别组数', '6组（可扩展至8组）'],
+                        ['每组样本', '最多20枚'],
+                        ['通信接口', '5Pin串口 + 10Pin并口（工业标准）'],
+                        ['信号输出', '脉冲信号 / RS232信号'],
+                        ['RS232波特率', '1200/2400/4800/9600 bps（可配置）']
                     ],
                     rowsEn: [
-                        ['Detection', 'Electromagnetic + Optical dual recognition'],
-                        ['Coin Types', 'Up to 16 (dia. 18-32mm, thickness 1.2-3.2mm)'],
-                        ['Speed', '< 1s per coin'],
-                        ['Reject Rate', '≥ 99.5%']
+                        ['Coin Diameter', '17 – 30.5mm'],
+                        ['Coin Thickness', '1.25 – 3.2mm'],
+                        ['Coin Groups', '6 (expandable to 8)'],
+                        ['Samples per Group', 'Up to 20'],
+                        ['Interface', '5Pin Serial + 10Pin Parallel (Industrial)'],
+                        ['Signal Output', 'Pulse / RS232'],
+                        ['RS232 Baud Rate', '1200/2400/4800/9600 bps (configurable)']
                     ]
                 },
-                '找零参数': {
-                    titleEn: 'Change Module',
+                '电气参数': {
+                    titleEn: 'Electrical',
                     rows: [
-                        ['储存管数量', 'CA-300: 4管'],
-                        ['每管容量', '约30-50枚（视币种直径）'],
-                        ['找零速度', '≤ 2秒/枚'],
-                        ['补币提醒', '支持低币量预警']
+                        ['工作电压', 'DC 12V（范围 10V-15V）'],
+                        ['待机电流', '50mA'],
+                        ['最大电流', '450mA（瞬间投币时）'],
+                        ['安装角度', '与垂直面偏差不超过2度']
                     ],
                     rowsEn: [
-                        ['Storage Tubes', 'CA-300: 4 tubes'],
-                        ['Tube Capacity', '~30-50 coins per tube (varies by diameter)'],
-                        ['Change Speed', '≤ 2s per coin'],
-                        ['Refill Alert', 'Low-level warning supported']
-                    ]
-                },
-                '通信接口': {
-                    titleEn: 'Interface',
-                    rows: [
-                        ['协议支持', 'MDB, CCtalk, 脉冲(Pulse), RS232'],
-                        ['网络', '以太网（CA-300）'],
-                        ['固件升级', 'USB / 网络OTA']
-                    ],
-                    rowsEn: [
-                        ['Protocols', 'MDB, CCtalk, Pulse, RS232'],
-                        ['Network', 'Ethernet (CA-300)'],
-                        ['Firmware Update', 'USB / Network OTA']
+                        ['Working Voltage', 'DC 12V (range 10V-15V)'],
+                        ['Standby Current', '50mA'],
+                        ['Max Current', '450mA (at coin collection)'],
+                        ['Mounting Angle', 'No more than 2° from vertical']
                     ]
                 },
                 '环境参数': {
                     titleEn: 'Environmental',
                     rows: [
-                        ['防护等级', 'IP54'],
-                        ['工作温度', '-10°C ~ 55°C'],
-                        ['存储温度', '-30°C ~ 70°C'],
-                        ['湿度', '10% ~ 80% RH']
+                        ['工作温度', '0°C ~ 50°C'],
+                        ['存储温度', '-30°C ~ 55°C'],
+                        ['湿度', '≤ 95% RH（非凝结）']
                     ],
                     rowsEn: [
-                        ['Protection', 'IP54'],
-                        ['Operating Temp', '-10°C ~ 55°C'],
-                        ['Storage Temp', '-30°C ~ 70°C'],
-                        ['Humidity', '10% ~ 80% RH']
-                    ]
-                },
-                '物理参数': {
-                    titleEn: 'Physical',
-                    rows: [
-                        ['尺寸 (L×W×H)', '150×80×65mm（CA-200）'],
-                        ['重量', '约350g'],
-                        ['安装方式', '面板嵌入 / 螺丝固定'],
-                        ['电源', 'DC 12V / 24V']
-                    ],
-                    rowsEn: [
-                        ['Dimensions', '150×80×65mm (CA-200)'],
-                        ['Weight', '~350g'],
-                        ['Mounting', 'Panel mount / Screw fix'],
-                        ['Power', 'DC 12V / 24V']
+                        ['Operating Temp', '0°C ~ 50°C'],
+                        ['Storage Temp', '-30°C ~ 55°C'],
+                        ['Humidity', '≤ 95% RH (non-condensing)']
                     ]
                 }
             },
@@ -411,7 +352,7 @@ var TotemSite = (function () {
 
         scanner: {
             id: 'scanner',
-            pageFile: 'product-scanner.html',
+            pageFile: '/products/scanner',
             category: '扫码器系列',
             categoryEn: 'Barcode Scanners',
             title: '扫码器',
@@ -455,7 +396,7 @@ var TotemSite = (function () {
 
         nfc: {
             id: 'nfc',
-            pageFile: 'product-nfc.html',
+            pageFile: '/products/nfc',
             category: '非接读卡器',
             categoryEn: 'Contactless Readers',
             title: '非接读卡器',
@@ -500,7 +441,7 @@ var TotemSite = (function () {
         // ===== 子产品: VPOS TOUCH =====
         'vpos-touch': {
             id: 'vpos-touch',
-            pageFile: 'product-reader-vpos-touch.html',
+            pageFile: '/products/reader/vpos-touch',
             parentCategory: 'reader',
             category: 'VPOS TOUCH',
             categoryEn: 'VPOS TOUCH',
@@ -619,7 +560,7 @@ var TotemSite = (function () {
         // ===== 子产品: ONYX =====
         'onyx': {
             id: 'onyx',
-            pageFile: 'product-reader-onyx.html',
+            pageFile: '/products/reader/onyx',
             parentCategory: 'reader',
             category: 'ONYX',
             categoryEn: 'ONYX',
@@ -720,7 +661,7 @@ var TotemSite = (function () {
         // ===== 子产品: VPOS Media 4 =====
         'vpos-media4': {
             id: 'vpos-media4',
-            pageFile: 'product-reader-vpos-media4.html',
+            pageFile: '/products/reader/vpos-media4',
             parentCategory: 'reader',
             category: 'VPOS Media 4',
             categoryEn: 'VPOS Media 4',
@@ -856,7 +797,7 @@ var TotemSite = (function () {
         // ===== 子产品: VPOS Media 4 Mini =====
         'vpos-media4-mini': {
             id: 'vpos-media4-mini',
-            pageFile: 'product-reader-vpos-media4-mini.html',
+            pageFile: '/products/reader/vpos-media4-mini',
             parentCategory: 'reader',
             category: 'VPOS Media 4 Mini',
             categoryEn: 'VPOS Media 4 Mini',
@@ -974,7 +915,7 @@ var TotemSite = (function () {
 var SOLUTION_DATA = {
     vending: {
         id: 'vending',
-        pageFile: 'solution-vending.html',
+        pageFile: '/solutions/vending',
         icon: 'fas fa-box-open',
         title: '自动售货机',
         titleEn: 'Vending Machines',
@@ -997,7 +938,7 @@ var SOLUTION_DATA = {
     },
     charging: {
         id: 'charging',
-        pageFile: 'solution-charging.html',
+        pageFile: '/solutions/charging',
         icon: 'fas fa-charging-station',
         title: '充电桩支付',
         titleEn: 'EV Charging Payment',
@@ -1020,7 +961,7 @@ var SOLUTION_DATA = {
     },
     ticket: {
         id: 'ticket',
-        pageFile: 'solution-ticket.html',
+        pageFile: '/solutions/ticket',
         icon: 'fas fa-ticket-alt',
         title: '自助售票/取票机',
         titleEn: 'Self-Service Ticket Kiosks',
@@ -1043,7 +984,7 @@ var SOLUTION_DATA = {
     },
     laundry: {
         id: 'laundry',
-        pageFile: 'solution-laundry.html',
+        pageFile: '/solutions/laundry',
         icon: 'fas fa-tshirt',
         title: '自助洗衣/储物柜',
         titleEn: 'Laundry & Locker Systems',
@@ -1066,7 +1007,7 @@ var SOLUTION_DATA = {
     },
     retail: {
         id: 'retail',
-        pageFile: 'solution-retail.html',
+        pageFile: '/solutions/retail',
         icon: 'fas fa-shopping-cart',
         title: '无人零售柜',
         titleEn: 'Unattended Retail',
@@ -1289,7 +1230,7 @@ var SOLUTION_DATA = {
         var isEn = currentLang === 'en';
 
         if (results.length === 0) {
-            container.innerHTML = '<div class="search-result-empty"><i class="fas fa-exclamation-circle"></i><p>' + (isEn ? 'No common supported pack found. Please adjust your criteria or contact sales for a custom configuration.' : '暂未找到常见可支持方案。请调整搜索条件，或联系我们的销售团队获取定制配置。') + '</p><a href="contact.html" class="btn-primary btn-sm">' + (isEn ? 'Contact Sales' : '联系销售') + ' <i class="fas fa-arrow-right"></i></a></div>';
+            container.innerHTML = '<div class="search-result-empty"><i class="fas fa-exclamation-circle"></i><p>' + (isEn ? 'No common supported pack found. Please adjust your criteria or contact sales for a custom configuration.' : '暂未找到常见可支持方案。请调整搜索条件，或联系我们的销售团队获取定制配置。') + '</p><a href="/contact" class="btn-primary btn-sm">' + (isEn ? 'Contact Sales' : '联系销售') + ' <i class="fas fa-arrow-right"></i></a></div>';
             container.style.display = 'block';
             return;
         }
@@ -1320,7 +1261,7 @@ var SOLUTION_DATA = {
             html += '</div>';
             html += '<div class="search-result-cta">';
             html += '<p class="result-note">' + (isEn ? 'Common supported pack. Contact sales to confirm final configuration and pricing.' : '常见可支持方案，最终配置与报价请联系销售确认。') + '</p>';
-            html += '<a href="contact.html" class="btn-primary btn-sm">' + (isEn ? 'Contact Sales' : '联系销售获取详情') + ' <i class="fas fa-arrow-right"></i></a>';
+            html += '<a href="/contact" class="btn-primary btn-sm">' + (isEn ? 'Contact Sales' : '联系销售获取详情') + ' <i class="fas fa-arrow-right"></i></a>';
             html += '</div>';
             html += '</div>';
         });
@@ -1381,9 +1322,9 @@ var SUPPORT_DATA = {
         }
     ],
     faq: [
-        { q: 'Totem读卡器支持哪些通信协议？', qEn: 'What communication protocols do Totem card readers support?', a: 'Totem读卡器支持MDB、CCtalk、USB HID、RS232等主流自助设备通信协议。旗舰款TR-800还支持以太网通信。', aEn: 'Totem card readers support MDB, CCtalk, USB HID, RS232 and other major self-service protocols. The flagship TR-800 also supports Ethernet.' },
+        { q: 'Totem读卡器支持哪些通信协议？', qEn: 'What communication protocols do Totem card readers support?', a: 'Totem读卡器支持MDB、CCtalk、USB HID、RS232等主流自助设备通信协议，VPOS TOUCH还支持以太网通信。', aEn: 'Totem card readers support MDB, CCtalk, USB HID, RS232 and other major self-service protocols. VPOS TOUCH also supports Ethernet.' },
         { q: '纸币器如何配置新币种？', qEn: 'How to configure new currencies on bill validators?', a: '使用Totem纸币器配置工具V2.0，通过USB连接电脑，在软件中选择目标国家/币种，一键下载配置到设备。也可通过OTA远程升级。', aEn: 'Use the Totem Bill Validator Config Tool V2.0, connect via USB, select target country/currency in the software, and download configuration to the device. OTA remote upgrade is also available.' },
-        { q: '硬币器支持哪些币种？', qEn: 'What currencies do coin acceptors support?', a: 'CA-200/CA-300最多支持16种不同直径和材质的硬币或代币，出厂预置主流币种，可通过调试工具自定义配置。', aEn: 'CA-200/CA-300 support up to 16 different diameter/material coins or tokens. Mainstream currencies are pre-loaded, customizable via debug tool.' },
+        { q: '硬币器支持哪些币种？', qEn: 'What currencies do coin acceptors support?', a: 'TM600F最多支持6组（可扩展至8组）不同面额的硬币或代币，支持直径17-30.5mm，可通过DIP开关和按键自定义配置。', aEn: 'TM600F supports up to 6 groups (expandable to 8) of coin denominations, diameter 17-30.5mm, customizable via DIP switch and buttons.' },
         { q: '如何获取技术支持？', qEn: 'How to get technical support?', a: '您可以通过官网在线工单、邮件(support@totem.com)、电话(400-XXX-XXXX)联系我们的技术支持团队，工作日24小时内响应。', aEn: 'Contact our support team via online ticket, email (support@totem.com), or phone. Response within 24 hours on business days.' },
         { q: '产品质保期是多久？', qEn: 'What is the product warranty period?', a: 'Totem全线产品提供18个月标准质保，核心部件（读卡头、鉴伪模块）提供24个月质保。可购买延保服务。', aEn: 'All Totem products come with 18-month standard warranty. Core components (card head, detection module) have 24-month warranty. Extended warranty available.' },
         { q: '是否提供样品测试？', qEn: 'Do you provide sample testing?', a: '是的，Totem为合格客户提供免费样品测试服务，测试周期一般为2-4周。请联系销售团队获取样品申请表。', aEn: 'Yes, Totem provides free sample testing for qualified customers, typically 2-4 weeks. Contact sales for sample request form.' }
@@ -1860,8 +1801,8 @@ var DEVELOPER_DATA = {
                 var clickableClass = m.pageFile ? ' clickable' : '';
                 var linkBtn = m.pageFile
                     ? '<a href="' + m.pageFile + '" class="btn-outline btn-sm">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-arrow-right"></i></a>'
-                    : '<a href="contact.html" class="btn-outline btn-sm">' + (isEn ? 'Get Quote' : '获取报价') + ' <i class="fas fa-arrow-right"></i></a>';
-                return '<a href="' + (m.pageFile || 'contact.html') + '" class="model-card reveal' + (m.badge ? ' recommended' : '') + clickableClass + '" style="text-decoration:none;color:inherit;display:block;">' + badgeHtml + '<div class="model-icon"><i class="' + m.icon + '"></i></div><h4>' + m.name + '</h4><div class="model-subtitle">' + getLocalized(m, 'subtitle') + '</div><ul class="model-specs">' + specsList + '</ul>' + linkBtn + '</a>';
+                    : '<a href="/contact" class="btn-outline btn-sm">' + (isEn ? 'Get Quote' : '获取报价') + ' <i class="fas fa-arrow-right"></i></a>';
+                return '<a href="' + (m.pageFile || '/contact') + '" class="model-card reveal' + (m.badge ? ' recommended' : '') + clickableClass + '" style="text-decoration:none;color:inherit;display:block;">' + badgeHtml + '<div class="model-icon"><i class="' + m.icon + '"></i></div><h4>' + m.name + '</h4><div class="model-subtitle">' + getLocalized(m, 'subtitle') + '</div><ul class="model-specs">' + specsList + '</ul>' + linkBtn + '</a>';
             }).join('');
         }
 
@@ -1913,32 +1854,103 @@ var DEVELOPER_DATA = {
         setTimeout(initScrollReveal, 100);
     }
 
-    // ==================== 10. 产品总览页渲染 ====================
+    // ==================== 10. 产品总览页渲染 (Showcase Layout) ====================
     function renderProductsOverview() {
-        var container = document.getElementById('productsOverviewGrid');
+        var container = document.getElementById('productsShowcaseContainer');
         if (!container) return;
         var isEn = currentLang === 'en';
         var html = '';
+        var sectionIndex = 0;
+
+        // Define section background alternation pattern
+        var bgClasses = ['', 'showcase-alt', 'showcase-dark', '', 'showcase-alt'];
+
         for (var key in PRODUCT_DATA) {
             var p = PRODUCT_DATA[key];
             // Skip sub-products (they'll be listed under their parent)
             if (p.parentCategory) continue;
-            var specs = p.stats.map(function (s) {
-                return '<span class="spec-tag">' + s.value + '</span>';
-            }).join('');
-            html += '<div class="overview-card reveal"><div class="overview-icon"><i class="' + p.heroIcon + '"></i></div><h3>' + getLocalized(p, 'title') + '</h3><p>' + getLocalized(p, 'subtitle') + '</p><div class="overview-specs">' + specs + '</div>';
-            // Show sub-products as clickable links if this product has models with pageFile
-            if (p.models && p.models.length > 0) {
-                html += '<div class="sub-product-links" style="margin-bottom:1rem;">';
-                p.models.forEach(function (m) {
-                    if (m.pageFile) {
-                        html += '<a href="' + m.pageFile + '" class="sub-product-link" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;margin:4px 4px 4px 0;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-full);font-size:0.8rem;font-weight:600;color:var(--gray-700);text-decoration:none;transition:all 0.2s ease;cursor:pointer;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.color=\'var(--primary)\';this.style.background=\'var(--primary-light)\'" onmouseout="this.style.borderColor=\'var(--gray-200)\';this.style.color=\'var(--gray-700)\';this.style.background=\'var(--gray-50)\'"><i class="' + m.icon + '" style="font-size:0.75rem;"></i> ' + m.name + '</a>';
-                    }
+
+            var bgClass = bgClasses[sectionIndex % bgClasses.length];
+            var isDark = bgClass === 'showcase-dark';
+
+            html += '<section class="products-showcase ' + bgClass + '" id="sec-' + p.id + '">';
+
+            // Header: left (icon + title + subtitle) + right (stats)
+            html += '<div class="container">';
+            html += '<div class="showcase-header reveal">';
+            html += '<div class="showcase-header-left">';
+            html += '<div class="showcase-icon' + (isDark ? '" style="background:rgba(229,90,44,0.18);"' : '"') + '><i class="' + p.heroIcon + '"></i></div>';
+            html += '<h2>' + getLocalized(p, 'title') + '</h2>';
+            html += '<p class="showcase-subtitle">' + getLocalized(p, 'subtitle') + '</p>';
+            html += '</div>';
+            html += '<div class="showcase-header-right">';
+            if (p.stats) {
+                p.stats.forEach(function (s) {
+                    html += '<div class="showcase-stat-pill"><span class="stat-value">' + s.value + '</span><span class="stat-label">' + (isEn ? s.labelEn : s.label) + '</span></div>';
                 });
-                html += '</div>';
             }
-            html += '<a href="' + p.pageFile + '" class="link-arrow">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-chevron-right"></i></a></div>';
+            html += '</div>';
+            html += '</div>';
+
+            // Models grid
+            html += '<div class="showcase-models-grid">';
+            if (p.models && p.models.length > 0) {
+                p.models.forEach(function (m, i) {
+                    var delayClass = 'reveal-delay-' + ((i % 4) + 1);
+                    var cardLink = m.pageFile || '/contact';
+                    var badgeText = isEn ? (m.badgeEn || m.badge) : m.badge;
+                    var specsArr = isEn ? (m.specsEn || m.specs) : m.specs;
+
+                    html += '<a href="' + cardLink + '" class="showcase-model-card reveal ' + delayClass + '">';
+
+                    if (badgeText) {
+                        html += '<div class="smc-badge">' + badgeText + '</div>';
+                    }
+
+                    html += '<div class="smc-icon"><i class="' + m.icon + '"></i></div>';
+                    html += '<h4>' + m.name + '</h4>';
+                    html += '<div class="smc-subtitle">' + getLocalized(m, 'subtitle') + '</div>';
+
+                    html += '<div class="smc-specs">';
+                    if (specsArr) {
+                        specsArr.forEach(function (s) {
+                            html += '<span class="spec-chip">' + s + '</span>';
+                        });
+                    }
+                    html += '</div>';
+
+                    html += '<span class="smc-link">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-chevron-right"></i></span>';
+                    html += '</a>';
+                });
+            } else {
+                // No models — show a single "explore" card linking to the category page
+                html += '<a href="' + p.pageFile + '" class="showcase-model-card reveal">';
+                html += '<div class="smc-icon"><i class="' + p.heroIcon + '"></i></div>';
+                html += '<h4>' + getLocalized(p, 'title') + '</h4>';
+                html += '<div class="smc-subtitle">' + getLocalized(p, 'subtitle') + '</div>';
+                html += '<div class="smc-specs">';
+                if (p.stats) {
+                    p.stats.forEach(function (s) {
+                        html += '<span class="spec-chip">' + s.value + '</span>';
+                    });
+                }
+                html += '</div>';
+                html += '<span class="smc-link">' + (isEn ? 'Explore Series' : '探索系列') + ' <i class="fas fa-chevron-right"></i></span>';
+                html += '</a>';
+            }
+            html += '</div>';
+
+            // CTA row
+            html += '<div class="showcase-cta-row reveal">';
+            html += '<a href="' + p.pageFile + '" class="link-arrow">' + (isEn ? 'View All ' + getLocalized(p, 'category') + ' Details' : '查看' + getLocalized(p, 'category') + '全部详情') + ' <i class="fas fa-arrow-right"></i></a>';
+            html += '</div>';
+
+            html += '</div>';
+            html += '</section>';
+
+            sectionIndex++;
         }
+
         container.innerHTML = html;
         setTimeout(initScrollReveal, 100);
     }

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>行业应用 | Totem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* ===== CAROUSEL ===== */
+        .ind-carousel {
+            background: #0a0a0a;
+            padding: 0;
+        }
+        .ind-viewport {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            min-height: 460px;
+            max-height: 700px;
+            overflow: hidden;
+        }
+        .ind-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .ind-slide {
+            position: relative;
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+        }
+        .ind-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            display: block;
+        }
+        /* Bottom third gradient — unified dark overlay */
+        .ind-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(10,10,10,0.88) 0%,
+                rgba(10,10,10,0.55) 35%,
+                rgba(10,10,10,0.1) 60%,
+                transparent 100%
+            );
+            pointer-events: none;
+        }
+        /* Slide content — bottom left */
+        .ind-slide-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 5;
+            padding: 2.5rem 3.5rem;
+            max-width: 540px;
+        }
+        .ind-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(229,90,44,0.18);
+            border: 1px solid rgba(229,90,44,0.45);
+            color: #ff8a5c;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+        .ind-slide-body h2 {
+            color: #fff;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            margin-bottom: 0.5rem;
+            line-height: 1.15;
+        }
+        .ind-slide-body p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.4rem;
+        }
+        .ind-slide-body .btn-primary {
+            font-size: 0.85rem;
+            padding: 9px 22px;
+        }
+
+        /* Brand badge — top left, subtle */
+        .ind-brand {
+            position: absolute;
+            top: 1.5rem;
+            left: 2rem;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: -0.01em;
+        }
+        .ind-brand .dot { color: var(--primary); }
+
+        /* Hero text overlay — top area of carousel */
+        .ind-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 15;
+            padding: 3.5rem 3.5rem 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(10,10,10,0.85) 0%,
+                rgba(10,10,10,0.5) 70%,
+                transparent 100%
+            );
+            pointer-events: none;
+        }
+        .ind-hero-overlay .eyebrow {
+            color: #ff8a5c;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .ind-hero-overlay h1 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            margin-bottom: 0.5rem;
+            color: #fff;
+            line-height: 1.15;
+        }
+        .ind-hero-overlay h1 em {
+            font-style: normal;
+            color: var(--primary);
+        }
+        .ind-hero-overlay p {
+            max-width: 560px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Arrows */
+        .ind-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .ind-arrow:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-50%) scale(1.06);
+        }
+        .ind-arrow-prev { left: 1.2rem; }
+        .ind-arrow-next { right: 1.2rem; }
+
+        /* Dots */
+        .ind-dots {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 2rem;
+            z-index: 10;
+            display: flex;
+            gap: 5px;
+        }
+        .ind-dot {
+            width: 32px;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        .ind-dot.active { background: rgba(255,255,255,0.25); }
+        .ind-dot.active::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: indFill 5s linear forwards;
+        }
+        @keyframes indFill { from { width: 0; } to { width: 100%; } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 950px) {
+            .ind-viewport { height: 85vh; min-height: 520px; }
+            .ind-slide-body { padding: 2rem; max-width: 100%; }
+            .ind-hero-overlay { padding: 2.5rem 2rem 0; }
+        }
+        @media (max-width: 600px) {
+            .ind-viewport { height: 80vh; min-height: 480px; }
+            .ind-hero-overlay { padding: 1.5rem 1.2rem 0; }
+            .ind-hero-overlay h1 { font-size: 1.5rem; }
+            .ind-slide-body { padding: 1.2rem; }
+            .ind-brand { top: 1rem; left: 1rem; font-size: 0.7rem; }
+            .ind-arrow { width: 36px; height: 36px; font-size: 0.85rem; }
+            .ind-arrow-prev { left: 0.6rem; }
+            .ind-arrow-next { right: 0.6rem; }
+        }
+    </style>
+</head>
+<body data-page="industries">
+
+<!-- Carousel (Hero + Slides in one viewport) -->
+<section class="ind-carousel">
+    <div class="ind-viewport" id="indViewport">
+        <!-- Hero text overlay at top -->
+        <div class="ind-hero-overlay">
+            <div class="eyebrow">Industries</div>
+            <h1>为每个<em>行业</em>定制支付体验</h1>
+            <p>从自动售货机到智能储物柜，从充电桩到自助洗车，Totem 为全球自助设备提供专属的现金 + 非现金支付硬件方案。</p>
+        </div>
+        <div class="ind-brand">Totem<span class="dot">.</span></div>
+
+        <div class="ind-track" id="indTrack">
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1562184552-997c4731b500?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自动售货机" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-box-open"></i> Vending</span>
+                    <h2>自动售货机支付方案</h2>
+                    <p>读卡器 + 纸币器 + 硬币器一体化集成，MDB/CCtalk 即插即用，50万+ 台设备稳定运行。</p>
+                    <a href="/solutions/vending" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="EV充电桩" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-charging-station"></i> EV Charging</span>
+                    <h2>充电桩无现金支付升级</h2>
+                    <p>IP65/IP67 户外耐用读卡器，NFC 手机支付，兼容 OCPP 协议。</p>
+                    <a href="/solutions/charging" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助洗车" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-car"></i> Car Wash</span>
+                    <h2>自助洗车投币支付升级</h2>
+                    <p>ONYX 紧凑型读卡器 IP65 防水设计，全天候户外运行。</p>
+                    <a href="/contact" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="无人零售" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-shopping-cart"></i> Retail</span>
+                    <h2>无人零售全支付覆盖</h2>
+                    <p>五种支付方式并行，30%+ 转化率提升，7×24 无人值守。</p>
+                    <a href="/solutions/retail" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助咖啡" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-mug-hot"></i> Coffee</span>
+                    <h2>自助咖啡机支付模块</h2>
+                    <p>ONYX 紧凑型读卡器 + 硬币器，1.5W 超低功耗，5分钟安装。</p>
+                    <a href="/contact" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1521656693880-9994dbfae9e4?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助洗衣" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-tshirt"></i> Laundry</span>
+                    <h2>自助洗衣低成本部署</h2>
+                    <p>硬币器 + 读卡器紧凑组合，15分钟安装，NFC 会员卡一体化。</p>
+                    <a href="/solutions/laundry" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助售票" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-ticket-alt"></i> Ticketing</span>
+                    <h2>自助售票高安全收款</h2>
+                    <p>四重鉴伪纸币器 + 大容量硬币找零 + 交通卡 NFC 支付。</p>
+                    <a href="/solutions/ticket" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="ind-slide">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="智能储物柜" loading="lazy">
+                <div class="ind-slide-body">
+                    <span class="ind-tag"><i class="fas fa-lock"></i> Lockers</span>
+                    <h2>智能储物柜支付方案</h2>
+                    <p>超低功耗 <3W，适合电池/太阳能供电，NFC 会员卡充值一体化。</p>
+                    <a href="/contact" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ind-arrow ind-arrow-prev" id="indPrev"><i class="fas fa-chevron-left"></i></div>
+        <div class="ind-arrow ind-arrow-next" id="indNext"><i class="fas fa-chevron-right"></i></div>
+        <div class="ind-dots" id="indDots"></div>
+    </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">覆盖国家与地区</div></div>
+            <div class="stat-item"><div class="stat-number">500K+</div><div class="stat-label">全球模块部署量</div></div>
+            <div class="stat-item"><div class="stat-number">8大</div><div class="stat-label">行业应用场景</div></div>
+            <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">技术支持响应</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="container" style="padding-bottom:40px;">
+    <div class="cta-section">
+        <div class="eyebrow" style="text-align:center;">Start a Quote</div>
+        <h2>需要为您的设备定制支付方案？</h2>
+        <p>即刻联系Totem硬件专家，获取定制化支付解决方案。</p>
+        <a href="/contact" class="btn-dark">即刻预约咨询 <i class="fas fa-headset"></i></a>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script>
+(function() {
+    var track = document.getElementById('indTrack');
+    var slides = track ? track.querySelectorAll('.ind-slide') : [];
+    var dotsBox = document.getElementById('indDots');
+    var prev = document.getElementById('indPrev');
+    var next = document.getElementById('indNext');
+    var cur = 0, n = slides.length, timer, INTERVAL = 5000;
+
+    if (!track || !n) return;
+
+    for (var i = 0; i < n; i++) {
+        var d = document.createElement('div');
+        d.className = 'ind-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('data-i', i);
+        d.addEventListener('click', function() { go(+this.getAttribute('data-i')); });
+        dotsBox.appendChild(d);
+    }
+
+    function go(idx) {
+        cur = idx < 0 ? n - 1 : idx >= n ? 0 : idx;
+        track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+        var ds = dotsBox.querySelectorAll('.ind-dot');
+        ds.forEach(function(d, i) { d.classList.toggle('active', i === cur); });
+        reset();
+    }
+    function reset() { clearInterval(timer); timer = setInterval(function() { go(cur + 1); }, INTERVAL); }
+
+    if (prev) prev.addEventListener('click', function() { go(cur - 1); });
+    if (next) next.addEventListener('click', function() { go(cur + 1); });
+
+    var sx = 0, vp = document.getElementById('indViewport');
+    if (vp) {
+        vp.addEventListener('touchstart', function(e) { sx = e.touches[0].clientX; }, { passive: true });
+        vp.addEventListener('touchend', function(e) {
+            var dx = sx - e.changedTouches[0].clientX;
+            if (Math.abs(dx) > 50) dx > 0 ? go(cur + 1) : go(cur - 1);
+        }, { passive: true });
+    }
+    timer = setInterval(function() { go(cur + 1); }, INTERVAL);
+})();
+</script>
+<script src="/js/components.js"></script>
+</body>
+</html>

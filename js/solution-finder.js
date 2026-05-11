@@ -256,7 +256,7 @@ var TotemSolutionFinder = (function () {
 
         // CTA
         html += '<div class="finder-simple-cta">';
-        html += '<a href="contact.html" class="btn-primary btn-sm">' + (en ? 'Contact Sales' : '联系销售获取详情') + ' <i class="fas fa-arrow-right"></i></a>';
+        html += '<a href="/contact" class="btn-primary btn-sm">' + (en ? 'Contact Sales' : '联系销售获取详情') + ' <i class="fas fa-arrow-right"></i></a>';
         html += '</div>';
 
         html += '</div>';
