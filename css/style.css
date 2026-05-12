@@ -3584,13 +3584,14 @@ body[data-page="home"] footer {
 /* -- Linear Responsive -- */
 @media (max-width: 950px) {
     .linear-hero {
-        padding: 70px 0 60px;
+        padding: 60px 0 48px;
     }
 
     .linear-showcase-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
         text-align: center;
+        padding: 28px 0;
     }
 
     .linear-showcase-info {
@@ -3602,7 +3603,9 @@ body[data-page="home"] footer {
     }
 
     .linear-glow-card {
-        max-width: 320px;
+        max-width: 360px;
+        width: 80%;
+        margin: 0 auto;
     }
 
     .linear-showcase-info h2 {
@@ -3610,48 +3613,111 @@ body[data-page="home"] footer {
     }
 
     .linear-acc-card {
-        width: 110px;
-        height: 110px;
+        width: 120px;
+        height: 120px;
+    }
+
+    .linear-products {
+        padding-bottom: 24px;
     }
 }
 
 @media (max-width: 600px) {
     .linear-hero {
-        padding: 50px 0 40px;
+        padding: 40px 0 32px;
     }
 
     .linear-hero h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .linear-hero p {
-        font-size: 0.95rem;
+        font-size: 0.92rem;
+        line-height: 1.7;
+        padding: 0 8px;
     }
 
     .linear-showcase-grid {
-        gap: 1.5rem;
-        padding: 24px 0;
+        gap: 1.2rem;
+        padding: 16px 0;
     }
 
     .linear-glow-card {
-        max-width: 260px;
+        max-width: 100%;
+        width: 85%;
+        border-radius: 16px;
+    }
+
+    .linear-glow-card::before {
+        border-radius: 16px;
     }
 
     .linear-showcase-info h2 {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
     }
 
     .linear-showcase-info p {
-        font-size: 0.88rem;
+        font-size: 0.85rem;
+        line-height: 1.7;
+    }
+
+    .linear-link {
+        font-size: 0.85rem;
     }
 
     .linear-section-label {
         font-size: 0.72rem;
-        padding: 28px 0 4px;
+        padding: 24px 0 4px;
     }
 
     .linear-acc-card {
-        width: 90px;
-        height: 90px;
+        width: 100px;
+        height: 100px;
+        border-radius: 12px;
+    }
+
+    .linear-acc-track {
+        gap: 12px;
+    }
+
+    .linear-accessories {
+        padding: 40px 0 56px;
+    }
+
+    .linear-accessories-desc {
+        font-size: 0.85rem;
+    }
+
+    .products-cta-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .products-cta-actions {
+        align-items: center;
+    }
+
+    .products-cta-copy h2 {
+        font-size: 1.6rem;
+    }
+
+    .products-cta-copy p {
+        font-size: 0.92rem;
+    }
+}
+
+/* -- Accessibility: reduced motion -- */
+@media (prefers-reduced-motion: reduce) {
+    .linear-anim {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .linear-glow-card,
+    .linear-glow-card img,
+    .linear-acc-card,
+    .linear-acc-card img {
+        transition: none;
     }
 }
