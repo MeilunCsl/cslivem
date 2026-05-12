@@ -8,110 +8,377 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
+        /* =============================================
+           CONTACT PAGE
+           ============================================= */
+
+        /* --- Page Hero --- */
+        .contact-hero {
+            padding: 120px 0 25px;
+            background: linear-gradient(160deg, #FFFBF8 0%, #FFFFFF 40%, #F8FAFE 100%);
+            position: relative;
+            overflow: hidden;
         }
-        .contact-form {
+        .contact-hero::after {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(229,90,44,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .contact-hero-inner {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .contact-hero-inner .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .contact-hero-inner h1 {
+            font-size: 2.4rem;
+            line-height: 1.2;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.02em;
+        }
+        .contact-hero-inner h1 span {
+            color: var(--primary);
+        }
+        .contact-hero-inner p {
+            font-size: 0.92rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        /* --- Main Section --- */
+        .contact-main {
+            padding: 20px 0 40px;
+        }
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        /* --- Form Card --- */
+        .contact-form-card {
             background: var(--white);
             border: 1px solid var(--gray-200);
-            border-radius: var(--radius-lg);
-            padding: 2.5rem;
-            box-shadow: var(--shadow-sm);
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 10px 40px -12px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
         }
+        .contact-form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #F8A07A);
+        }
+        .contact-form-card .form-header {
+            margin-bottom: 0.8rem;
+        }
+        .contact-form-card .form-header h2 {
+            font-size: 1.15rem;
+            margin-bottom: 0.15rem;
+        }
+        .contact-form-card .form-header p {
+            font-size: 0.78rem;
+            color: var(--gray-500);
+        }
+
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 0.6rem;
         }
         .form-group label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.75rem;
+            font-weight: 700;
             color: var(--dark);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.25rem;
+        }
+        .form-group label .required {
+            color: var(--primary);
+            margin-left: 2px;
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px 14px;
+            padding: 8px 12px;
             border: 1.5px solid var(--gray-200);
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
             font-family: inherit;
-            transition: border-color var(--ease-base);
-            background: var(--white);
+            transition: all var(--ease-base);
+            background: var(--gray-50);
             color: var(--dark);
+        }
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: var(--gray-300);
+            background: var(--white);
         }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(229, 90, 44, 0.1);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(229, 90, 44, 0.12);
         }
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.6rem;
         }
-        .contact-info-card {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-        .contact-info-card .ci-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--primary-light);
-            border-radius: 12px;
+        .form-submit {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            gap: 8px;
+            transition: all var(--ease-base);
+            margin-top: 0.2rem;
         }
-        .contact-info-card .ci-icon i {
+        .form-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(229, 90, 44, 0.4);
+        }
+        .form-submit i {
+            transition: transform var(--ease-base);
+        }
+        .form-submit:hover i {
+            transform: translateX(3px);
+        }
+
+        .form-privacy {
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            text-align: center;
+            margin-top: 0.4rem;
+        }
+        .form-privacy a {
             color: var(--primary);
-            font-size: 1.1rem;
+            font-weight: 600;
         }
-        .contact-info-card h5 {
-            font-size: 0.9rem;
-            margin-bottom: 0.2rem;
-        }
-        .contact-info-card p {
-            font-size: 0.85rem;
-            color: var(--gray-600);
-        }
+
         .form-success {
             display: none;
             text-align: center;
             padding: 3rem 2rem;
         }
-        .form-success i {
-            font-size: 3rem;
-            color: var(--success);
-            margin-bottom: 1rem;
+        .form-success .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px -8px rgba(16, 185, 129, 0.4);
+        }
+        .form-success .success-icon i {
+            font-size: 2.2rem;
+            color: var(--white);
         }
         .form-success h3 {
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
         }
-        @media (max-width: 950px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+        .form-success p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* --- Info Column --- */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            height: 100%;
+        }
+
+        .info-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all var(--ease-base);
+        }
+
+        /* 让最后一个卡片（海外支付）自动撑满剩余空间 */
+        .contact-info .info-highlight {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-light);
+            box-shadow: 0 8px 20px -6px rgba(229, 90, 44, 0.1);
+        }
+        .info-card .ci-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--primary-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-card .ci-icon i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .info-card .ci-text h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 0.1rem;
+        }
+        .info-card .ci-text p {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+        .info-card .ci-text p a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Highlight card */
+        .info-highlight {
+            background: linear-gradient(135deg, #0F172A, #1E293B);
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 1.4rem;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .info-highlight::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(229,90,44,0.3), transparent 70%);
+            border-radius: 50%;
+        }
+        .info-highlight h4 {
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .info-highlight h4 i {
+            color: #F8A07A;
+            margin-right: 6px;
+        }
+        .info-highlight p {
+            font-size: 0.8rem;
+            color: #CBD5E1;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- FAQ Section --- */
+        .contact-faq {
+            padding: 80px 0;
+            background: var(--gray-50);
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+        .faq-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all var(--ease-base);
+        }
+        .faq-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-3px);
+        }
+        .faq-card .faq-q {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+        .faq-card .faq-q i {
+            color: var(--primary);
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .faq-card .faq-a {
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            padding-left: 28px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1000px) {
+            .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .faq-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .contact-hero { padding: 40px 0 20px; }
+            .contact-hero-inner h1 { font-size: 2.2rem; }
+            .contact-form-card { padding: 1.8rem; }
+            .form-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -127,36 +394,40 @@
 </div>
 
 <!-- Page Hero -->
-<section class="page-hero">
+<section class="contact-hero">
     <div class="container">
-        <div class="section-header" style="max-width:800px;">
-            <div class="hero-badge" style="margin-bottom:1rem;">Contact Totem</div>
-            <h1 style="font-size:2.6rem;">获取报价 & 联系我们</h1>
-            <p style="color:var(--gray-600);">填写以下表单，Totem硬件专家将在24小时内与您联系，提供定制方案与样品测试服务。</p>
+        <div class="contact-hero-inner reveal">
+            <div class="eyebrow"><i class="fas fa-comments"></i> Contact Totem</div>
+            <h1>让我们为您定制 <span>专属支付方案</span></h1>
+            <p>填写下方表单，Totem 将在 24 小时内与您联系</p>
         </div>
     </div>
 </section>
 
-<!-- Contact Section -->
-<section class="section" style="padding-top:0;">
+<!-- Contact Main -->
+<section class="contact-main">
     <div class="container">
-        <div class="contact-grid">
+        <div class="contact-layout">
             <!-- Form -->
-            <div class="contact-form reveal" id="contactFormWrap">
+            <div class="contact-form-card reveal" id="contactFormWrap">
+                <div class="form-header">
+                    <h2>获取定制方案</h2>
+                    <p>告诉我们您的设备类型与目标市场，我们给出可落地的硬件组合</p>
+                </div>
                 <form id="contactForm" onsubmit="return handleFormSubmit(event)">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>姓名 *</label>
+                            <label>姓名 <span class="required">*</span></label>
                             <input type="text" name="name" required placeholder="您的姓名">
                         </div>
                         <div class="form-group">
-                            <label>公司名称 *</label>
-                            <input type="text" name="company" required placeholder="公司/品牌名称">
+                            <label>公司名称 <span class="required">*</span></label>
+                            <input type="text" name="company" required placeholder="公司 / 品牌名称">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>邮箱 *</label>
+                            <label>邮箱 <span class="required">*</span></label>
                             <input type="email" name="email" required placeholder="your@email.com">
                         </div>
                         <div class="form-group">
@@ -164,96 +435,143 @@
                             <input type="tel" name="phone" placeholder="+86 xxx xxxx xxxx">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>感兴趣的产品 *</label>
-                        <select name="product" required>
-                            <option value="">请选择产品类型</option>
-                            <option value="reader">读卡器系列</option>
-                            <option value="banknote">纸币器系列</option>
-                            <option value="coin">硬币器系列</option>
-                            <option value="scanner">扫码器系列</option>
-                            <option value="nfc">非接读卡器</option>
-                            <option value="custom">定制方案</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>应用场景</label>
-                        <select name="scenario">
-                            <option value="">请选择应用场景</option>
-                            <option value="vending">自动售货机</option>
-                            <option value="charging">充电桩</option>
-                            <option value="ticket">自助售票机</option>
-                            <option value="laundry">自助洗衣</option>
-                            <option value="retail">无人零售</option>
-                            <option value="other">其他</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>预计采购数量</label>
-                        <select name="quantity">
-                            <option value="">请选择</option>
-                            <option value="1-50">1-50台</option>
-                            <option value="50-500">50-500台</option>
-                            <option value="500-5000">500-5000台</option>
-                            <option value="5000+">5000台以上</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>感兴趣的产品 <span class="required">*</span></label>
+                            <select name="product" required>
+                                <option value="">请选择产品类型</option>
+                                <option value="reader">读卡器系列</option>
+                                <option value="banknote">纸币器系列</option>
+                                <option value="coin">硬币器系列</option>
+                                <option value="scanner">扫码器系列</option>
+                                <option value="nfc">非接读卡器</option>
+                                <option value="custom">定制方案</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>采购数量</label>
+                            <select name="quantity">
+                                <option value="">请选择</option>
+                                <option value="1-50">1-50 台</option>
+                                <option value="50-500">50-500 台</option>
+                                <option value="500-5000">500-5000 台</option>
+                                <option value="5000+">5000 台以上</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>补充说明</label>
-                        <textarea name="message" placeholder="请描述您的具体需求，如型号偏好、协议要求、特殊定制等"></textarea>
+                        <textarea name="message" placeholder="请描述您的具体需求，如应用场景、型号偏好、协议要求等"></textarea>
                     </div>
-                    <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px;">提交询价 <i class="fas fa-paper-plane"></i></button>
+                    <button type="submit" class="form-submit">
+                        提交咨询 <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <p class="form-privacy">提交即表示您同意我们的 <a href="#">隐私政策</a>，我们仅用于商务联系</p>
                 </form>
                 <div class="form-success" id="formSuccess">
-                    <i class="fas fa-check-circle"></i>
+                    <div class="success-icon"><i class="fas fa-check"></i></div>
                     <h3>提交成功！</h3>
-                    <p style="color:var(--gray-600);">我们的硬件专家将在24小时内与您联系。<br>感谢您对Totem的关注！</p>
-                    <button class="btn-outline btn-sm" onclick="resetForm()" style="margin-top:1rem;">继续询价</button>
+                    <p>我们的将在 24 小时内与您联系。<br>感谢您对 Totem 的关注。</p>
+                    <button class="btn-outline btn-sm" onclick="resetForm()" style="margin-top:1.5rem;">继续询价</button>
                 </div>
             </div>
 
             <!-- Info -->
-            <div class="reveal reveal-delay-1">
-                <div class="contact-info-card">
+            <div class="contact-info reveal reveal-delay-1">
+                <div class="info-card">
                     <div class="ci-icon"><i class="fas fa-envelope"></i></div>
-                    <div>
+                    <div class="ci-text">
                         <h5>销售邮箱</h5>
-                        <p>sales@totem.com</p>
+                        <p><a href="mailto:sales@totem.com">3001556500@qq.com</a></p>
                     </div>
                 </div>
-                <div class="contact-info-card">
+                <div class="info-card">
                     <div class="ci-icon"><i class="fas fa-headset"></i></div>
-                    <div>
+                    <div class="ci-text">
                         <h5>技术支持</h5>
-                        <p>support@totem.com</p>
+                        <p><a href="mailto:support@totem.com">tech@totemamusement.com</a></p>
                     </div>
                 </div>
-                <div class="contact-info-card">
+                <div class="info-card">
                     <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
-                    <div>
+                    <div class="ci-text">
                         <h5>联系电话</h5>
                         <p>+86 400-XXX-XXXX</p>
                     </div>
                 </div>
-                <div class="contact-info-card">
-                    <div class="ci-icon"><i class="fas fa-clock"></i></div>
-                    <div>
-                        <h5>工作时间</h5>
-                        <p>周一至周五 9:00-18:00 (UTC+8)</p>
-                    </div>
-                </div>
-                <div class="contact-info-card">
+                <div class="info-card">
                     <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
-                    <div>
-                        <h5>详细地址</h5>
-                        <p>中国 · 广州市番禺区市新路恒然创意园A座509<br>Totem Hardware Solutions</p>
+                    <div class="ci-text">
+                        <h5>公司地址</h5>
+                        <p>中国 · 广州市番禺区市新路恒然创意园 A 座 509</p>
                     </div>
                 </div>
-
-                <div style="margin-top:1.5rem;background:var(--primary-light);border-radius:var(--radius-md);padding:1.5rem;">
-                   <h4 style="font-size:1rem;margin-bottom:0.5rem;"><i class="fas fa-globe" style="color:var(--primary);margin-right:6px;"></i> 海外支付解決方案</h4>
-                   <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">Totem提供一站式海外支付解决方案，支持国际信用卡、本地钱包及多币种结算，助您安全、高效地拓展全球市场。</p>
+                <div class="info-highlight">
+                    <h4><i class="fas fa-globe"></i> 海外支付解决方案</h4>
+                    <p>Totem 提供一站式海外支付解决方案，支持国际信用卡、本地钱包及多币种结算，助您安全、高效地拓展全球市场。</p>
                 </div>
+            </div>
+        </div>
+        <!-- 支付方式滚动条 - 横跨整个宽度 -->
+        <div class="finder-payments-marquee" style="margin-top:1rem; margin-bottom: 0; display:flex; justify-content:center;">
+            <div class="marquee-track">
+                <div class="marquee-content">
+                    <span class="marquee-tag"><i class="fab fa-cc-visa" style="color:#1a1f71"></i> Visa</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-mastercard" style="color:#eb001b"></i> Mastercard</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-apple-pay" style="color:#000"></i> Apple Pay</span>
+                    <span class="marquee-tag"><i class="fab fa-google-pay" style="color:#4285f4"></i> Google Pay</span>
+                    <span class="marquee-tag"><i class="fas fa-mobile-alt" style="color:#1428a0"></i> Samsung Pay</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-jcb" style="color:#003087"></i> JCB</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-amex" style="color:#2e77bc"></i> Amex</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-discover" style="color:#ff6600"></i> Discover</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-diners-club" style="color:#005099"></i> Diners Club</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-apple-pay" style="color:#e21836"></i> UnionPay</span>
+                    <span class="marquee-tag"><i class="fas fa-qrcode" style="color:var(--primary)"></i> QR Code</span>
+                    <span class="marquee-tag"><i class="fas fa-wifi" style="color:#00a651"></i> NFC</span>
+                    <span class="marquee-tag"><i class="fas fa-money-bill-wave" style="color:#2e7d32"></i> 现金纸币</span>
+                    <span class="marquee-tag"><i class="fas fa-coins" style="color:#f9a825"></i> 硬币找零</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-visa" style="color:#1a1f71"></i> Visa</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-mastercard" style="color:#eb001b"></i> Mastercard</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-apple-pay" style="color:#000"></i> Apple Pay</span>
+                    <span class="marquee-tag"><i class="fab fa-google-pay" style="color:#4285f4"></i> Google Pay</span>
+                    <span class="marquee-tag"><i class="fas fa-mobile-alt" style="color:#1428a0"></i> Samsung Pay</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-jcb" style="color:#003087"></i> JCB</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-amex" style="color:#2e77bc"></i> Amex</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-discover" style="color:#ff6600"></i> Discover</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-diners-club" style="color:#005099"></i> Diners Club</span>
+                    <span class="marquee-tag"><i class="fab fa-cc-apple-pay" style="color:#e21836"></i> UnionPay</span>
+                    <span class="marquee-tag"><i class="fas fa-qrcode" style="color:var(--primary)"></i> QR Code</span>
+                    <span class="marquee-tag"><i class="fas fa-wifi" style="color:#00a651"></i> NFC</span>
+                    <span class="marquee-tag"><i class="fas fa-money-bill-wave" style="color:#2e7d32"></i> 现金纸币</span>
+                    <span class="marquee-tag"><i class="fas fa-coins" style="color:#f9a825"></i> 硬币找零</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="contact-faq">
+    <div class="container">
+        <div class="section-header">
+            <div class="eyebrow">FAQ</div>
+            <h2>常见问题</h2>
+            <p>咨询前先了解这些，能让我们的沟通更高效</p>
+        </div>
+        <div class="faq-grid">
+            <div class="faq-card reveal">
+                <div class="faq-q"><i class="fas fa-question-circle"></i> 多久能收到产品？</div>
+                <div class="faq-a">标准型号一般 3-5 个工作日内发出，顺丰或国际快递寄送。定制型号需先确认配置，约 1-2 周。支持小批量购买用于集成测试。</div>
+            </div>
+            <div class="faq-card reveal reveal-delay-1">
+                <div class="faq-q"><i class="fas fa-question-circle"></i> 最小起订量（MOQ）是多少？</div>
+                <div class="faq-a">没有最小起订量限制，1 台起即可购买。大批量订单享受阶梯优惠价格，具体请联系销售确认。</div>
+            </div>
+            <div class="faq-card reveal reveal-delay-2">
+                <div class="faq-q"><i class="fas fa-question-circle"></i> 支持哪些通信协议？</div>
+                <div class="faq-a">原生支持 MDB、CCtalk、SSP、Pulse(脉冲)、RS232 等主流自助设备协议，可按需定制 串口、Pulse 等扩展协议。</div>
+            </div>
+            <div class="faq-card reveal reveal-delay-3">
+                <div class="faq-q"><i class="fas fa-question-circle"></i> 质保期多久？售后如何？</div>
+                <div class="faq-a">全线产品 18 个月标准质保，核心部件 24 个月。提供远程诊断、固件升级和 24/7 技术支持响应。</div>
             </div>
         </div>
     </div>

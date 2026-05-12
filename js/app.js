@@ -934,6 +934,18 @@ var SOLUTION_DATA = {
             { value: '500K+', label: '已部署设备', labelEn: 'Deployed Devices' },
             { value: '99.5%', label: '支付成功率', labelEn: 'Payment Success Rate' },
             { value: '45%', label: '故障率降低', labelEn: 'Failure Rate Reduction' }
+        ],
+        workflow: [
+            { step: 1, icon: 'fas fa-comments', title: '需求沟通', titleEn: 'Requirement Analysis', desc: '了解设备类型、目标市场、支付方式需求，确定项目范围与技术要求。', descEn: 'Understand device type, target market, and payment requirements to define project scope.' },
+            { step: 2, icon: 'fas fa-drafting-compass', title: '方案配置', titleEn: 'Solution Design', desc: '根据需求推荐读卡器+纸币器+硬币器最佳组合，确认协议与币种。', descEn: 'Recommend optimal reader + bill + coin combo, confirm protocol and currency.' },
+            { step: 3, icon: 'fas fa-vial', title: '小批量测试', titleEn: 'Small Batch Testing', desc: '客户购买小批量产品进行集成测试与验证，确保支付流程稳定可靠。', descEn: 'Customer purchases small batch for integration testing, ensuring stable payment flow.' },
+            { step: 4, icon: 'fas fa-rocket', title: '量产部署', titleEn: 'Mass Deployment', desc: '确认配置后批量供货，提供远程技术支持与运维指导。', descEn: 'Bulk supply after config confirmation, with remote tech support.' }
+        ],
+        faq: [
+            { q: '售货机集成需要改动主控板吗？', qEn: 'Do I need to modify the main controller?', a: '不需要。Totem模块支持MDB/CCtalk标准协议，即插即用，无需改动现有主控板。', aEn: 'No. Totem modules support MDB/CCtalk standard protocols — plug-and-play.' },
+            { q: '支持哪些币种？', qEn: 'What currencies are supported?', a: '纸币器和硬币器支持全球主流币种，具体币种配置请联系销售确认。', aEn: 'Bill validators and coin acceptors support major global currencies. Contact sales for specifics.' },
+            { q: '如何实现远程运维？', qEn: 'How to implement remote management?', a: '通过以太网/4G模块连接Totem云平台，实现远程固件升级、故障诊断和参数配置。', aEn: 'Connect to Totem cloud via Ethernet/4G for remote firmware updates, diagnostics, and config.' },
+            { q: '产品质保期是多久？', qEn: 'What is the warranty period?', a: 'Totem全线产品提供18个月标准质保，核心部件24个月质保。', aEn: '18-month standard warranty, 24-month for core components.' }
         ]
     },
     charging: {
@@ -1327,7 +1339,7 @@ var SUPPORT_DATA = {
         { q: '硬币器支持哪些币种？', qEn: 'What currencies do coin acceptors support?', a: 'TM600F最多支持6组（可扩展至8组）不同面额的硬币或代币，支持直径17-30.5mm，可通过DIP开关和按键自定义配置。', aEn: 'TM600F supports up to 6 groups (expandable to 8) of coin denominations, diameter 17-30.5mm, customizable via DIP switch and buttons.' },
         { q: '如何获取技术支持？', qEn: 'How to get technical support?', a: '您可以通过官网在线工单、邮件(support@totem.com)、电话(400-XXX-XXXX)联系我们的技术支持团队，工作日24小时内响应。', aEn: 'Contact our support team via online ticket, email (support@totem.com), or phone. Response within 24 hours on business days.' },
         { q: '产品质保期是多久？', qEn: 'What is the product warranty period?', a: 'Totem全线产品提供18个月标准质保，核心部件（读卡头、鉴伪模块）提供24个月质保。可购买延保服务。', aEn: 'All Totem products come with 18-month standard warranty. Core components (card head, detection module) have 24-month warranty. Extended warranty available.' },
-        { q: '是否提供样品测试？', qEn: 'Do you provide sample testing?', a: '是的，Totem为合格客户提供免费样品测试服务，测试周期一般为2-4周。请联系销售团队获取样品申请表。', aEn: 'Yes, Totem provides free sample testing for qualified customers, typically 2-4 weeks. Contact sales for sample request form.' }
+        { q: '是否支持小批量购买测试？', qEn: 'Do you support small batch purchase for testing?', a: '是的，Totem没有最小起订量限制，1台起即可购买，方便客户进行集成测试与验证。测试期间提供全程技术支持。', aEn: 'Yes, Totem has no MOQ requirement — you can purchase from 1 unit for integration testing. Full technical support provided.' }
     ]
 };
 
@@ -1959,21 +1971,114 @@ function renderSolutionsPage() {
     var container = document.getElementById('solutionsGrid');
     if (!container) return;
     var isEn = currentLang === 'en';
-    var html = '';
-    for (var key in SOLUTION_DATA) {
-        var s = SOLUTION_DATA[key];
-        var statsHtml = s.stats.map(function (st) {
-            return '<span class="spec-tag">' + st.value + '</span>';
-        }).join('');
-        html += '<div class="overview-card reveal">';
-        html += '<div class="overview-icon"><i class="' + s.icon + '"></i></div>';
-        html += '<h3>' + getLocalized(s, 'title') + '</h3>';
-        html += '<p>' + getLocalized(s, 'subtitle') + '</p>';
-        html += '<div class="overview-specs">' + statsHtml + '</div>';
-        html += '<a href="' + s.pageFile + '" class="link-arrow">' + (isEn ? 'View Details' : '查看详情') + ' <i class="fas fa-chevron-right"></i></a>';
-        html += '</div>';
+
+    // Build card HTML for a single pass
+    function buildCardsHtml() {
+        var h = '';
+        for (var key in SOLUTION_DATA) {
+            var s = SOLUTION_DATA[key];
+            h += '<div class="sol-card">';
+            h += '  <div class="sol-card-visual"><i class="' + s.icon + '"></i></div>';
+            h += '  <div class="sol-card-label">';
+            h += '    <h3>' + getLocalized(s, 'title') + '</h3>';
+            h += '    <a href="' + s.pageFile + '" class="sol-card-btn">' + (isEn ? 'View' : '查看') + ' <i class="fas fa-arrow-right"></i></a>';
+            h += '  </div>';
+            h += '</div>';
+        }
+        return h;
     }
-    container.innerHTML = html;
+
+    // Duplicate cards for seamless CSS marquee loop
+    var cardsHtml = buildCardsHtml();
+    container.innerHTML = cardsHtml + cardsHtml;
+
+    setTimeout(initScrollReveal, 100);
+}
+
+// ==================== 12BB. 解决方案详情页渲染 ====================
+function renderSolutionDetail(solutionId) {
+    var sol = SOLUTION_DATA[solutionId];
+    if (!sol) return;
+    var isEn = currentLang === 'en';
+
+    // Breadcrumb
+    var bcSol = document.getElementById('bcSolution');
+    if (bcSol) bcSol.textContent = getLocalized(sol, 'title');
+
+    // Hero
+    var heroTitle = document.getElementById('solHeroTitle');
+    var heroSubtitle = document.getElementById('solHeroSubtitle');
+    var heroDesc = document.getElementById('solHeroDesc');
+    var heroIcon = document.getElementById('solHeroIcon');
+    if (heroTitle) heroTitle.textContent = getLocalized(sol, 'title');
+    if (heroSubtitle) heroSubtitle.textContent = getLocalized(sol, 'subtitle');
+    if (heroDesc) heroDesc.textContent = getLocalized(sol, 'description');
+    if (heroIcon) heroIcon.className = sol.icon;
+
+    // Hero Stats
+    var statsContainer = document.getElementById('solHeroStats');
+    if (statsContainer && sol.stats) {
+        statsContainer.innerHTML = sol.stats.map(function (s) {
+            return '<div class="hero-stat-badge"><span class="value">' + s.value + '</span><span class="label">' + (isEn ? s.labelEn : s.label) + '</span></div>';
+        }).join('');
+    }
+
+    // Features / Highlights
+    var featuresContainer = document.getElementById('solFeatures');
+    if (featuresContainer && sol.highlights) {
+        featuresContainer.innerHTML = sol.highlights.map(function (f, i) {
+            return '<div class="feature-card reveal reveal-delay-' + (i % 4 + 1) + '"><div class="feature-icon"><i class="' + f.icon + '"></i></div><h4>' + getLocalized(f, 'title') + '</h4><p>' + getLocalized(f, 'desc') + '</p></div>';
+        }).join('');
+    }
+
+    // Workflow
+    var workflowContainer = document.getElementById('solWorkflow');
+    if (workflowContainer && sol.workflow) {
+        workflowContainer.innerHTML = sol.workflow.map(function (w) {
+            var html = '<div class="feature-card reveal" style="position:relative;">';
+            html += '<div class="feature-icon"><i class="' + w.icon + '"></i></div>';
+            html += '<div style="position:absolute;top:1.2rem;right:1.2rem;background:var(--primary);color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;">' + w.step + '</div>';
+            html += '<h4>' + getLocalized(w, 'title') + '</h4>';
+            html += '<p>' + getLocalized(w, 'desc') + '</p>';
+            html += '</div>';
+            return html;
+        }).join('');
+    }
+
+    // Related Products
+    var productsContainer = document.getElementById('solProducts');
+    if (productsContainer && sol.products) {
+        productsContainer.innerHTML = sol.products.map(function (pid) {
+            var p = PRODUCT_DATA[pid];
+            if (!p) return '';
+            return '<div class="overview-card"><div class="overview-icon"><i class="' + p.heroIcon + '"></i></div><h3>' + getLocalized(p, 'title') + '</h3><p>' + getLocalized(p, 'subtitle') + '</p><a href="' + p.pageFile + '" class="link-arrow">' + (isEn ? 'Learn More' : '了解更多') + ' <i class="fas fa-chevron-right"></i></a></div>';
+        }).join('');
+    }
+
+    // Stats
+    var statsSection = document.getElementById('solStats');
+    if (statsSection && sol.stats) {
+        statsSection.innerHTML = sol.stats.map(function (s) {
+            return '<div class="stat-item"><div class="stat-number">' + s.value + '</div><div class="stat-label">' + (isEn ? s.labelEn : s.label) + '</div></div>';
+        }).join('');
+    }
+
+    // FAQ
+    var faqContainer = document.getElementById('solFaq');
+    if (faqContainer && sol.faq) {
+        faqContainer.innerHTML = sol.faq.map(function (item) {
+            var html = '<div class="faq-item reveal" style="border:1px solid var(--gray-200);border-radius:var(--radius-md);margin-bottom:1rem;overflow:hidden;">';
+            html += '<div class="faq-question" onclick="this.parentElement.classList.toggle(\'open\')" style="padding:1rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:0.95rem;">';
+            html += '<span>' + getLocalized(item, 'q') + '</span>';
+            html += '<i class="fas fa-chevron-down" style="transition:transform 0.2s;color:var(--gray-400);"></i>';
+            html += '</div>';
+            html += '<div class="faq-answer" style="padding:0 1.5rem;max-height:0;overflow:hidden;transition:all 0.3s ease;color:var(--gray-600);font-size:0.9rem;line-height:1.7;">';
+            html += '<div style="padding-bottom:1rem;">' + getLocalized(item, 'a') + '</div>';
+            html += '</div></div>';
+            return html;
+        }).join('');
+    }
+
     setTimeout(initScrollReveal, 100);
 }
 
@@ -2062,10 +2167,13 @@ function renderSupportPage() {
                 // Re-render dynamic content
                 var page = document.body.getAttribute('data-page');
                 if (page === 'product-detail') {
-                    var pid = document.body.getAttribute('data-product');
-                    renderProductDetail(pid);
+                    renderProductDetail(document.body.getAttribute('data-product'));
                 } else if (page === 'products-overview') {
                     renderProductsOverview();
+                } else if (page === 'solution-detail') {
+                    renderSolutionDetail(document.body.getAttribute('data-solution'));
+                } else if (page === 'solutions') {
+                    renderSolutionsPage();
                 }
                 // Refresh Solution Finder if available
                 if (typeof TotemSolutionFinder !== 'undefined' && TotemSolutionFinder.refreshOnLangChange) {
@@ -2098,13 +2206,8 @@ function renderSupportPage() {
             renderProductDetail(document.body.getAttribute('data-product'));
         } else if (page === 'products-overview') {
             renderProductsOverview();
-        }
-        // Page-specific rendering
-        var page = document.body.getAttribute('data-page');
-        if (page === 'product-detail') {
-            renderProductDetail(document.body.getAttribute('data-product'));
-        } else if (page === 'products-overview') {
-            renderProductsOverview();
+        } else if (page === 'solution-detail') {
+            renderSolutionDetail(document.body.getAttribute('data-solution'));
         } else if (page === 'solutions') {
             renderSolutionsPage();
         } else if (page === 'support') {

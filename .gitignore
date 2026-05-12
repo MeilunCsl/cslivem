@@ -23,3 +23,14 @@ Desktop.ini
 
 # Node
 node_modules/
+
+# Demo files
+industries/demo-*
+
+# Config files
+.local-*
+.clinerules
+
+# Package lock (for http-server only)
+package-lock.json
+package.json

@@ -8,27 +8,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body data-page="solution-vending">
+<body data-page="solution-detail" data-solution="vending">
 
+<!-- Breadcrumb -->
+<div class="container">
+    <div class="breadcrumb">
+        <a href="/" data-i18n="bc_home">首页</a><span>/</span>
+        <a href="/solutions">解决方案</a><span>/</span>
+        <span class="current" id="bcSolution">自动售货机</span>
+    </div>
+</div>
+
+<!-- Page Hero -->
 <section class="page-hero">
     <div class="container page-hero-grid">
         <div class="page-hero-left">
-            <div class="hero-badge">解决方案</div>
-            <h1>自动售货机</h1>
-            <p>读卡器+纸币器+硬币器一体化集成方案，全面覆盖现金与非接支付。</p>
-            <div class="hero-stats">
-                <div class="hero-stat-badge"><span class="value">500K+</span><span class="label">已部署设备</span></div>
-                <div class="hero-stat-badge"><span class="value">99.5%</span><span class="label">支付成功率</span></div>
-                <div class="hero-stat-badge"><span class="value">45%</span><span class="label">故障率降低</span></div>
-            </div>
+            <div class="hero-badge">Totem Solution</div>
+            <h1 id="solHeroTitle">自动售货机</h1>
+            <p id="solHeroSubtitle">读卡器+纸币器+硬币器一体化集成方案</p>
+            <p id="solHeroDesc" style="font-size:0.92rem;color:var(--gray-500);margin-bottom:1.5rem;"></p>
+            <div class="hero-stats" id="solHeroStats"></div>
             <div class="hero-buttons" style="display:flex;gap:0.8rem;flex-wrap:wrap;">
                 <a href="/contact" class="btn-primary">联系销售 <i class="fas fa-arrow-right"></i></a>
-                <a href="#features" class="btn-outline">查看特性</a>
+                <a href="#solFeatures" class="btn-outline">查看亮点</a>
             </div>
         </div>
         <div class="page-hero-right">
             <div class="hero-visual">
-                <div class="visual-icon"><i class="fas fa-box-open" style="font-size:4rem;color:var(--primary);"></i></div>
+                <div class="visual-icon"><i id="solHeroIcon" class="fas fa-box-open" style="font-size:4rem;color:var(--primary);"></i></div>
                 <div class="visual-title">Vending Integration</div>
                 <div class="visual-desc">MDB / CCtalk · 模块化 · 混合支付</div>
                 <div class="badge-group" style="margin-top:1rem;">
@@ -41,73 +48,75 @@
     </div>
 </section>
 
-<section class="section" id="features">
+<!-- Section Nav -->
+<nav class="section-nav" id="sectionNav">
+    <div class="container">
+        <a href="#solFeatures" class="section-nav-link active">方案亮点</a>
+        <a href="#solWorkflow" class="section-nav-link">工作流程</a>
+        <a href="#solProducts" class="section-nav-link">适用产品</a>
+        <a href="#solFaq" class="section-nav-link">常见问题</a>
+    </div>
+</nav>
+
+<!-- Features -->
+<section class="section" id="solFeatures">
     <div class="container">
         <div class="section-header">
             <h2>方案亮点</h2>
         </div>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-puzzle-piece"></i></div>
-                <h4>模块化集成</h4>
-                <p>读卡器、纸币器、硬币器独立模块，按需组合，适配各类售货机机型。</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-hand-holding-usd"></i></div>
-                <h4>混合支付</h4>
-                <p>现金（纸币+硬币）与电子支付（NFC+QR）并行，覆盖所有用户群体。</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                <h4>交易数据分析</h4>
-                <p>云端上传交易数据，实时监控设备状态与营收。</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-tools"></i></div>
-                <h4>远程运维</h4>
-                <p>通过以太网/4G远程升级固件、诊断故障、调整参数。</p>
-            </div>
-        </div>
+        <div class="feature-grid" id="solFeatures"></div>
     </div>
 </section>
 
-<section class="section" style="background:var(--gray-50);">
+<!-- Workflow -->
+<section class="section" style="background:var(--gray-50);" id="solWorkflow">
+    <div class="container">
+        <div class="section-header">
+            <h2>工作流程</h2>
+            <p>从需求沟通到量产部署，Totem提供全流程技术支持</p>
+        </div>
+        <div class="feature-grid" id="solWorkflow"></div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="section" id="solProducts">
     <div class="container">
         <div class="section-header">
             <h2>适用产品</h2>
         </div>
-        <div class="overview-grid">
-            <div class="overview-card">
-                <div class="overview-icon"><i class="fas fa-credit-card"></i></div>
-                <h3>读卡器 TR-500</h3>
-                <p>EMV认证，IP65防护，支持全支付方式</p>
-                <a href="/products/reader" class="link-arrow">了解详情 <i class="fas fa-chevron-right"></i></a>
-            </div>
-            <div class="overview-card">
-                <div class="overview-icon"><i class="fas fa-money-bill-wave"></i></div>
-                <h3>纸币器 BV-300</h3>
-                <p>99.2%识别率，600张大容量钱箱</p>
-                <a href="/products/banknote" class="link-arrow">了解详情 <i class="fas fa-chevron-right"></i></a>
-            </div>
-            <div class="overview-card">
-                <div class="overview-icon"><i class="fas fa-coins"></i></div>
-                <h3>硬币器 CA-200</h3>
-                <p>16种币种识别，MDB/CCtalk协议</p>
-                <a href="/products/coin" class="link-arrow">了解详情 <i class="fas fa-chevron-right"></i></a>
-            </div>
-        </div>
+        <div class="overview-grid" id="solProducts"></div>
     </div>
 </section>
 
+<!-- Stats -->
+<div class="stats-section">
+    <div class="container">
+        <div class="stats-grid" id="solStats"></div>
+    </div>
+</div>
+
+<!-- FAQ -->
+<section class="section" id="solFaq">
+    <div class="container">
+        <div class="section-header">
+            <h2>常见问题</h2>
+        </div>
+        <div style="max-width:800px;margin:0 auto;" id="solFaq"></div>
+    </div>
+</section>
+
+<!-- CTA -->
 <div class="container">
     <div class="cta-section">
         <h2>需要定制自动售货机支付方案？</h2>
-        <p>即刻联系Totem商务，获取提供一站式海外支付解决方案，助您安全、高效地拓展全球市场。</p>
+        <p>即刻联系Totem商务，获取一站式支付硬件解决方案，助您安全、高效地拓展全球市场。</p>
         <a href="/contact" class="btn-dark">即刻预约咨询 <i class="fas fa-headset"></i></a>
     </div>
 </div>
 
-<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> 加载图片配置...</div>
+<!-- Footer -->
+<div id="configLoading" class="config-loading" style="display:none;"><i class="fas fa-spinner"></i> <span data-i18n="loading">加载图片配置...</span></div>
 <script src="/js/app.js"></script>
 <script src="/js/components.js"></script>
 </body>

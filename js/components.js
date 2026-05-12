@@ -10,37 +10,38 @@ document.addEventListener('DOMContentLoaded', function () {
     nav.className = 'navbar';
     nav.innerHTML = `
     <div class="container nav-container">
-        <a href="/" class="logo" id="totemLogo">Totem<span>.</span></a>
-        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <a href="/" class="logo" id="totemLogo"><img src="/images/logo/totemlogo.png" alt="Totem" style="height:36px;"></a>
         <div class="nav-links" id="navLinks">
             <div class="nav-item has-dropdown">
-                <a href="/products" style="color:var(--primary);">产品中心 <i class="fas fa-chevron-down"></i></a>
+                <a href="/products">产品中心 <i class="fas fa-chevron-down"></i></a>
                 <div class="dropdown">
-                    <a href="/products/reader">读卡器系列</a>
-                    <a href="/products/banknote">纸币器系列</a>
-                    <a href="/products/coin">硬币器系列</a>
-                    <a href="/products/scanner">扫码器系列</a>
-                    <a href="/products/nfc">非接读卡器</a>
+                    <a href="/products/reader"><i class="fas fa-credit-card"></i> 读卡器系列</a>
+                    <a href="/products/banknote"><i class="fas fa-money-bill-wave"></i> 纸币器系列</a>
+                    <a href="/products/coin"><i class="fas fa-coins"></i> 硬币器系列</a>
+                    <a href="/products/scanner"><i class="fas fa-qrcode"></i> 扫码器系列</a>
+                    <a href="/products/nfc"><i class="fas fa-wifi"></i> 非接读卡器</a>
                 </div>
             </div>
             <div class="nav-item has-dropdown">
                 <a href="/solutions">解决方案 <i class="fas fa-chevron-down"></i></a>
                 <div class="dropdown">
-                    <a href="/solutions/vending">自动售货机</a>
-                    <a href="/solutions/charging">充电桩支付</a>
-                    <a href="/solutions/ticket">自助售票机</a>
-                    <a href="/solutions/laundry">自助洗衣房</a>
-                    <a href="/solutions/retail">无人零售柜</a>
+                    <a href="/solutions/vending"><i class="fas fa-box-open"></i> 自动售货机</a>
+                    <a href="/solutions/charging"><i class="fas fa-charging-station"></i> 充电桩支付</a>
+                    <a href="/solutions/ticket"><i class="fas fa-ticket-alt"></i> 自助售票机</a>
+                    <a href="/solutions/laundry"><i class="fas fa-tshirt"></i> 自助洗衣房</a>
+                    <a href="/solutions/retail"><i class="fas fa-shopping-cart"></i> 无人零售柜</a>
                 </div>
             </div>
             <div class="nav-item"><a href="/industries">行业应用</a></div>
             <div class="nav-item"><a href="/support">技术支持</a></div>
-            <div class="nav-item"><a href="/about">关于Totem</a></div>
+            <div class="nav-item"><a href="/about">关于我们</a></div>
+            <div class="nav-item"><a href="/contact">联系我们</a></div>
         </div>
         <div class="nav-buttons">
             <div class="lang-switch" id="langSwitch"><i class="fas fa-globe"></i> <span id="currentLang">中文</span></div>
-            <a href="/contact" class="demo-btn">获取报价</a>
+            <a href="/contact" class="demo-btn">立即咨询</a>
         </div>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
     </div>`;
 
     // 插入到 body 最前面

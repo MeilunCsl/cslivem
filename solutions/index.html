@@ -7,6 +7,362 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* =============================================
+           SOLUTIONS PAGE — CARD-DRIVEN STORYTELLING
+           Consistent with homepage: white base, #E55A2C primary,
+           soft grays, rounded cards, eyebrow labels
+           ============================================= */
+
+        /* --- Page Hero --- */
+        .sol-page-hero {
+            padding: 80px 0 60px;
+            background: linear-gradient(160deg, #FFFBF8 0%, #FFFFFF 40%, #F8FAFE 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .sol-page-hero::after {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(229,90,44,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .sol-hero-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .sol-hero-copy .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+        }
+        .sol-hero-copy h1 {
+            font-size: 3rem;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+        .sol-hero-copy h1 span {
+            color: var(--primary);
+        }
+        .sol-hero-copy > p {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 480px;
+        }
+        .sol-hero-copy .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Hero Right - Mini Cards Stack */
+        .sol-hero-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .mini-sol-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 18px;
+            padding: 1.4rem;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+        }
+        .mini-sol-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px -8px rgba(229,90,44,0.12);
+            border-color: rgba(229,90,44,0.3);
+        }
+        .mini-sol-card .msc-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.8rem;
+        }
+        .mini-sol-card .msc-icon i {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+        .mini-sol-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .mini-sol-card span {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+        .mini-sol-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .mini-sol-card:nth-child(2) { grid-column: 2; grid-row: 1; margin-top: 1.5rem; }
+        .mini-sol-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+        .mini-sol-card:nth-child(4) { grid-column: 2; grid-row: 2; margin-top: 1.5rem; }
+        .mini-sol-card:nth-child(5) { grid-column: 1 / -1; }
+
+        /* --- Solutions Main Section --- */
+        .sol-main-section {
+            padding: 80px 0 100px;
+            overflow: hidden;
+        }
+        .sol-main-section .section-header {
+            margin-bottom: 3rem;
+        }
+
+        /* Horizontal Scroll Container */
+        .sol-showcase-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0 1.5rem;
+        }
+        /* Fade edges for cleaner look */
+        .sol-showcase-wrapper::before,
+        .sol-showcase-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .sol-showcase-wrapper::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--white), transparent);
+        }
+        .sol-showcase-wrapper::after {
+            right: 0;
+            background: linear-gradient(-90deg, var(--white), transparent);
+        }
+
+        /* Marquee Track */
+        .sol-showcase {
+            display: flex;
+            gap: 1.5rem;
+            width: max-content;
+            animation: sol-marquee 40s linear infinite;
+        }
+        .sol-showcase-wrapper:hover .sol-showcase {
+            animation-play-state: paused;
+        }
+
+        @keyframes sol-marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-50% - 0.75rem)); }
+        }
+
+        /* Scroll Hint */
+        .sol-scroll-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .sol-scroll-hint .scroll-text {
+            font-size: 0.78rem;
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sol-scroll-hint .scroll-text i {
+            animation: swipe-hint 2s ease-in-out infinite;
+        }
+        @keyframes swipe-hint {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(6px); }
+        }
+
+        /* Solution Card — Image Top, Button Bottom */
+        .sol-card {
+            width: 320px;
+            flex-shrink: 0;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .sol-card:nth-child(odd) {
+            margin-top: 0;
+        }
+        .sol-card:nth-child(even) {
+            margin-top: 2rem;
+        }
+        .sol-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px -10px rgba(229,90,44,0.15);
+            border-color: rgba(229,90,44,0.3);
+        }
+
+        /* Card Visual (top) */
+        .sol-card-visual {
+            background: linear-gradient(145deg, #FEF7F3, #FEF1EA);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .sol-card-visual i {
+            font-size: 3.5rem;
+            color: var(--primary);
+        }
+
+        /* Card Label + Button */
+        .sol-card-label {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .sol-card-label h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sol-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: all var(--ease-base);
+            white-space: nowrap;
+        }
+        .sol-card-btn i {
+            font-size: 0.7rem;
+            transition: transform var(--ease-base);
+        }
+        .sol-card-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .sol-card-btn:hover i {
+            transform: translateX(2px);
+        }
+
+        /* --- Process Section --- */
+        .sol-process {
+            padding: 80px 0;
+            background: var(--gray-50);
+        }
+        .process-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-top: 3rem;
+        }
+        .process-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+            border-color: var(--primary-light);
+        }
+        .process-card .pc-num {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 26px;
+            height: 26px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.72rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .process-card .pc-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--primary-light);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        .process-card .pc-icon i {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        .process-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+        .process-card p {
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1000px) {
+            .sol-hero-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+            .sol-hero-cards { max-width: 400px; margin: 0 auto; }
+            .sol-hero-copy { text-align: center; }
+            .sol-hero-copy > p { margin-left: auto; margin-right: auto; }
+            .sol-hero-copy .hero-actions { justify-content: center; }
+            .process-cards { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .sol-page-hero { padding: 50px 0 40px; }
+            .sol-hero-copy h1 { font-size: 2.2rem; }
+            .sol-hero-cards { grid-template-columns: 1fr; }
+            .mini-sol-card:nth-child(2),
+            .mini-sol-card:nth-child(4) { margin-top: 0; }
+            .sol-card { width: 260px; }
+            .sol-card-visual { height: 160px; }
+            .sol-card-visual i { font-size: 2.8rem; }
+            .sol-card:nth-child(even) { margin-top: 1.2rem; }
+            .process-cards { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body data-page="solutions">
 
@@ -20,40 +376,108 @@
 </div>
 
 <!-- Page Hero -->
-<section class="page-hero">
+<section class="sol-page-hero">
     <div class="container">
-        <div class="section-header" style="max-width:800px;">
-            <div class="hero-badge" style="margin-bottom:1rem;">Totem Solutions</div>
-            <h1 style="font-size:2.6rem;">行业深度整合方案</h1>
-            <p style="color:var(--gray-600);">无论是现金还是电子支付，Totem硬件模块适配各类自助设备。从售货机到充电桩，我们为每个行业提供定制化的支付硬件解决方案。</p>
+        <div class="sol-hero-layout">
+            <div class="sol-hero-copy reveal">
+                <div class="eyebrow"><i class="fas fa-cubes"></i> Solution + Hardware</div>
+                <h1>不只是硬件供应商<br>更是<span>支付方案伙伴</span></h1>
+                <p>Totem 深入每个行业的自助支付场景，提供经过验证的解决方案与配套硬件模块组合。告诉我们您的设备类型和目标市场，我们给出可落地的完整方案。</p>
+                <div class="hero-actions">
+                    <a href="/contact" class="btn-primary">获取定制方案 <i class="fas fa-arrow-right"></i></a>
+                    <a href="#solShowcase" class="btn-outline">浏览行业方案 <i class="fas fa-chevron-down"></i></a>
+                </div>
+            </div>
+            <div class="sol-hero-cards reveal reveal-delay-1">
+                <a href="/solutions/vending" class="mini-sol-card">
+                    <div class="msc-icon"><i class="fas fa-box-open"></i></div>
+                    <h4>自动售货机</h4>
+                    <span>500K+ 设备运行</span>
+                </a>
+                <a href="/solutions/charging" class="mini-sol-card">
+                    <div class="msc-icon"><i class="fas fa-charging-station"></i></div>
+                    <h4>充电桩支付</h4>
+                    <span>IP67 户外防护</span>
+                </a>
+                <a href="/solutions/ticket" class="mini-sol-card">
+                    <div class="msc-icon"><i class="fas fa-ticket-alt"></i></div>
+                    <h4>自助售票机</h4>
+                    <span>四重鉴伪安全</span>
+                </a>
+                <a href="/solutions/laundry" class="mini-sol-card">
+                    <div class="msc-icon"><i class="fas fa-tshirt"></i></div>
+                    <h4>洗衣 / 储物柜</h4>
+                    <span>15min 快速部署</span>
+                </a>
+                <a href="/solutions/retail" class="mini-sol-card">
+                    <div class="msc-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <h4>无人零售柜</h4>
+                    <span>转化率提升 30%+</span>
+                </a>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Solutions Grid -->
-<section class="section" style="padding-top:0;">
+<!-- Solutions Showcase -->
+<section class="sol-main-section" id="solShowcase">
     <div class="container">
-        <div class="overview-grid" id="solutionsGrid"></div>
+        <div class="section-header">
+            <div class="eyebrow">Industry Solutions</div>
+            <h2>行业解决方案</h2>
+            <p>每个方案都经过真实场景验证，包含完整的硬件选型、协议适配与部署指导</p>
+        </div>
+        <div class="sol-showcase-wrapper">
+            <div class="sol-showcase" id="solutionsGrid"></div>
+            <div class="sol-scroll-hint">
+                <span class="scroll-text"><i class="fas fa-pause"></i> 鼠标悬停即可暂停</span>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Stats -->
-<div class="stats-section">
+<!-- Process -->
+<section class="sol-process">
     <div class="container">
-        <div class="stats-grid">
-            <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">覆盖国家与地区</div></div>
-            <div class="stat-item"><div class="stat-number">500K+</div><div class="stat-label">全球模块部署量</div></div>
-            <div class="stat-item"><div class="stat-number">6大</div><div class="stat-label">核心行业方案</div></div>
-            <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">技术支持响应</div></div>
+        <div class="section-header">
+            <div class="eyebrow">How We Deliver</div>
+            <h2>合作流程</h2>
+            <p>从需求到量产，全流程技术陪跑</p>
+        </div>
+        <div class="process-cards">
+            <div class="process-card reveal">
+                <span class="pc-num">1</span>
+                <div class="pc-icon"><i class="fas fa-comments"></i></div>
+                <h4>需求沟通</h4>
+                <p>了解设备类型、目标市场与支付方式需求</p>
+            </div>
+            <div class="process-card reveal reveal-delay-1">
+                <span class="pc-num">2</span>
+                <div class="pc-icon"><i class="fas fa-drafting-compass"></i></div>
+                <h4>方案配置</h4>
+                <p>推荐最佳硬件组合，确认协议与币种</p>
+            </div>
+            <div class="process-card reveal reveal-delay-2">
+                <span class="pc-num">3</span>
+                <div class="pc-icon"><i class="fas fa-vial"></i></div>
+                <h4>小批量购买</h4>
+                <p>支持小批量购买用于集成测试，确保稳定可靠</p>
+            </div>
+            <div class="process-card reveal reveal-delay-3">
+                <span class="pc-num">4</span>
+                <div class="pc-icon"><i class="fas fa-rocket"></i></div>
+                <h4>量产交付</h4>
+                <p>批量供货 + 远程支持 + 持续运维</p>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- CTA -->
 <div class="container">
     <div class="cta-section">
         <h2 data-i18n="cta_title">需要定制支付硬件方案？</h2>
-        <p data-i18n="cta_desc">即刻联系Totem商务，获取提供一站式海外支付解决方案，助您安全、高效地拓展全球市场。</p>
+        <p data-i18n="cta_desc">告诉我们设备类型和目标地区，Totem商务团队会给出可落地的硬件组合与报价。</p>
         <a href="/contact" class="btn-dark" data-i18n="cta_btn">即刻预约咨询 <i class="fas fa-headset"></i></a>
     </div>
 </div>

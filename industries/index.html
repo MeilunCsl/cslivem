@@ -8,316 +8,158 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        /* ===== CAROUSEL ===== */
-        .ind-carousel {
-            background: #0a0a0a;
-            padding: 0;
+        body[data-page="industries"] {
+            background: var(--white);
         }
-        .ind-viewport {
+
+        /* Hero */
+        .ind-hero {
+            padding: 140px 0 40px;
+            text-align: center;
+            position: relative; z-index: 2;
+            background: linear-gradient(160deg, #FFFBF8 0%, #FFFFFF 40%, #F8FAFE 100%);
+        }
+        .ind-hero .eyebrow {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--primary-light); border: none;
+            color: var(--primary); padding: 6px 16px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem;
+        }
+        .ind-hero h1 { font-size: 2.6rem; color: var(--dark); margin-bottom: 0.6rem; line-height: 1.15; }
+        .ind-hero h1 span { color: var(--primary); }
+        .ind-hero p { font-size: 0.95rem; color: var(--gray-600); max-width: 500px; margin: 0 auto; }
+
+        /* Map Section */
+        .ind-map-wrap {
             position: relative;
             width: 100%;
-            height: 70vh;
-            min-height: 460px;
-            max-height: 700px;
+            height: 75vh;
+            min-height: 550px;
             overflow: hidden;
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
         }
-        .ind-track {
-            display: flex;
-            height: 100%;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .ind-slide {
-            position: relative;
-            flex: 0 0 100%;
+        #leafletMap {
             width: 100%;
             height: 100%;
         }
-        .ind-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 35%;
-            display: block;
-        }
-        /* Bottom third gradient — unified dark overlay */
-        .ind-slide::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to top,
-                rgba(10,10,10,0.88) 0%,
-                rgba(10,10,10,0.55) 35%,
-                rgba(10,10,10,0.1) 60%,
-                transparent 100%
-            );
-            pointer-events: none;
-        }
-        /* Slide content — bottom left */
-        .ind-slide-body {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 5;
-            padding: 2.5rem 3.5rem;
-            max-width: 540px;
-        }
-        .ind-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(229,90,44,0.18);
-            border: 1px solid rgba(229,90,44,0.45);
-            color: #ff8a5c;
-            padding: 4px 14px;
-            border-radius: 50px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 0.8rem;
-        }
-        .ind-slide-body h2 {
-            color: #fff;
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
-            margin-bottom: 0.5rem;
-            line-height: 1.15;
-        }
-        .ind-slide-body p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.4rem;
-        }
-        .ind-slide-body .btn-primary {
-            font-size: 0.85rem;
-            padding: 9px 22px;
-        }
 
-        /* Brand badge — top left, subtle */
-        .ind-brand {
-            position: absolute;
-            top: 1.5rem;
-            left: 2rem;
-            z-index: 10;
+        /* Custom Leaflet markers */
+        .leaflet-marker-icon {
+            background: none !important;
+            border: none !important;
+        }
+        .map-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: rgba(255,255,255,0.55);
-            letter-spacing: -0.01em;
-        }
-        .ind-brand .dot { color: var(--primary); }
-
-        /* Hero text overlay — top area of carousel */
-        .ind-hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 15;
-            padding: 3.5rem 3.5rem 0;
-            background: linear-gradient(
-                to bottom,
-                rgba(10,10,10,0.85) 0%,
-                rgba(10,10,10,0.5) 70%,
-                transparent 100%
-            );
-            pointer-events: none;
-        }
-        .ind-hero-overlay .eyebrow {
-            color: #ff8a5c;
-            font-size: 0.78rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        .ind-hero-overlay h1 {
-            font-size: clamp(1.8rem, 4vw, 2.6rem);
-            margin-bottom: 0.5rem;
-            color: #fff;
-            line-height: 1.15;
-        }
-        .ind-hero-overlay h1 em {
-            font-style: normal;
-            color: var(--primary);
-        }
-        .ind-hero-overlay p {
-            max-width: 560px;
-            color: #94a3b8;
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* Arrows */
-        .ind-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.18);
-            color: #fff;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 8px;
             cursor: pointer;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px -4px rgba(0,0,0,0.1);
+            position: relative;
         }
-        .ind-arrow:hover {
+        .map-card:hover {
             background: var(--primary);
             border-color: var(--primary);
-            transform: translateY(-50%) scale(1.06);
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(229,90,44,0.3);
         }
-        .ind-arrow-prev { left: 1.2rem; }
-        .ind-arrow-next { right: 1.2rem; }
-
-        /* Dots */
-        .ind-dots {
-            position: absolute;
-            bottom: 1.5rem;
-            right: 2rem;
-            z-index: 10;
-            display: flex;
-            gap: 5px;
+        .map-card .mc-icon {
+            width: 30px; height: 30px;
+            background: var(--primary-light);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
-        .ind-dot {
-            width: 32px;
-            height: 3px;
-            border-radius: 2px;
-            background: rgba(255,255,255,0.2);
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-        }
-        .ind-dot.active { background: rgba(255,255,255,0.25); }
-        .ind-dot.active::after {
+        .map-card .mc-icon i { font-size: 0.8rem; color: var(--primary); }
+        .map-card:hover .mc-icon { background: rgba(255,255,255,0.2); }
+        .map-card:hover .mc-icon i { color: #fff; }
+        .map-card .mc-name { font-size: 0.75rem; font-weight: 700; color: var(--dark); }
+        .map-card .mc-loc { font-size: 0.62rem; color: var(--gray-500); }
+        .map-card:hover .mc-name { color: #fff; }
+        .map-card:hover .mc-loc { color: rgba(255,255,255,0.8); }
+        .map-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; height: 100%;
-            background: var(--primary);
-            border-radius: 2px;
-            animation: indFill 5s linear forwards;
+            bottom: -6px; left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--white);
         }
-        @keyframes indFill { from { width: 0; } to { width: 100%; } }
+        .map-card:hover::after {
+            border-top-color: var(--primary);
+        }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 950px) {
-            .ind-viewport { height: 85vh; min-height: 520px; }
-            .ind-slide-body { padding: 2rem; max-width: 100%; }
-            .ind-hero-overlay { padding: 2.5rem 2rem 0; }
+        /* Cards section below */
+        .ind-cards-section { padding: 80px 0; background: var(--gray-50); }
+        .ind-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
-        @media (max-width: 600px) {
-            .ind-viewport { height: 80vh; min-height: 480px; }
-            .ind-hero-overlay { padding: 1.5rem 1.2rem 0; }
-            .ind-hero-overlay h1 { font-size: 1.5rem; }
-            .ind-slide-body { padding: 1.2rem; }
-            .ind-brand { top: 1rem; left: 1rem; font-size: 0.7rem; }
-            .ind-arrow { width: 36px; height: 36px; font-size: 0.85rem; }
-            .ind-arrow-prev { left: 0.6rem; }
-            .ind-arrow-next { right: 0.6rem; }
+        .ind-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: 18px; padding: 2rem 1.8rem;
+            text-decoration: none; color: inherit;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+        }
+        .ind-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px -10px rgba(229,90,44,0.12); border-color: rgba(229,90,44,0.3); }
+        .ind-card .ic-icon { width: 52px; height: 52px; background: var(--primary-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+        .ind-card .ic-icon i { font-size: 1.3rem; color: var(--primary); }
+        .ind-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .ind-card p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
+
+        @media (max-width: 900px) {
+            .ind-hero h1 { font-size: 2rem; }
+            .ind-map-wrap { height: 55vh; min-height: 400px; }
+            .ind-cards-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body data-page="industries">
 
-<!-- Carousel (Hero + Slides in one viewport) -->
-<section class="ind-carousel">
-    <div class="ind-viewport" id="indViewport">
-        <!-- Hero text overlay at top -->
-        <div class="ind-hero-overlay">
-            <div class="eyebrow">Industries</div>
-            <h1>为每个<em>行业</em>定制支付体验</h1>
-            <p>从自动售货机到智能储物柜，从充电桩到自助洗车，Totem 为全球自助设备提供专属的现金 + 非现金支付硬件方案。</p>
-        </div>
-        <div class="ind-brand">Totem<span class="dot">.</span></div>
+<!-- Hero -->
+<section class="ind-hero">
+    <div class="container">
+        <div class="eyebrow"><i class="fas fa-globe-asia"></i> Industries</div>
+        <h1>Totem 支付硬件，驱动全球 <span>自动化设备</span></h1>
+        <p>拖拽地图查看各国行业分布 · 滚轮缩放</p>
+    </div>
+</section>
 
-        <div class="ind-track" id="indTrack">
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1562184552-997c4731b500?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自动售货机" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-box-open"></i> Vending</span>
-                    <h2>自动售货机支付方案</h2>
-                    <p>读卡器 + 纸币器 + 硬币器一体化集成，MDB/CCtalk 即插即用，50万+ 台设备稳定运行。</p>
-                    <a href="/solutions/vending" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="EV充电桩" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-charging-station"></i> EV Charging</span>
-                    <h2>充电桩无现金支付升级</h2>
-                    <p>IP65/IP67 户外耐用读卡器，NFC 手机支付，兼容 OCPP 协议。</p>
-                    <a href="/solutions/charging" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助洗车" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-car"></i> Car Wash</span>
-                    <h2>自助洗车投币支付升级</h2>
-                    <p>ONYX 紧凑型读卡器 IP65 防水设计，全天候户外运行。</p>
-                    <a href="/contact" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="无人零售" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-shopping-cart"></i> Retail</span>
-                    <h2>无人零售全支付覆盖</h2>
-                    <p>五种支付方式并行，30%+ 转化率提升，7×24 无人值守。</p>
-                    <a href="/solutions/retail" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助咖啡" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-mug-hot"></i> Coffee</span>
-                    <h2>自助咖啡机支付模块</h2>
-                    <p>ONYX 紧凑型读卡器 + 硬币器，1.5W 超低功耗，5分钟安装。</p>
-                    <a href="/contact" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1521656693880-9994dbfae9e4?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助洗衣" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-tshirt"></i> Laundry</span>
-                    <h2>自助洗衣低成本部署</h2>
-                    <p>硬币器 + 读卡器紧凑组合，15分钟安装，NFC 会员卡一体化。</p>
-                    <a href="/solutions/laundry" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="自助售票" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-ticket-alt"></i> Ticketing</span>
-                    <h2>自助售票高安全收款</h2>
-                    <p>四重鉴伪纸币器 + 大容量硬币找零 + 交通卡 NFC 支付。</p>
-                    <a href="/solutions/ticket" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="ind-slide">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80" alt="智能储物柜" loading="lazy">
-                <div class="ind-slide-body">
-                    <span class="ind-tag"><i class="fas fa-lock"></i> Lockers</span>
-                    <h2>智能储物柜支付方案</h2>
-                    <p>超低功耗 <3W，适合电池/太阳能供电，NFC 会员卡充值一体化。</p>
-                    <a href="/contact" class="btn-primary">了解方案 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-        <div class="ind-arrow ind-arrow-prev" id="indPrev"><i class="fas fa-chevron-left"></i></div>
-        <div class="ind-arrow ind-arrow-next" id="indNext"><i class="fas fa-chevron-right"></i></div>
-        <div class="ind-dots" id="indDots"></div>
+<!-- Interactive Map with Leaflet -->
+<section class="ind-map-wrap">
+    <div id="leafletMap"></div>
+</section>
+
+<!-- Industry Cards -->
+<section class="ind-cards-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>覆盖 8 大核心行业</h2>
+            <p>每个行业都有经过验证的硬件组合方案</p>
+        </div>
+        <div class="ind-cards-grid">
+            <a href="/solutions/vending" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-box-open"></i></div><h3>自动售货机</h3><p>现金+NFC+QR多支付并行，MDB/CCtalk即插即用。</p></a>
+            <a href="/solutions/charging" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-charging-station"></i></div><h3>充电桩支付</h3><p>IP65/IP67户外耐用，兼容OCPP协议。</p></a>
+            <a href="/solutions/ticket" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-ticket-alt"></i></div><h3>自助售票机</h3><p>四重鉴伪纸币器+大容量硬币找零。</p></a>
+            <a href="/solutions/laundry" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-tshirt"></i></div><h3>自助洗衣/储物柜</h3><p>15分钟安装，NFC会员卡一体化。</p></a>
+            <a href="/solutions/retail" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-shopping-cart"></i></div><h3>无人零售柜</h3><p>五种支付方式并行，转化率+30%。</p></a>
+            <a href="/contact" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-mug-hot"></i></div><h3>自助咖啡机</h3><p>紧凑型读卡器+硬币器，5分钟安装。</p></a>
+            <a href="/contact" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-parking"></i></div><h3>停车场缴费</h3><p>纸币+硬币+NFC全覆盖。</p></a>
+            <a href="/contact" class="ind-card reveal"><div class="ic-icon"><i class="fas fa-gamepad"></i></div><h3>游戏游艺设备</h3><p>投币+扫码+会员卡灵活组合。</p></a>
+        </div>
     </div>
 </section>
 
@@ -327,16 +169,15 @@
         <div class="stats-grid">
             <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">覆盖国家与地区</div></div>
             <div class="stat-item"><div class="stat-number">500K+</div><div class="stat-label">全球模块部署量</div></div>
-            <div class="stat-item"><div class="stat-number">8大</div><div class="stat-label">行业应用场景</div></div>
+            <div class="stat-item"><div class="stat-number">25+</div><div class="stat-label">行业应用场景</div></div>
             <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">技术支持响应</div></div>
         </div>
     </div>
 </div>
 
 <!-- CTA -->
-<div class="container" style="padding-bottom:40px;">
+<div class="container">
     <div class="cta-section">
-        <div class="eyebrow" style="text-align:center;">Start a Quote</div>
         <h2>需要为您的设备定制支付方案？</h2>
         <p>即刻联系Totem硬件专家，获取定制化支付解决方案。</p>
         <a href="/contact" class="btn-dark">即刻预约咨询 <i class="fas fa-headset"></i></a>
@@ -344,48 +185,84 @@
 </div>
 
 <script src="/js/app.js"></script>
+<script src="/js/components.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function() {
-    var track = document.getElementById('indTrack');
-    var slides = track ? track.querySelectorAll('.ind-slide') : [];
-    var dotsBox = document.getElementById('indDots');
-    var prev = document.getElementById('indPrev');
-    var next = document.getElementById('indNext');
-    var cur = 0, n = slides.length, timer, INTERVAL = 5000;
+    // Industry data with real coordinates
+    var industries = [
+        // Asia
+        { lat: 31.2, lng: 121.5, icon: 'fas fa-box-open', name: '自动售货机', loc: '🇨🇳 中国·上海' },
+        { lat: 39.9, lng: 116.4, icon: 'fas fa-charging-station', name: '充电桩支付', loc: '🇨🇳 中国·北京' },
+        { lat: 23.1, lng: 113.3, icon: 'fas fa-bicycle', name: '共享单车', loc: '🇨🇳 中国·广州' },
+        { lat: 35.7, lng: 139.7, icon: 'fas fa-mug-hot', name: '自助咖啡机', loc: '🇯🇵 日本·东京' },
+        { lat: 34.7, lng: 135.5, icon: 'fas fa-gamepad', name: '游戏机', loc: '🇯🇵 日本·大阪' },
+        { lat: 1.35, lng: 103.8, icon: 'fas fa-tshirt', name: '自助洗衣', loc: '🇸🇬 新加坡' },
+        { lat: 19.1, lng: 72.9, icon: 'fas fa-water', name: '售水机', loc: '🇮🇳 印度·孟买' },
+        { lat: 25.2, lng: 55.3, icon: 'fas fa-hotel', name: '酒店自助入住', loc: '🇦🇪 迪拜' },
+        { lat: 37.6, lng: 127.0, icon: 'fas fa-box-open', name: '售货机', loc: '🇰🇷 韩国·首尔' },
+        { lat: 13.8, lng: 100.5, icon: 'fas fa-lock', name: '智能储物柜', loc: '🇹🇭 泰国·曼谷' },
+        // Europe
+        { lat: 52.5, lng: 13.4, icon: 'fas fa-charging-station', name: '充电桩', loc: '🇩🇪 德国·柏林' },
+        { lat: 48.9, lng: 2.35, icon: 'fas fa-tshirt', name: '洗衣房', loc: '🇫🇷 法国·巴黎' },
+        { lat: 51.5, lng: -0.13, icon: 'fas fa-ticket-alt', name: '售票机', loc: '🇬🇧 英国·伦敦' },
+        { lat: 40.4, lng: -3.7, icon: 'fas fa-car', name: '自助洗车', loc: '🇪🇸 西班牙·马德里' },
+        { lat: 41.9, lng: 12.5, icon: 'fas fa-ice-cream', name: '冰淇淋机', loc: '🇮🇹 意大利·罗马' },
+        // North America
+        { lat: 40.7, lng: -74.0, icon: 'fas fa-parking', name: '停车缴费', loc: '🇺🇸 美国·纽约' },
+        { lat: 34.1, lng: -118.2, icon: 'fas fa-car', name: '自助洗车', loc: '🇺🇸 美国·洛杉矶' },
+        { lat: 41.9, lng: -87.6, icon: 'fas fa-prescription-bottle-alt', name: '售药机', loc: '🇺🇸 美国·芝加哥' },
+        { lat: 43.7, lng: -79.4, icon: 'fas fa-box-open', name: '售货机', loc: '🇨🇦 加拿大·多伦多' },
+        { lat: 19.4, lng: -99.1, icon: 'fas fa-water', name: '售水机', loc: '🇲🇽 墨西哥城' },
+        // South America
+        { lat: -23.6, lng: -46.6, icon: 'fas fa-box-open', name: '售货机', loc: '🇧🇷 巴西·圣保罗' },
+        { lat: -34.6, lng: -58.4, icon: 'fas fa-parking', name: '停车缴费', loc: '🇦🇷 阿根廷·布宜诺斯' },
+        // Africa
+        { lat: -33.9, lng: 18.4, icon: 'fas fa-water', name: '售水机', loc: '🇿🇦 南非·开普敦' },
+        { lat: 6.5, lng: 3.4, icon: 'fas fa-gas-pump', name: '加油站', loc: '🇳🇬 尼日利亚·拉各斯' },
+        // Oceania
+        { lat: -33.9, lng: 151.2, icon: 'fas fa-car', name: '自助洗车', loc: '🇦🇺 澳大利亚·悉尼' },
+        { lat: -37.8, lng: 145.0, icon: 'fas fa-gas-pump', name: '加油站', loc: '🇦🇺 澳大利亚·墨尔本' }
+    ];
 
-    if (!track || !n) return;
+    // Init map - full globe, free drag
+    var map = L.map('leafletMap', {
+        center: [20, 30],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 6,
+        zoomControl: false,
+        attributionControl: false,
+        worldCopyJump: true
+    });
 
-    for (var i = 0; i < n; i++) {
-        var d = document.createElement('div');
-        d.className = 'ind-dot' + (i === 0 ? ' active' : '');
-        d.setAttribute('data-i', i);
-        d.addEventListener('click', function() { go(+this.getAttribute('data-i')); });
-        dotsBox.appendChild(d);
-    }
+    // Light map tiles (CartoDB Positron - clean minimal style)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd'
+    }).addTo(map);
 
-    function go(idx) {
-        cur = idx < 0 ? n - 1 : idx >= n ? 0 : idx;
-        track.style.transform = 'translateX(-' + (cur * 100) + '%)';
-        var ds = dotsBox.querySelectorAll('.ind-dot');
-        ds.forEach(function(d, i) { d.classList.toggle('active', i === cur); });
-        reset();
-    }
-    function reset() { clearInterval(timer); timer = setInterval(function() { go(cur + 1); }, INTERVAL); }
+    // Add zoom control to bottom-right
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    if (prev) prev.addEventListener('click', function() { go(cur - 1); });
-    if (next) next.addEventListener('click', function() { go(cur + 1); });
+    // Add industry markers
+    industries.forEach(function(item) {
+        var html = '<div class="map-card">' +
+            '<div class="mc-icon"><i class="' + item.icon + '"></i></div>' +
+            '<div style="display:flex;flex-direction:column;">' +
+            '<span class="mc-name">' + item.name + '</span>' +
+            '<span class="mc-loc">' + item.loc + '</span>' +
+            '</div></div>';
 
-    var sx = 0, vp = document.getElementById('indViewport');
-    if (vp) {
-        vp.addEventListener('touchstart', function(e) { sx = e.touches[0].clientX; }, { passive: true });
-        vp.addEventListener('touchend', function(e) {
-            var dx = sx - e.changedTouches[0].clientX;
-            if (Math.abs(dx) > 50) dx > 0 ? go(cur + 1) : go(cur - 1);
-        }, { passive: true });
-    }
-    timer = setInterval(function() { go(cur + 1); }, INTERVAL);
+        var icon = L.divIcon({
+            html: html,
+            className: '',
+            iconSize: null,
+            iconAnchor: [70, 50]
+        });
+
+        L.marker([item.lat, item.lng], { icon: icon }).addTo(map);
+    });
 })();
 </script>
-<script src="/js/components.js"></script>
 </body>
 </html>
